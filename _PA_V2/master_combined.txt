@@ -1,0 +1,5153 @@
+# PRODUCERS AVENUE - COMPLETE PROJECT DOCUMENTATION
+## Master Combined Document
+
+This document combines all project documentation for easy reference and review.
+
+---
+---
+
+# PRODUCERS AVENUE - PROJECT OVERVIEW
+
+## Vision Statement
+
+Producers Avenue is a comprehensive social network, marketplace, and tools platform designed specifically for the music industry ecosystem. We're creating a one-stop destination where music creators, professionals, and enthusiasts can connect, collaborate, monetize their skills, and grow their careers.
+
+## What Makes Producers Avenue Unique
+
+### All-in-One Platform
+Unlike fragmented solutions where music professionals must use multiple platforms (SoundCloud for hosting, Fiverr for services, Facebook for networking, Patreon for subscriptions), Producers Avenue combines everything into one cohesive ecosystem.
+
+### Music Industry Focus
+Every feature is designed specifically for music professionals - from the Collab Matcher that understands musical roles to the marketplace optimized for digital music products.
+
+### Fair Monetization
+Progressive commission structure (40% to 10%) rewards professional creators while keeping the platform accessible to beginners. Featured placement opportunities give everyone a chance to be discovered.
+
+### Community-Driven Tools
+Built-in tools like Collab Matcher and Release Organizer integration solve real problems music creators face daily.
+
+## Target Audience
+
+### Primary Users
+- **Musicians** - Multi-instrumentalists, session players, band members
+- **Music Producers** - Beat makers, recording engineers, mixing/mastering engineers
+- **Vocalists** - Singers, rappers, voice-over artists, session vocalists
+- **Visual Artists** - Cover art designers, video editors, animators, photographers
+- **Music Tools Creators** - Plugin developers, sample pack creators, preset designers
+- **Educators** - Music teachers, vocal coaches, production tutors, mentors
+- **Content Creators** - YouTubers, podcasters, music bloggers, influencers
+- **Industry Professionals** - Managers, A&R reps, label owners, booking agents
+
+### Secondary Users
+- Music enthusiasts looking to connect with creators
+- Students seeking mentorship and education
+- Businesses looking to hire music professionals
+
+## Core Value Propositions
+
+### For Creators
+- **Monetization** - Sell products, services, webinars, and mentoring sessions
+- **Discovery** - Get found through search, tags, featured placements, and matching tools
+- **Collaboration** - Connect with other professionals through Collab Matcher and groups
+- **Growth** - Access to education, mentorship, and industry resources
+- **Community** - Network with like-minded professionals in groups and feeds
+
+### For Buyers/Clients
+- **Quality** - Curated marketplace with verified professionals
+- **Variety** - Everything from $5 services to premium production work
+- **Convenience** - One platform for all music-related needs
+- **Trust** - Secure payments, reviews, and platform protection
+- **Discovery** - Find exactly what you need through advanced search and matching
+
+### For Educators/Mentors
+- **Platform** - Built-in webinar and mentoring infrastructure
+- **Audience** - Direct access to students actively seeking education
+- **Monetization** - Flexible pricing for sessions, courses, and content
+- **Tools** - Calendar integration, payment processing, recording storage
+
+## Business Model
+
+### Revenue Streams
+
+1. **Marketplace Commissions**
+   - Basic (Free): 40% commission
+   - Standard ($9.99/mo): 30% commission
+   - Premium ($24.99/mo): 20% commission
+   - Ultimate ($99.99/mo): 10% commission
+
+2. **Subscription Plans**
+   - Monthly and annual options
+   - Tiered features and benefits
+   - Estimated 15-25% conversion from free to paid
+
+3. **Featured Placements** (Future)
+   - Premium spotlight positions
+   - Category-specific featuring
+   - Homepage carousel placement
+
+4. **Future Revenue Opportunities**
+   - Platform advertising (creator-friendly)
+   - Premium analytics for professionals
+   - API access for third-party integrations
+   - White-label solutions for labels/organizations
+
+### Cost Structure
+
+1. **Infrastructure**
+   - Hostinger: Paid for 2 years (sunk cost)
+   - Supabase: $25/mo (Pro plan) to start
+   - Bunny.net: ~$0.01/GB usage-based
+   - Stripe: 2.9% + $0.30 per transaction
+
+2. **Services**
+   - Resend: Email service
+   - PostHog/Plausible: Analytics
+   - Domain and SSL
+
+3. **Development**
+   - Initial development (your time or team)
+   - Ongoing maintenance and features
+
+## Success Metrics
+
+### Launch Goals (First 6 Months)
+- 1,000+ registered members
+- 500+ active sellers
+- $10,000+ in marketplace transactions
+- 100+ paid subscriptions
+- 50+ active groups
+
+### Year One Goals
+- 10,000+ registered members
+- 2,000+ active sellers
+- $100,000+ in marketplace transactions
+- 500+ paid subscriptions
+- 500+ webinars/mentoring sessions completed
+
+### Key Performance Indicators
+- User retention rate (30-day and 90-day)
+- Conversion rate (free to paid)
+- Average transaction value
+- Creator earnings (platform health indicator)
+- Community engagement (posts, comments, collaborations)
+
+## Competitive Landscape
+
+### Direct Competitors
+- **Fiverr/Upwork** - General freelance platforms with music categories
+  - *Our advantage:* Music-specific features, better community, lower fees for pros
+  
+- **SoundBetter** - Music professionals marketplace
+  - *Our advantage:* Social features, tools, broader scope beyond just services
+
+- **Splice** - Sample marketplace and collaboration
+  - *Our advantage:* Full marketplace, services, networking, not just samples
+
+### Indirect Competitors
+- **Facebook/LinkedIn** - Professional networking
+- **Instagram/TikTok** - Content sharing and discovery
+- **Patreon** - Creator monetization
+- **Zoom/Teachable** - Online education
+
+### Our Competitive Advantages
+1. **Music-First Design** - Every feature built for music professionals
+2. **All-in-One Solution** - No need for multiple platforms
+3. **Fair Economics** - Better rates than general platforms
+4. **Smart Tools** - Collab Matcher, Release Organizer integration
+5. **Community Focus** - Not just transactions, but relationships
+
+## Platform Differentiators
+
+### Technical Excellence
+- Fast, modern interface (Next.js)
+- Real-time updates (Supabase Realtime)
+- Global CDN for fast media delivery (Bunny.net)
+- Secure payments and data protection
+- Mobile-responsive design
+
+### User Experience
+- Intuitive navigation
+- Powerful search with multiple result types
+- Tagging system for discovery
+- Light/dark mode
+- Clean, professional design
+
+### Creator-Friendly
+- Transparent pricing and fees
+- Quick payouts (pending implementation)
+- Marketing support through featuring
+- Educational resources
+- Active community management
+
+## Long-Term Vision
+
+### Phase 1: Foundation (Months 0-6)
+- Launch core platform (community, marketplace, basic tools)
+- Build initial user base
+- Establish marketplace trust and transaction flow
+- Gather user feedback
+
+### Phase 2: Enhancement (Months 6-18)
+- Advanced features (webinars, mentoring)
+- Mobile app development
+- Enhanced analytics for creators
+- Integration partnerships
+- Marketing expansion
+
+### Phase 3: Scale (Months 18-36)
+- International expansion
+- Premium features and tiers
+- API and developer platform
+- White-label opportunities
+- Strategic partnerships (labels, schools, brands)
+
+### Phase 4: Ecosystem (Year 3+)
+- Industry standard platform
+- Full suite of professional tools
+- Educational institution partnerships
+- Music industry database and insights
+- Potential acquisition or continued independence
+
+## Core Values
+
+### For the Community
+- **Transparency** - Clear pricing, policies, and communication
+- **Fairness** - Equitable commission structure and featuring opportunities
+- **Quality** - Curated content and professional standards
+- **Support** - Responsive customer service and creator assistance
+- **Innovation** - Continuous improvement and new features
+
+### For the Platform
+- **User Privacy** - Protect data and respect privacy
+- **Security** - Safe transactions and secure infrastructure
+- **Sustainability** - Build for long-term success, not quick exits
+- **Inclusivity** - Welcome all music professionals regardless of genre or background
+- **Education** - Empower users to grow their skills and businesses
+
+## Risk Mitigation
+
+### Technical Risks
+- **Mitigation:** Start with proven technologies (Supabase, Stripe, Bunny.net)
+- **Mitigation:** Gradual feature rollout, extensive testing
+- **Mitigation:** Regular backups and disaster recovery planning
+
+### Market Risks
+- **Mitigation:** Unique value proposition focused on music industry
+- **Mitigation:** Community building and network effects
+- **Mitigation:** Multiple revenue streams
+
+### Financial Risks
+- **Mitigation:** Low initial costs (Hostinger prepaid, usage-based services)
+- **Mitigation:** Commission-based model aligns revenue with usage
+- **Mitigation:** Flexible scaling based on growth
+
+### Legal Risks
+- **Mitigation:** Clear terms of service and content policies
+- **Mitigation:** DMCA compliance and copyright protection
+- **Mitigation:** Stripe handles payment compliance (PCI DSS)
+- **Mitigation:** User agreements and dispute resolution processes
+
+## Summary
+
+Producers Avenue represents a significant opportunity to serve an underserved market - music professionals who need a dedicated platform that understands their unique needs. By combining social networking, marketplace functionality, and specialized tools, we're creating a comprehensive ecosystem that helps music creators succeed.
+
+Our phased approach minimizes risk while maximizing learning opportunities. Starting with proven technologies and a focused feature set allows us to launch quickly, gather real user feedback, and iterate based on actual usage rather than assumptions.
+
+The music industry is vast, growing, and increasingly digital. Producers Avenue positions itself at the intersection of creativity, commerce, and community - exactly where the modern music professional needs to be.
+
+---
+
+**Document Version:** 1.0  
+**Last Updated:** November 1, 2025  
+**Status:** Planning Phase
+-e 
+
+---
+---
+
+
+# PRODUCERS AVENUE - TECHNICAL STACK
+
+## Architecture Overview
+
+Producers Avenue uses a modern, scalable architecture built on proven technologies. The frontend is a static Next.js application hosted on Hostinger, while all backend functionality is managed by Supabase. Large media files are stored and delivered via Bunny.net CDN for optimal performance and cost efficiency.
+
+## Architecture Diagram
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                         USER BROWSER                         │
+│                    (Desktop/Mobile/Tablet)                   │
+└────────────────────────────┬────────────────────────────────┘
+                             │
+                ┌────────────┴────────────┐
+                │                         │
+        ┌───────▼────────┐       ┌───────▼────────┐
+        │   HOSTINGER    │       │   BUNNY CDN    │
+        │  Static Files  │       │  Media Files   │
+        │  (HTML/CSS/JS) │       │  (Audio/Video) │
+        └───────┬────────┘       └────────────────┘
+                │
+        ┌───────▼────────────────────────────────────┐
+        │            SUPABASE                        │
+        │  ┌──────────────────────────────────────┐ │
+        │  │ Auth (Users, Sessions, Social Login) │ │
+        │  ├──────────────────────────────────────┤ │
+        │  │ PostgreSQL Database (All Data)       │ │
+        │  ├──────────────────────────────────────┤ │
+        │  │ Storage (Profile pics, thumbnails)   │ │
+        │  ├──────────────────────────────────────┤ │
+        │  │ Realtime (Chat, Notifications)       │ │
+        │  ├──────────────────────────────────────┤ │
+        │  │ Edge Functions (Business Logic)      │ │
+        │  └──────────────────────────────────────┘ │
+        └────────┬───────────────┬──────────────────┘
+                 │               │
+        ┌────────▼─────┐  ┌─────▼──────┐
+        │    STRIPE    │  │   RESEND   │
+        │   Payments   │  │    Email   │
+        └──────────────┘  └────────────┘
+```
+
+## Frontend Stack
+
+### Core Framework
+**Next.js 14+ with TypeScript**
+- **Why:** Industry-standard React framework with excellent DX
+- **Deployment Mode:** Static Export (`output: 'export'`)
+- **Routing:** App Router for modern, file-based routing
+- **TypeScript:** Full type safety across the application
+
+**Configuration:**
+```javascript
+// next.config.js
+module.exports = {
+  output: 'export',
+  images: {
+    unoptimized: true, // Required for static export
+  },
+  trailingSlash: true,
+}
+```
+
+### Styling
+**Tailwind CSS 3+**
+- **Why:** Utility-first CSS, fast development, small bundle size
+- **Customization:** Custom color palette with #009ae9 as primary
+- **Dark Mode:** Built-in dark mode support via class strategy
+- **Responsive:** Mobile-first responsive design
+
+### Component Library
+**shadcn/ui + Radix UI**
+- **Why:** Unstyled, accessible components we own and customize
+- **Components Used:**
+  - Cards, Modals, Dropdowns, Dialogs
+  - Forms, Inputs, Buttons
+  - Tabs, Accordions, Tooltips
+  - Toast notifications
+- **Customization:** Full control over styling with Tailwind
+
+### State Management
+**React Context + Hooks**
+- **Why:** Sufficient for our needs, no extra dependencies
+- **Usage:**
+  - Auth state (user session)
+  - Theme state (light/dark mode)
+  - Shopping cart (future)
+  - UI state (modals, drawers)
+
+**Zustand** (if complexity grows)
+- Lightweight state management
+- Better than Redux for our use case
+
+### Data Fetching
+**Supabase Client SDK**
+- Direct browser-to-Supabase communication
+- Real-time subscriptions for live features
+- Automatic auth token handling
+- Built-in query caching
+
+### Form Handling
+**React Hook Form + Zod**
+- **React Hook Form:** Performant, minimal re-renders
+- **Zod:** Type-safe schema validation
+- **Integration:** Works seamlessly with shadcn/ui form components
+
+### Additional Frontend Libraries
+```json
+{
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "typescript": "^5.0.0",
+    "tailwindcss": "^3.3.0",
+    "@supabase/supabase-js": "^2.38.0",
+    "react-hook-form": "^7.48.0",
+    "zod": "^3.22.0",
+    "lucide-react": "^0.292.0",
+    "date-fns": "^2.30.0",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.0.0"
+  }
+}
+```
+
+## Backend Stack (Supabase)
+
+### Authentication
+**Supabase Auth**
+- Email/password authentication
+- Social logins (Google, GitHub, Discord, etc.)
+- Magic link authentication
+- Session management
+- Row Level Security (RLS) integration
+- Password reset and email verification
+- JWT tokens
+
+**Security Features:**
+- Rate limiting on auth endpoints
+- Email confirmation required
+- Strong password requirements
+- Session timeout handling
+- Secure cookie storage
+
+### Database
+**PostgreSQL 15+ (Managed by Supabase)**
+
+**Why PostgreSQL:**
+- Robust, proven, ACID-compliant
+- Excellent JSON support for flexible data
+- Full-text search capabilities
+- PostGIS for location features (future)
+- Powerful query capabilities
+
+**Key Features Used:**
+- Row Level Security (RLS) for data access control
+- Triggers for automated actions
+- Functions for complex queries
+- Indexes for performance
+- Foreign keys for data integrity
+- Full-text search for marketplace/member discovery
+
+**Database Tools:**
+- Supabase Studio (web-based GUI)
+- Direct PostgreSQL access for advanced operations
+- Automatic backups
+- Point-in-time recovery
+
+### Realtime Features
+**Supabase Realtime (WebSocket)**
+- Live chat messages
+- Notification updates
+- Collab matcher results
+- Activity feed updates
+- User presence (who's online)
+
+**Implementation:**
+```javascript
+// Example: Subscribe to new messages
+const channel = supabase
+  .channel('messages')
+  .on('postgres_changes', {
+    event: 'INSERT',
+    schema: 'public',
+    table: 'messages'
+  }, handleNewMessage)
+  .subscribe()
+```
+
+### Edge Functions
+**Supabase Edge Functions (Deno Deploy)**
+
+**Why Edge Functions:**
+- Run on Deno (modern, secure, TypeScript-native)
+- Deploy close to users globally
+- Fast cold starts
+- No server management
+
+**Use Cases:**
+1. **Collab Matcher Algorithm**
+   - Complex matching logic
+   - Scoring and ranking
+   - Return top matches
+
+2. **Stripe Webhooks**
+   - Handle payment events
+   - Update subscription status
+   - Process payouts
+
+3. **Email Triggers**
+   - Welcome emails via Resend
+   - Transaction notifications
+   - Weekly digests
+
+4. **File Processing**
+   - Image optimization
+   - Upload to Bunny.net
+   - Generate thumbnails
+
+5. **Search and Analytics**
+   - Complex search queries
+   - Analytics aggregation
+   - Report generation
+
+6. **Curation and Moderation**
+   - Content approval workflows
+   - Spam detection
+   - Automated moderation
+
+**Example Function:**
+```typescript
+// functions/collab-matcher/index.ts
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
+serve(async (req) => {
+  const { userId, skills, genres } = await req.json()
+  
+  // Matching algorithm logic
+  const matches = await findMatches(userId, skills, genres)
+  
+  return new Response(
+    JSON.stringify({ matches }),
+    { headers: { 'Content-Type': 'application/json' } }
+  )
+})
+```
+
+### Storage (Supabase)
+**Supabase Storage**
+
+**Used For:**
+- User profile pictures
+- Product thumbnails
+- Cover art previews
+- Small files requiring authentication
+- Temporary upload staging
+
+**Features:**
+- Automatic image transformations
+- Built-in CDN
+- RLS policies for access control
+- Signed URLs for private files
+- Integration with auth system
+
+**Configuration:**
+- Public bucket: `public-assets`
+- Private buckets: `user-uploads`, `products`
+- Max file size: 50MB per file
+- Allowed types: images, PDFs, small audio samples
+
+## Storage & CDN (Bunny.net)
+
+### Bunny Storage + CDN
+**Why Bunny.net:**
+- Cost-effective: $0.01/GB storage, $0.01-0.03/GB bandwidth
+- Fast global CDN
+- Excellent for streaming
+- No monthly minimums
+- Easy API
+
+**Used For:**
+- Audio files (beats, stems, full tracks)
+- Video content (tutorials, demos, music videos)
+- Large product downloads (sample packs, project files)
+- Webinar recordings
+- High-bandwidth content
+
+**Workflow:**
+1. User uploads file via frontend
+2. Supabase Edge Function receives upload
+3. Function uploads to Bunny Storage
+4. CDN URL saved in database
+5. Files served globally via Bunny CDN
+
+**Configuration:**
+- Storage Zone: `producers-avenue-media`
+- CDN Hostname: `cdn.producersavenue.com`
+- Regions: Multi-region for global coverage
+- Security: Signed URLs for premium content
+
+**API Example:**
+```typescript
+// Upload to Bunny.net
+const response = await fetch(`https://storage.bunnycdn.com/producers-avenue-media/${filename}`, {
+  method: 'PUT',
+  headers: {
+    'AccessKey': BUNNY_API_KEY,
+    'Content-Type': 'application/octet-stream'
+  },
+  body: fileBuffer
+})
+```
+
+## Payment Processing
+
+### Stripe
+**Stripe API + Stripe Connect**
+
+**Core Features:**
+- One-time payments (products, services, webinars)
+- Recurring subscriptions (membership plans)
+- Marketplace transactions with commission splits
+- Secure checkout
+- 3D Secure (SCA compliance)
+- Webhooks for event handling
+
+**Subscription Plans:**
+- Basic (Free) - No Stripe interaction
+- Standard ($9.99/mo, $99.99/year)
+- Premium ($24.99/mo, $229.99/year)
+- Ultimate ($99.99/mo, $799.99/year)
+
+**Marketplace Commission Flow:**
+1. Buyer purchases product/service
+2. Stripe collects full amount
+3. Platform commission held (40%-10% based on seller tier)
+4. Seller receives net amount
+5. Payouts processed via Stripe Connect
+
+**Webhook Events Handled:**
+- `checkout.session.completed`
+- `customer.subscription.created`
+- `customer.subscription.updated`
+- `customer.subscription.deleted`
+- `payment_intent.succeeded`
+- `payment_intent.failed`
+
+**Security:**
+- PCI DSS compliant (Stripe handles this)
+- No card data touches our servers
+- Webhook signature verification
+- Test mode for development
+
+### PayPal (Optional - Future)
+- Alternative payment method
+- Some users prefer PayPal
+- Lower priority for MVP
+
+## Email Service
+
+### Resend
+**Why Resend:**
+- Modern, developer-friendly API
+- React Email component support
+- Good deliverability
+- Reasonable pricing
+- Clean dashboard
+
+**Email Types:**
+1. **Transactional**
+   - Welcome emails
+   - Password reset
+   - Email verification
+   - Purchase confirmations
+   - Payout notifications
+
+2. **Notification**
+   - New message alerts
+   - Order updates
+   - Subscription renewals
+   - Featured product notifications
+
+3. **Marketing** (Future)
+   - Newsletter
+   - Platform updates
+   - Promotional campaigns
+
+**Integration:**
+```typescript
+// Send via Edge Function
+import { Resend } from 'resend'
+
+const resend = new Resend(RESEND_API_KEY)
+
+await resend.emails.send({
+  from: 'noreply@producersavenue.com',
+  to: user.email,
+  subject: 'Welcome to Producers Avenue!',
+  html: welcomeEmailTemplate
+})
+```
+
+## Analytics
+
+### PostHog or Plausible
+**Why Not Google Analytics:**
+- Privacy concerns
+- Complex setup
+- Cookie consent complications
+
+**PostHog** (Recommended):
+- Privacy-friendly
+- Event tracking
+- Session replay
+- Feature flags
+- A/B testing
+- Funnels and retention
+- Self-hostable option
+
+**Plausible** (Alternative):
+- Ultra-lightweight
+- GDPR compliant
+- Simple, clean UI
+- No cookies needed
+- Great for traffic analytics
+
+**Metrics to Track:**
+- Page views and sessions
+- User registrations
+- Subscription conversions
+- Marketplace transactions
+- Search queries
+- Feature usage
+- User retention
+
+## Hosting & Deployment
+
+### Current Setup (Phase 1)
+**Hostinger Business Plan**
+- **Duration:** Prepaid for 2 years
+- **Usage:** Static Next.js files
+- **Deployment:** Manual FTP/SFTP or Git-based
+- **SSL:** Free Let's Encrypt SSL
+- **Domain:** Custom domain setup
+
+**Build Process:**
+```bash
+# Build static site
+npm run build
+
+# Upload /out directory to Hostinger
+# Via FTP, SFTP, or Git deployment
+```
+
+**Advantages:**
+- No additional hosting costs
+- Simple deployment
+- Fast static file serving
+- Existing investment utilized
+
+**Limitations:**
+- No server-side rendering
+- No API routes (handled by Supabase instead)
+- Manual deployment process
+
+### Future Migration (Phase 2)
+**Vercel (Recommended) or Netlify**
+
+**When to Migrate:**
+- After Hostinger plan expires (2 years)
+- If need SSR or ISR features
+- When want automated deployments
+- If need preview deployments
+
+**Migration Steps:**
+1. Remove `output: 'export'` from next.config.js
+2. Connect GitHub repo to Vercel
+3. Configure environment variables
+4. Deploy (automatic from Git)
+
+**Benefits:**
+- Automatic deployments
+- Preview URLs for branches
+- Edge functions
+- Image optimization
+- Built-in CDN
+
+## Development Tools
+
+### Version Control
+**Git + GitHub**
+- Private repository
+- Branch protection
+- Pull request workflow
+- GitHub Actions for CI/CD (future)
+
+### Package Management
+**npm or pnpm**
+- Lock files for consistency
+- Scripts for common tasks
+- Dependency management
+
+### Code Quality
+**ESLint + Prettier**
+- Code style enforcement
+- Automatic formatting
+- TypeScript linting
+- Import sorting
+
+### Testing (Future)
+**Jest + React Testing Library**
+- Unit tests
+- Component tests
+- Integration tests
+
+**Playwright**
+- End-to-end tests
+- User flow testing
+
+## Environment Variables
+
+```bash
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
+SUPABASE_SERVICE_ROLE_KEY=xxx # Server-side only
+
+# Stripe
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_xxx
+STRIPE_SECRET_KEY=sk_test_xxx
+STRIPE_WEBHOOK_SECRET=whsec_xxx
+
+# Bunny.net
+BUNNY_API_KEY=xxx
+BUNNY_STORAGE_ZONE=producers-avenue-media
+BUNNY_CDN_URL=https://cdn.producersavenue.com
+
+# Resend
+RESEND_API_KEY=re_xxx
+
+# Analytics
+NEXT_PUBLIC_POSTHOG_KEY=phc_xxx
+NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com
+
+# App
+NEXT_PUBLIC_APP_URL=https://producersavenue.com
+```
+
+## Security Considerations
+
+### Frontend Security
+- Environment variables properly scoped (NEXT_PUBLIC_ only for public)
+- XSS protection via React's built-in escaping
+- Content Security Policy headers
+- HTTPS everywhere
+- No sensitive data in localStorage
+
+### Backend Security (Supabase)
+- Row Level Security (RLS) on all tables
+- Service role key never exposed to frontend
+- API rate limiting
+- SQL injection prevention (parameterized queries)
+- Secure password hashing (Supabase handles)
+
+### Payment Security
+- PCI DSS compliance via Stripe
+- No card data stored or handled
+- Webhook signature verification
+- Secure redirect URLs
+
+### File Upload Security
+- File type validation
+- Size limits enforced
+- Malware scanning (future consideration)
+- Signed URLs for private content
+- CORS properly configured
+
+## Performance Optimization
+
+### Frontend
+- Code splitting via Next.js
+- Lazy loading components
+- Image optimization (future with Vercel)
+- Minimal JavaScript bundle
+- CDN for static assets
+
+### Backend
+- Database indexes on frequently queried columns
+- Connection pooling via Supabase
+- Edge Functions for low latency
+- Caching strategies (future)
+
+### Media
+- Bunny CDN for fast global delivery
+- Adaptive bitrate streaming (future)
+- Image compression
+- Video transcoding (future)
+
+## Scalability Plan
+
+### Current Capacity
+- Supabase Pro: Handles thousands of users
+- Hostinger: Serves static files efficiently
+- Bunny.net: Unlimited bandwidth scaling
+- Stripe: Handles millions of transactions
+
+### Scaling Path
+1. **0-1,000 users:** Current setup sufficient
+2. **1,000-10,000 users:** Upgrade Supabase to Team plan
+3. **10,000-100,000 users:** Migrate to Vercel, optimize database
+4. **100,000+ users:** Consider dedicated infrastructure, database sharding
+
+### Database Scaling
+- Read replicas for heavy queries
+- Partitioning large tables
+- Archive old data
+- Query optimization
+
+## Monitoring & Maintenance
+
+### Uptime Monitoring
+- UptimeRobot or similar
+- Alert on downtime
+- Status page for users
+
+### Error Tracking
+- Sentry for frontend errors
+- Supabase logs for backend
+- Slack/email alerts
+
+### Performance Monitoring
+- Lighthouse scores
+- Core Web Vitals
+- API response times
+- Database query performance
+
+### Backups
+- Supabase automatic daily backups
+- Point-in-time recovery
+- Manual exports for critical data
+
+## Cost Estimates
+
+### Monthly Costs (Estimated)
+
+**Small Scale (0-1,000 users):**
+- Supabase Pro: $25/mo
+- Bunny.net: ~$5-10/mo
+- Stripe fees: 2.9% + $0.30 per transaction
+- Resend: $10/mo (10k emails)
+- PostHog: Free tier
+- **Total:** ~$40-50/mo + transaction fees
+
+**Medium Scale (1,000-10,000 users):**
+- Supabase Team: $599/mo
+- Bunny.net: ~$50-100/mo
+- Stripe fees: Negotiated rates
+- Resend: ~$50/mo
+- PostHog: ~$50/mo
+- **Total:** ~$750-900/mo + transaction fees
+
+**Large Scale (10,000+ users):**
+- Custom pricing and infrastructure
+- Dedicated support contracts
+- Enterprise features
+
+## Technical Debt & Future Considerations
+
+### Known Limitations
+- Static export means no SSR (acceptable tradeoff)
+- Manual deployment to Hostinger (automated later)
+- No image optimization (add when migrate to Vercel)
+
+### Future Enhancements
+- Mobile app (React Native)
+- GraphQL API for third parties
+- Advanced analytics dashboard
+- AI-powered features (recommendations, search)
+- Video streaming optimization
+- Internationalization (i18n)
+
+## Development Workflow
+
+### Local Development
+```bash
+# Install dependencies
+npm install
+
+# Run dev server
+npm run dev
+
+# Supabase local development
+supabase start
+
+# Build for production
+npm run build
+
+# Test production build
+npm run start
+```
+
+### Deployment Process
+1. Develop locally
+2. Push to GitHub
+3. Build static site
+4. Upload to Hostinger
+5. Test production site
+6. Monitor for errors
+
+### Future: CI/CD Pipeline
+- Automated testing on PR
+- Automated deployment to staging
+- Manual promotion to production
+- Rollback capability
+
+---
+
+**Document Version:** 1.0  
+**Last Updated:** November 1, 2025  
+**Tech Stack Status:** Finalized for MVP
+-e 
+
+---
+---
+
+
+# PRODUCERS AVENUE - USER ROLES & PERMISSIONS
+
+## Overview
+
+Producers Avenue uses a role-based permission system where all registered users are "Members" with varying privileges based on their subscription tier. Additional administrative roles exist for platform management and content creation.
+
+## Member Subscription Tiers
+
+All users start as Members. Their privileges are determined by their subscription level. Members can upgrade or downgrade at any time.
+
+### BASIC (Free Forever)
+
+**Pricing:** $0/month
+
+**Marketplace Privileges:**
+- Upload up to **3 products** (digital goods)
+- List unlimited **services**
+- Host unlimited **webinars**
+- Offer **mentoring sessions**
+- Commission: **40%** on all sales
+
+**Community Privileges:**
+- Create and join unlimited groups
+- Post to community feed
+- Comment and interact
+- Direct messaging (unlimited)
+- Follow other members
+- Search and discovery
+- Use Collab Matcher tool
+- Access to Release Organizer integration
+
+**Storage:**
+- Profile picture and banner
+- Product thumbnails (auto-generated)
+- Limited to 100MB total product files
+
+**Featured Placements:**
+- **0 featured products**
+- No homepage carousel placement
+- Standard search ranking
+
+**Support:**
+- Community support (forums, Discord)
+- Email support (48-hour response)
+
+**Limitations:**
+- Watermark on free products (optional setting)
+- No analytics dashboard
+- No custom store URL
+- Cannot submit products for curator review
+
+---
+
+### STANDARD ($9.99/month, $99.99/year)
+
+**Pricing:** 
+- Monthly: $9.99
+- Annual: $99.99 (save $19.89 - 2 months free)
+
+**Marketplace Privileges:**
+- Upload up to **10 products**
+- List unlimited services
+- Host unlimited webinars
+- Offer mentoring sessions
+- Commission: **30%** on all sales
+
+**Community Privileges:**
+- All Basic privileges
+- Priority in search results
+- Early access to new features
+- Custom profile badge "Standard Member"
+
+**Storage:**
+- 500MB total product files
+- Higher quality thumbnails
+- Cover images for webinars
+
+**Featured Placements:**
+- **1 featured product** at a time
+- Rotates in category pages
+- Higher visibility in search
+
+**Support:**
+- Priority email support (24-hour response)
+- Access to knowledge base
+- Video tutorials
+
+**Additional Features:**
+- Basic analytics (views, clicks, sales)
+- Custom store subdomain (username.producersavenue.com)
+- Remove watermarks
+- Promotional tools (discount codes)
+
+---
+
+### PREMIUM ($24.99/month, $229.99/year)
+
+**Pricing:**
+- Monthly: $24.99
+- Annual: $229.99 (save $69.89 - ~3 months free)
+
+**Marketplace Privileges:**
+- Upload up to **50 products**
+- List unlimited services
+- Host unlimited webinars with recording storage
+- Offer mentoring programs (multi-session packages)
+- Commission: **20%** on all sales
+
+**Community Privileges:**
+- All Standard privileges
+- Verified badge on profile
+- Priority placement in member directory
+- Custom profile badge "Premium Member"
+- Pin posts in owned groups
+
+**Storage:**
+- 5GB total product files
+- HD video for webinars
+- Unlimited message attachments
+
+**Featured Placements:**
+- **3 featured products** simultaneously
+- Guaranteed homepage carousel spot (rotation)
+- Featured in category pages
+- "Premium Seller" badge on products
+
+**Support:**
+- Priority support (12-hour response)
+- Live chat support (business hours)
+- Onboarding consultation
+- Marketing assistance
+
+**Additional Features:**
+- Advanced analytics dashboard
+  - Traffic sources
+  - Conversion rates
+  - Earnings reports
+  - Audience demographics
+- Custom store URL (custom.producersavenue.com)
+- Bulk upload tools
+- Advanced promotional tools
+- Email marketing integration (send to followers)
+- API access (basic)
+
+**Exclusive Access:**
+- Premium-only groups and networking events
+- Beta access to new features
+- Monthly platform webinars
+- Featured in newsletter (rotation)
+
+---
+
+### ULTIMATE ($99.99/month, $799.99/year)
+
+**Pricing:**
+- Monthly: $99.99
+- Annual: $799.99 (save $399.89 - 4 months free)
+
+**Marketplace Privileges:**
+- **Unlimited products**
+- List unlimited services
+- Host unlimited webinars with unlimited recording storage
+- Offer comprehensive mentoring programs
+- Commission: **10%** on all sales (lowest rate)
+
+**Community Privileges:**
+- All Premium privileges
+- "Ultimate Member" badge with special styling
+- Top priority in all search and discovery
+- Ability to verify other members (reputation system)
+- Create verified/official groups
+- Host platform-wide events
+
+**Storage:**
+- 50GB total product files
+- 4K video support for webinars
+- Priority CDN delivery
+- Dedicated bandwidth allocation
+
+**Featured Placements:**
+- **10 featured products** simultaneously
+- Guaranteed homepage hero section (rotation)
+- Featured in all relevant categories
+- Spotlight in newsletter
+- Social media promotion (monthly)
+
+**Curator Review:**
+- **Submit products to curators for review**
+- Potential feature on Platform News page
+- Curator feedback and recommendations
+- "Curator's Choice" badge eligibility
+
+**Support:**
+- VIP support (4-hour response, 24/7)
+- Dedicated account manager (call/video)
+- Priority bug fixes
+- Custom feature requests considered
+- Quarterly strategy consultation
+
+**Additional Features:**
+- Professional analytics suite
+  - Real-time dashboards
+  - Predictive insights
+  - Competitor analysis
+  - Custom reports
+  - Data export
+- Fully custom store URL (own domain)
+- White-label store option
+- Advanced API access
+- Webhook integrations
+- Priority listings in all searches
+- Advertising credits (monthly allocation)
+
+**Exclusive Access:**
+- Ultimate-only networking events (virtual/in-person)
+- Direct access to platform founders
+- Advisory board participation opportunity
+- Pre-launch access to major features
+- Personal brand building support
+- Industry connections facilitation
+
+**Business Tools:**
+- Team accounts (add staff/collaborators)
+- Multi-user access controls
+- Bulk operations and automation
+- Integration with accounting software
+- Tax document generation (1099s, etc.)
+- Detailed financial reports
+
+---
+
+## Subscription Comparison Table
+
+| Feature | Basic | Standard | Premium | Ultimate |
+|---------|-------|----------|---------|----------|
+| **Price (Monthly)** | Free | $9.99 | $24.99 | $99.99 |
+| **Price (Annual)** | Free | $99.99 | $229.99 | $799.99 |
+| **Product Uploads** | 3 | 10 | 50 | Unlimited |
+| **Commission Rate** | 40% | 30% | 20% | 10% |
+| **Featured Products** | 0 | 1 | 3 | 10 |
+| **Storage** | 100MB | 500MB | 5GB | 50GB |
+| **Analytics** | None | Basic | Advanced | Professional |
+| **Support Response** | 48hr | 24hr | 12hr | 4hr (24/7) |
+| **Custom Store URL** | No | Subdomain | Subdomain | Full Custom |
+| **Curator Review** | No | No | No | Yes |
+| **API Access** | No | No | Basic | Advanced |
+| **Account Manager** | No | No | No | Yes |
+
+## Platform Administrative Roles
+
+These roles are separate from member subscriptions and manage platform operations.
+
+### SUPER ADMIN (Platform Owner)
+
+**Access Level:** Full system access
+
+**Capabilities:**
+- **User Management**
+  - View all user data
+  - Suspend/ban accounts
+  - Override any permissions
+  - Reset passwords
+  - Merge duplicate accounts
+  - Grant/revoke any role
+
+- **Content Management**
+  - Approve/reject products, services, webinars
+  - Moderate all content
+  - Feature/unfeature items
+  - Delete any content
+  - Override RLS policies (with audit log)
+
+- **Financial Management**
+  - View all transactions
+  - Adjust commissions
+  - Process refunds
+  - Manage payouts
+  - Override pricing
+  - Access financial reports
+
+- **Platform Configuration**
+  - Change site settings
+  - Modify subscription plans
+  - Update terms of service
+  - Configure integrations
+  - Manage API keys
+  - Deploy updates
+
+- **Admin Management**
+  - Appoint/remove Admins
+  - Appoint/remove Authors
+  - Assign permissions
+  - View audit logs
+
+- **Analytics & Reporting**
+  - Full platform analytics
+  - User behavior insights
+  - Revenue reports
+  - Performance metrics
+  - Export any data
+
+**Limitations:**
+- None (full access)
+- Actions logged for accountability
+
+**Number of Super Admins:** 1 (you)
+
+---
+
+### ADMIN (Platform Administrators)
+
+**Access Level:** High-level management access
+
+**Capabilities:**
+- **User Management**
+  - View user profiles and activity
+  - Suspend accounts (temporary)
+  - Warn users
+  - Respond to user reports
+  - Verify user identities
+  - Cannot delete accounts (Super Admin only)
+
+- **Content Moderation**
+  - Review flagged content
+  - Approve/reject new listings
+  - Remove policy-violating content
+  - Issue warnings
+  - Manage reported items queue
+  - Cannot permanently delete (Super Admin only)
+
+- **Community Management**
+  - Moderate groups
+  - Pin/unpin posts
+  - Manage group reports
+  - Resolve disputes
+  - Enforce community guidelines
+
+- **Support**
+  - Access support ticket system
+  - Respond to user inquiries
+  - Escalate complex issues
+  - Access user chat history (with consent)
+
+- **Limited Financial**
+  - View transaction lists (no sensitive details)
+  - Process standard refunds (within policy)
+  - Cannot modify commission rates
+
+- **Content Curation**
+  - Suggest featured content
+  - Cannot directly feature (Super Admin approves)
+  - Write internal notes on content
+
+**Limitations:**
+- Cannot access financial reports
+- Cannot modify platform settings
+- Cannot grant/revoke roles
+- Cannot permanently delete content
+- Actions logged and reviewable by Super Admin
+
+**Number of Admins:** As needed (typically 2-5)
+
+---
+
+### AUTHOR (Content Creators for News/Blog)
+
+**Access Level:** Content publication access
+
+**Capabilities:**
+- **Article Management**
+  - Create news articles
+  - Edit own articles
+  - Publish to Industry News
+  - Publish to Producers Avenue News
+  - Add images/media to articles
+  - Schedule article publication
+  - Manage article categories/tags
+
+- **Draft System**
+  - Save drafts
+  - Request review from Admin/Super Admin
+  - Revise based on feedback
+
+- **Limited Moderation**
+  - Moderate comments on own articles
+  - Cannot moderate other content
+
+- **Analytics**
+  - View article performance
+  - Reader engagement stats
+  - Traffic sources for articles
+
+**Limitations:**
+- Cannot access user management
+- Cannot moderate platform content
+- Cannot access financial data
+- Cannot modify site settings
+- Cannot manage other users
+- Articles may require approval (configurable)
+
+**Number of Authors:** As needed (typically 3-10)
+
+**Appointment Process:**
+- Applied by member or invited
+- Reviewed by Admin
+- Approved by Super Admin
+- Can be existing members with subscription
+
+---
+
+## Group-Specific Roles
+
+Groups have their own internal role hierarchy, separate from platform roles.
+
+### GROUP OWNER
+
+**How Assigned:** Automatic upon group creation
+
+**Capabilities:**
+- **Full Group Control**
+  - Edit group details (name, description, image)
+  - Set group visibility (Public/Private/Secret)
+  - Delete the group (with confirmation)
+  - Transfer ownership (permanent action)
+
+- **Member Management**
+  - Approve/deny join requests (Private groups)
+  - Remove any member (except self)
+  - Ban members from group
+  - Appoint Group Admins
+  - Appoint Group Moderators
+  - Demote Admins/Moderators
+
+- **Content Management**
+  - Pin/unpin posts
+  - Delete any post or comment
+  - Approve posts (if approval required)
+  - Set posting permissions
+
+- **Group Settings**
+  - Enable/disable features (polls, events, files)
+  - Set rules and guidelines
+  - Configure notifications
+  - Create group tags
+
+**Limitations:**
+- Cannot be removed by anyone
+- Can only transfer ownership (permanent, with warning)
+- Must follow platform-wide terms of service
+
+**Ownership Transfer:**
+- Initiated by current owner
+- Select new owner from group members
+- Confirmation required with warning: "This is permanent and cannot be undone. Are you sure?"
+- Previous owner becomes regular member
+
+---
+
+### GROUP ADMIN
+
+**How Assigned:** Appointed by Group Owner
+
+**Capabilities:**
+- **Member Management**
+  - Approve/deny join requests
+  - Remove regular members
+  - Warn members
+  - Cannot remove other Admins or Moderators
+  - Cannot remove Owner
+  - Cannot appoint other Admins (Owner only)
+
+- **Content Moderation**
+  - Pin/unpin posts
+  - Delete posts and comments
+  - Approve posts (if required)
+  - Edit group announcements
+
+- **Limited Settings**
+  - Cannot change group visibility
+  - Cannot delete group
+  - Cannot transfer ownership
+
+**Limitations:**
+- Can be demoted by Owner
+- Cannot modify group core settings
+- Cannot manage other Admins
+
+---
+
+### GROUP MODERATOR
+
+**How Assigned:** Appointed by Group Owner or Group Admin
+
+**Capabilities:**
+- **Content Moderation Only**
+  - Delete posts and comments
+  - Warn members
+  - Report to Admins
+  - Cannot pin posts
+
+- **Limited Member Actions**
+  - Cannot remove members
+  - Cannot approve join requests
+  - Can flag problematic members for Admin review
+
+**Limitations:**
+- Can be demoted by Owner or Admin
+- Cannot change any settings
+- Cannot manage members
+- Focused purely on content moderation
+
+---
+
+### GROUP MEMBER (Regular)
+
+**How Assigned:** Join group (Public) or approved (Private/Secret)
+
+**Capabilities:**
+- View group content (based on group privacy)
+- Post (if permissions allow)
+- Comment on posts
+- React to content
+- Leave group at any time
+- Report inappropriate content
+
+**Limitations:**
+- Cannot manage group
+- Cannot remove others
+- Cannot change settings
+
+---
+
+## Permission Matrix
+
+### Member Actions by Subscription Tier
+
+| Action | Basic | Standard | Premium | Ultimate |
+|--------|-------|----------|---------|----------|
+| Create Products | 3 max | 10 max | 50 max | Unlimited |
+| List Services | ✓ | ✓ | ✓ | ✓ |
+| Host Webinars | ✓ | ✓ | ✓ | ✓ |
+| Offer Mentoring | ✓ | ✓ | ✓ | ✓ |
+| Create Groups | ✓ | ✓ | ✓ | ✓ |
+| Join Groups | ✓ | ✓ | ✓ | ✓ |
+| Direct Messaging | ✓ | ✓ | ✓ | ✓ |
+| Collab Matcher | ✓ | ✓ | ✓ | ✓ |
+| Featured Products | ✗ | 1 | 3 | 10 |
+| Analytics | ✗ | Basic | Advanced | Pro |
+| Custom Store URL | ✗ | Subdomain | Subdomain | Full |
+| Curator Review | ✗ | ✗ | ✗ | ✓ |
+| API Access | ✗ | ✗ | Basic | Advanced |
+| Priority Support | ✗ | ✓ | ✓ | ✓ |
+
+### Platform Administrative Actions
+
+| Action | Member | Author | Admin | Super Admin |
+|--------|--------|--------|-------|-------------|
+| Post to News | ✗ | ✓ | ✓ | ✓ |
+| Moderate Content | ✗ | Own only | ✓ | ✓ |
+| Suspend Users | ✗ | ✗ | Temporary | Permanent |
+| Delete Content | Own only | Own only | ✓ | ✓ |
+| View Analytics | Own only | Own only | Platform | Full |
+| Manage Finances | Own only | ✗ | Limited | Full |
+| Modify Settings | ✗ | ✗ | ✗ | ✓ |
+| Grant Roles | ✗ | ✗ | ✗ | ✓ |
+
+## Role Assignment Workflows
+
+### Member Upgrades/Downgrades
+1. Member selects new tier
+2. Stripe checkout (if upgrade)
+3. Immediate access to new features
+4. Prorated billing (upgrades)
+5. Features remain until period ends (downgrades)
+
+### Author Appointment
+1. Member applies or receives invitation
+2. Admin reviews application/portfolio
+3. Super Admin approves
+4. Author role granted
+5. Access to CMS and article system
+6. Onboarding and guidelines provided
+
+### Admin Appointment
+1. Super Admin identifies need
+2. Candidate selected (usually existing trusted member)
+3. Background check/verification
+4. Training provided
+5. Trial period with monitoring
+6. Full Admin access granted
+
+### Group Role Assignment
+1. Group Owner appoints member
+2. Role granted immediately
+3. Member notified of new permissions
+4. Can be revoked by Owner anytime
+
+## Role Removal/Suspension
+
+### Member Suspension
+- **Temporary:** 7, 14, or 30 days
+- **Permanent:** Ban from platform
+- Reasons: ToS violation, fraud, abuse
+- Process: Warning → Suspension → Ban (escalation)
+- Appeal process available
+
+### Admin/Author Removal
+- Super Admin only
+- Immediate removal
+- All permissions revoked
+- Audit log maintained
+- Optional: Reason provided to removed user
+
+### Group Role Removal
+- Owner can demote anytime
+- Admin can demote Moderators
+- Immediate effect
+- Member notified
+
+## Audit & Compliance
+
+### Action Logging
+- All administrative actions logged
+- Timestamp, user, action, reason
+- Immutable audit trail
+- Reviewed regularly by Super Admin
+
+### Role Changes
+- All role assignments/removals logged
+- Subscription changes tracked
+- Financial transactions recorded
+- Compliance with data regulations
+
+### Transparency
+- Members can view their own action history
+- Suspended users shown reason
+- Appeal process clearly documented
+
+---
+
+**Document Version:** 1.0  
+**Last Updated:** November 1, 2025  
+**Status:** Finalized for MVP
+-e 
+
+---
+---
+
+
+# PRODUCERS AVENUE - CATEGORIES & SKILLS
+
+## Overview
+
+Users can select multiple categories that describe their roles in the music industry. Each category expands to show relevant skills and specializations. This system enables precise matching for collaborations, accurate search results, and effective marketplace filtering.
+
+## Category Selection System
+
+### How It Works
+1. During registration or profile editing, users see all main categories
+2. Users can check **multiple categories** (no limit)
+3. When a category is checked, it expands to show relevant skills
+4. Users can select **multiple skills** within each category
+5. "Other" option with text input available (requires admin approval)
+6. Genre preferences and experience level selected separately
+
+### Database Structure
+- `user_categories` (many-to-many): Links users to main categories
+- `user_skills` (many-to-many): Links users to specific skills
+- `user_genres` (many-to-many): Links users to genre preferences
+- `user_profile`: Stores experience level and other metadata
+
+## Main Categories
+
+Users can select as many categories as apply to them.
+
+---
+
+## 🎵 MUSICIAN
+
+**Description:** Instrumentalists and performers
+
+**When to Select:** You play one or more instruments professionally or semi-professionally
+
+### Skills/Instruments
+
+**Strings:**
+- ☑ Bass Guitar
+- ☑ Guitar - Acoustic
+- ☑ Guitar - Electric
+- ☑ Guitar - Classical
+- ☑ Violin
+- ☑ Viola
+- ☑ Cello
+- ☑ Double Bass
+- ☑ Harp
+- ☑ Banjo
+- ☑ Ukulele
+- ☑ Mandolin
+
+**Keys:**
+- ☑ Piano
+- ☑ Keyboard
+- ☑ Synthesizer
+- ☑ Organ
+- ☑ Accordion
+
+**Percussion:**
+- ☑ Drums (Full Kit)
+- ☑ Percussion (Hand Drums, Congas, Bongos)
+- ☑ Electronic Drums/Pads
+
+**Brass:**
+- ☑ Trumpet
+- ☑ Trombone
+- ☑ French Horn
+- ☑ Tuba
+- ☑ Saxophone
+
+**Woodwinds:**
+- ☑ Flute
+- ☑ Clarinet
+- ☑ Oboe
+- ☑ Bassoon
+- ☑ Recorder
+
+**Electronic/DJ:**
+- ☑ DJ/Turntables
+- ☑ Electronic Performance (Ableton Push, MIDI controllers)
+- ☑ Launchpad/Grid Controllers
+
+**World Instruments:**
+- ☑ Sitar
+- ☑ Didgeridoo
+- ☑ Djembe
+- ☑ Tabla
+- ☑ Traditional instruments
+
+**Other:**
+- ☑ Other: [text input field] *(requires admin approval)*
+
+---
+
+## 🎛️ PRODUCER/ENGINEER
+
+**Description:** Audio production, recording, mixing, and mastering professionals
+
+**When to Select:** You produce music, record artists, or work in audio engineering
+
+### Skills/Specializations
+
+**Production:**
+- ☑ Music Producer (Full production)
+- ☑ Beat Maker/Producer
+- ☑ Co-Producer
+- ☑ Executive Producer
+- ☑ Track Arrangement
+
+**Recording:**
+- ☑ Recording Engineer
+- ☑ Studio Engineer
+- ☑ Live Recording Engineer
+- ☑ Home Studio Recording
+
+**Mixing:**
+- ☑ Mixing Engineer
+- ☑ Stem Mixing
+- ☑ Live Sound Mixing
+
+**Mastering:**
+- ☑ Mastering Engineer
+- ☑ Stem Mastering
+- ☑ Vinyl Mastering
+
+**Audio Post-Production:**
+- ☑ Audio Post-Production (Film/TV)
+- ☑ Dialogue Editing
+- ☑ Sound Effects Editing
+- ☑ ADR Engineer
+
+**Specialized:**
+- ☑ Sound Designer
+- ☑ Foley Artist
+- ☑ Podcast Producer/Engineer
+- ☑ Live Sound Engineer (Concerts/Events)
+- ☑ Broadcast Engineer
+
+**Other:**
+- ☑ Other: [text input field] *(requires admin approval)*
+
+---
+
+## 🎤 VOCALIST
+
+**Description:** Singers, rappers, and voice professionals
+
+**When to Select:** You provide vocals for music, voice-over, or other audio projects
+
+### Skills/Specializations
+
+**Singing:**
+- ☑ Lead Vocalist
+- ☑ Backing Vocals/Harmonies
+- ☑ Choir/Ensemble Singer
+- ☑ Session Vocalist
+- ☑ Demo Singer
+- ☑ Jingle Singer
+- ☑ Opera Singer
+- ☑ Musical Theater Singer
+
+**Rap/Spoken Word:**
+- ☑ Rapper/MC
+- ☑ Spoken Word Artist
+- ☑ Freestyle Artist
+
+**Voice Work:**
+- ☑ Voice Over Artist (Commercial)
+- ☑ Voice Over (Animation/Games)
+- ☑ Narration
+- ☑ Audiobook Narrator
+- ☑ Character Voices
+
+**Teaching:**
+- ☑ Vocal Coach
+- ☑ Voice Teacher
+
+**Other:**
+- ☑ Other: [text input field] *(requires admin approval)*
+
+---
+
+## 🎨 VISUAL ARTIST
+
+**Description:** Graphic designers, video editors, and visual content creators for music
+
+**When to Select:** You create visual content for music projects
+
+### Skills/Specializations
+
+**Graphic Design:**
+- ☑ Cover Art Designer (Album/Single)
+- ☑ Logo Designer
+- ☑ Graphic Designer (General)
+- ☑ Typography/Lettering Artist
+- ☑ Poster/Flyer Designer
+- ☑ Merchandise Designer
+
+**Photography:**
+- ☑ Photographer (Music/Band)
+- ☑ Concert Photographer
+- ☑ Portrait Photographer
+- ☑ Product Photographer
+
+**Video:**
+- ☑ Music Video Director
+- ☑ Video Editor
+- ☑ Videographer
+- ☑ Cinematographer
+- ☑ Lyric Video Creator
+- ☑ Visualizer Creator
+
+**Animation/Motion:**
+- ☑ Animator (2D)
+- ☑ Animator (3D)
+- ☑ Motion Graphics Designer
+- ☑ Visual Effects (VFX) Artist
+
+**Digital/Web:**
+- ☑ Web Designer
+- ☑ UI/UX Designer
+- ☑ Social Media Content Creator
+- ☑ Digital Artist
+
+**Other:**
+- ☑ Other: [text input field] *(requires admin approval)*
+
+---
+
+## 📚 EDUCATOR/CONSULTANT
+
+**Description:** Teachers, coaches, and consultants in music and music business
+
+**When to Select:** You teach, coach, or consult on music-related topics
+
+### Skills/Specializations
+
+**Music Education:**
+- ☑ Music Teacher (Instrument-specific)
+- ☑ Vocal Coach
+- ☑ Music Production Tutor
+- ☑ Mixing/Mastering Tutor
+- ☑ Music Theory Teacher
+- ☑ Songwriting Coach
+- ☑ Composition Teacher
+- ☑ Music Technology Instructor
+
+**Business Consulting:**
+- ☑ Music Business Consultant
+- ☑ Career Consultant/Coach
+- ☑ Marketing Consultant (Music Industry)
+- ☑ Brand Consultant
+- ☑ Social Media Consultant
+
+**Specialized:**
+- ☑ Recording Studio Consultant
+- ☑ Equipment Consultant
+- ☑ Licensing Consultant
+- ☑ Copyright/Legal Consultant
+
+**Other:**
+- ☑ Other: [text input field] *(requires admin approval)*
+
+---
+
+## 🎬 CONTENT CREATOR
+
+**Description:** Digital content creators, influencers, and media personalities
+
+**When to Select:** You create content about music or use music in your content
+
+### Skills/Specializations
+
+**Video Platforms:**
+- ☑ YouTuber (Music Content)
+- ☑ YouTube Educator (Music Tutorials)
+- ☑ Twitch Streamer (Music/Production)
+- ☑ TikTok Creator
+- ☑ Instagram Influencer
+
+**Audio Content:**
+- ☑ Podcaster (Music Topics)
+- ☑ Radio Host/DJ
+- ☑ Playlist Curator (Spotify, Apple Music)
+
+**Written Content:**
+- ☑ Music Blogger
+- ☑ Music Journalist
+- ☑ Album Reviewer
+- ☑ Music Critic
+
+**Social Media:**
+- ☑ Social Media Manager (Music Industry)
+- ☑ Community Manager
+- ☑ Social Media Influencer
+
+**Other:**
+- ☑ Other: [text input field] *(requires admin approval)*
+
+---
+
+## 💼 INDUSTRY PROFESSIONAL
+
+**Description:** Music business professionals, managers, agents, and executives
+
+**When to Select:** You work in the business/administrative side of the music industry
+
+### Skills/Specializations
+
+**Management:**
+- ☑ Artist Manager
+- ☑ Talent Manager
+- ☑ Band Manager
+- ☑ Tour Manager
+- ☑ Business Manager
+
+**Label/Publishing:**
+- ☑ A&R Representative
+- ☑ Record Label Owner/Executive
+- ☑ Music Publisher
+- ☑ Publishing Administrator
+
+**Booking/Events:**
+- ☑ Booking Agent
+- ☑ Talent Buyer
+- ☑ Event Promoter
+- ☑ Festival Organizer
+- ☑ Concert Promoter
+
+**Legal/Financial:**
+- ☑ Music Lawyer/Attorney
+- ☑ Entertainment Lawyer
+- ☑ Music Rights Administrator
+- ☑ Royalty Accountant
+
+**Licensing/Sync:**
+- ☑ Sync Licensing Agent
+- ☑ Music Supervisor
+- ☑ Licensing Coordinator
+
+**Marketing/PR:**
+- ☑ PR/Publicist (Music)
+- ☑ Radio Promoter
+- ☑ Marketing Manager
+- ☑ Street Team Manager
+
+**Distribution:**
+- ☑ Distribution Representative
+- ☑ Digital Aggregator
+
+**Other:**
+- ☑ Other: [text input field] *(requires admin approval)*
+
+---
+
+## 🛠️ MUSIC TOOLS CREATOR
+
+**Description:** Developers and creators of music software, plugins, and digital products
+
+**When to Select:** You create tools, software, or digital products for music production
+
+### Skills/Specializations
+
+**Software Development:**
+- ☑ VST/Plugin Developer (Audio)
+- ☑ DAW Developer
+- ☑ Music App Developer (Mobile)
+- ☑ Music App Developer (Desktop)
+- ☑ Web Application Developer (Music Tools)
+
+**Content Creation:**
+- ☑ Sample Pack Creator
+- ☑ Loop Library Creator
+- ☑ Preset Designer (Synths/Effects)
+- ☑ MIDI Pack Creator
+- ☑ DAW Template Creator
+- ☑ Sound Library Creator/Sound Designer
+
+**Educational Products:**
+- ☑ Course Creator (Online Education)
+- ☑ Tutorial Creator
+- ☑ eBook Author (Music Production)
+
+**Hardware:**
+- ☑ Hardware Developer (Audio Equipment)
+- ☑ MIDI Controller Designer
+
+**Other:**
+- ☑ Other: [text input field] *(requires admin approval)*
+
+---
+
+## Genre/Style Preferences
+
+**Purpose:** Help match collaborators and improve discovery
+
+**Selection:** Users can select multiple genres (no limit)
+
+**Note:** These are preferences, not exclusives. Users work in multiple genres.
+
+### Genre Categories
+
+**Hip-Hop/Rap:**
+- ☑ Hip-Hop/Rap (General)
+- ☑ Trap
+- ☑ Drill
+- ☑ Boom Bap
+- ☑ Lo-Fi Hip-Hop
+- ☑ Underground Hip-Hop
+- ☑ Conscious Rap
+- ☑ Mumble Rap
+
+**R&B/Soul:**
+- ☑ R&B (Contemporary)
+- ☑ Soul
+- ☑ Neo-Soul
+- ☑ Funk
+
+**Pop:**
+- ☑ Pop (Mainstream)
+- ☑ Indie Pop
+- ☑ Synth Pop
+- ☑ K-Pop
+- ☑ J-Pop
+- ☑ Electropop
+
+**Rock:**
+- ☑ Rock (Classic)
+- ☑ Alternative Rock
+- ☑ Indie Rock
+- ☑ Hard Rock
+- ☑ Punk Rock
+- ☑ Post-Punk
+- ☑ Grunge
+- ☑ Emo
+
+**Metal:**
+- ☑ Metal (General)
+- ☑ Heavy Metal
+- ☑ Death Metal
+- ☑ Black Metal
+- ☑ Metalcore
+- ☑ Progressive Metal
+
+**Electronic:**
+- ☑ EDM (General)
+- ☑ House
+- ☑ Tech House
+- ☑ Deep House
+- ☑ Techno
+- ☑ Trance
+- ☑ Dubstep
+- ☑ Drum & Bass
+- ☑ UK Garage
+- ☑ Future Bass
+- ☑ Breakbeat
+
+**Ambient/Experimental:**
+- ☑ Ambient
+- ☑ Downtempo
+- ☑ Chillout
+- ☑ Experimental
+- ☑ Drone
+- ☑ IDM (Intelligent Dance Music)
+
+**Latin:**
+- ☑ Reggaeton
+- ☑ Latin Pop
+- ☑ Salsa
+- ☑ Bachata
+- ☑ Cumbia
+- ☑ Regional Mexican
+- ☑ Latin Trap
+
+**World/Regional:**
+- ☑ Afrobeat
+- ☑ Afro House
+- ☑ Dancehall
+- ☑ Reggae
+- ☑ Dub
+- ☑ Soca
+- ☑ Bollywood
+- ☑ Arabic Pop
+- ☑ World Fusion
+
+**Country/Folk:**
+- ☑ Country (Modern)
+- ☑ Country (Traditional)
+- ☑ Bluegrass
+- ☑ Folk
+- ☑ Americana
+- ☑ Singer-Songwriter
+
+**Jazz/Blues:**
+- ☑ Jazz (Traditional)
+- ☑ Contemporary Jazz
+- ☑ Smooth Jazz
+- ☑ Jazz Fusion
+- ☑ Blues
+- ☑ Blues Rock
+
+**Classical/Orchestral:**
+- ☑ Classical (Traditional)
+- ☑ Contemporary Classical
+- ☑ Orchestral
+- ☑ Chamber Music
+- ☑ Opera
+
+**Soundtrack/Score:**
+- ☑ Film Score
+- ☑ Video Game Music
+- ☑ TV Score
+- ☑ Cinematic/Trailer Music
+
+**Other:**
+- ☑ Gospel
+- ☑ Christian/Worship
+- ☑ Musical Theater
+- ☑ Ska
+- ☑ Swing
+- ☑ Rockabilly
+- ☑ Industrial
+- ☑ Noise
+- ☑ Vaporwave
+- ☑ Other: [text input field] *(requires admin approval)*
+
+---
+
+## Experience Level
+
+**Purpose:** Help set expectations and find appropriate collaborators/clients
+
+**Selection:** Single choice (one level selected)
+
+### Experience Levels
+
+**Beginner**
+- **Duration:** 0-2 years
+- **Description:** Learning the craft, building skills, early projects
+- **Typical Activities:** Practice, tutorials, first releases, experimentation
+- **Looking For:** Learning opportunities, mentorship, beginner-friendly collabs
+
+**Intermediate**
+- **Duration:** 2-5 years
+- **Description:** Consistent work, building portfolio, developing style
+- **Typical Activities:** Regular releases, client work, collaborations, skill refinement
+- **Looking For:** Growth opportunities, fair-paid work, networking
+
+**Professional**
+- **Duration:** 5-10 years
+- **Description:** Established career, quality portfolio, reliable income
+- **Typical Activities:** Regular clients, professional releases, industry connections
+- **Looking For:** Quality projects, professional rates, industry recognition
+
+**Veteran**
+- **Duration:** 10+ years
+- **Description:** Industry recognition, extensive experience, established reputation
+- **Typical Activities:** High-profile projects, mentoring, industry influence
+- **Looking For:** Premium projects, partnerships, legacy building
+
+**Note:** Experience level is self-reported and serves as a general indicator. Skills and portfolio matter more than years.
+
+---
+
+## Profile Completeness
+
+To maximize discoverability and collaboration opportunities, users should:
+
+### Required (Cannot use platform without):
+- Username
+- Email (verified)
+- At least one main category
+
+### Highly Recommended:
+- At least 3 skills selected
+- At least 3 genres selected
+- Experience level
+- Bio/description (150+ characters)
+- Profile picture
+- Location (city/country)
+
+### Optional but Helpful:
+- Portfolio links (website, SoundCloud, Spotify, etc.)
+- Social media links
+- Equipment/software list
+- Availability status
+- Collaboration preferences
+- Rate/pricing information
+
+### Completeness Score:
+Users see a "Profile Completeness" percentage:
+- 0-30%: "Get Started" (red)
+- 31-60%: "Basic Profile" (yellow)
+- 61-85%: "Strong Profile" (blue)
+- 86-100%: "Complete Profile" (green)
+
+Benefits of complete profiles:
+- Higher search ranking
+- More collaboration matches
+- Better client trust
+- Featured opportunities
+- Professional appearance
+
+---
+
+## Matching & Search
+
+### How Categories/Skills Affect Matching
+
+**Collab Matcher:**
+- Matches based on complementary skills
+- Example: Producers matched with vocalists, guitarists with drummers
+- Genre overlap increases match score
+- Experience level considered (prevent mismatches)
+
+**Search:**
+- Users can filter by any category, skill, or genre
+- Multi-select filters (AND/OR logic)
+- Search by keyword matches categories and skills
+- Auto-suggest skills as user types
+
+**Recommendations:**
+- Platform suggests collaborators based on:
+  - Skills needed for user's work
+  - Genre overlap
+  - Location proximity (optional)
+  - Experience level compatibility
+  - Activity level
+
+---
+
+## Admin Approval for "Other" Fields
+
+When a user enters a custom skill/genre/category:
+
+1. Submission stored as "pending approval"
+2. Admin notification sent
+3. Admin reviews:
+   - Is it legitimate?
+   - Does it fit existing categories?
+   - Is it duplicative?
+4. Admin approves or denies (with reason)
+5. If approved:
+   - Added to user's profile
+   - Optionally added to master list for all users
+6. User notified of decision
+
+This prevents spam while allowing legitimate new skills/genres to be added.
+
+---
+
+## Future Enhancements
+
+**Skill Endorsements:**
+- Other users can endorse your skills (LinkedIn-style)
+- Builds credibility
+
+**Skill Verification:**
+- Upload portfolio/work samples
+- Verified badge on specific skills
+
+**Trending Skills/Genres:**
+- Dashboard showing what's popular
+- Help users discover opportunities
+
+**Skill-Based Analytics:**
+- Which skills get most work
+- Average rates by skill
+- Demand vs. supply
+
+**Certification:**
+- Partner with education platforms
+- Verified certifications displayed
+
+---
+
+**Document Version:** 1.0  
+**Last Updated:** November 1, 2025  
+**Status:** Finalized for MVP
+-e 
+
+---
+---
+
+
+# PRODUCERS AVENUE - FEATURES & FUNCTIONALITY
+
+## Overview
+
+Producers Avenue combines social networking, marketplace, and specialized tools into one comprehensive platform for music industry professionals. This document details all features and their functionality.
+
+---
+
+## COMMUNITY FEATURES
+
+### User Profiles
+
+**Profile Components:**
+- Profile picture (avatar)
+- Banner/header image
+- Display name and username
+- Bio/description (rich text, 500 characters)
+- Location (city, country)
+- Categories and skills (from selection)
+- Genre preferences
+- Experience level
+- Portfolio links (website, SoundCloud, Spotify, YouTube, etc.)
+- Social media links
+- Member since date
+- Subscription badge
+- Verification badges (if applicable)
+- Statistics:
+  - Total products/services
+  - Total sales
+  - Average rating
+  - Followers count
+  - Following count
+  - Groups joined
+
+**Profile Privacy:**
+- Public (default) - visible to all
+- Members only - visible to logged-in users
+- Private - visible only to connections (future feature)
+
+**Profile Actions:**
+- Follow/Unfollow
+- Send message
+- Send collab request
+- Report profile
+- Share profile (social media, copy link)
+
+---
+
+### Social Feed
+
+**Post Types:**
+- Text posts (500 characters)
+- Text + image (up to 4 images)
+- Text + audio (embedded player)
+- Text + video (embedded player)
+- Text + link (with preview card)
+- Poll (up to 4 options)
+- Shared product/service
+- Shared webinar
+
+**Post Features:**
+- Rich text formatting (bold, italic, links)
+- @ mentions (tag other users)
+- # hashtags (create/use tags)
+- Emoji support
+- Edit post (within 15 minutes)
+- Delete post
+- Pin to profile (3 posts max)
+- Save post (bookmark)
+
+**Post Interactions:**
+- Like/Unlike
+- Comment
+- Share/Repost
+- Report inappropriate content
+
+**Feed Algorithm:**
+- Following: Posts from users you follow
+- Discover: Trending posts from network
+- Latest: Chronological from all (opt-in)
+- Personalized: Based on your categories/genres
+
+**Feed Filters:**
+- All posts
+- Media only (images/videos/audio)
+- Discussions only (text)
+- Polls only
+- From specific category/genre
+
+---
+
+### Groups
+
+**Group Types:**
+- **Public:** Anyone can see and join
+- **Private:** Anyone can see, must request to join
+- **Secret:** Invite-only, hidden from search
+
+**Group Features:**
+- Group name and description
+- Group image/banner
+- Category tags
+- Member count (visible/hidden)
+- Rules and guidelines
+- Pinned posts (important announcements)
+- Custom roles (Owner, Admin, Moderator, Member)
+- Post approval (optional, for Private/Secret groups)
+
+**Group Posts:**
+- Same functionality as social feed
+- Group-specific tags
+- Admin-only announcements
+- Polls for group decisions
+- Event scheduling (future)
+- File sharing (limited to certain file types)
+
+**Group Discovery:**
+- Search groups by name, category, tags
+- Suggested groups (based on user interests)
+- Trending groups
+- Similar groups recommendations
+
+**Group Management (Owner/Admin):**
+- Invite members
+- Approve/deny join requests
+- Remove members
+- Ban members
+- Appoint/remove Admins/Moderators
+- Edit group details
+- Archive/delete group
+- View member list with roles
+- Moderate posts and comments
+- View group analytics (engagement, growth)
+
+---
+
+### Direct Messaging
+
+**Message Types:**
+- Text messages (unlimited length)
+- Image attachments
+- Audio attachments
+- Video attachments
+- File attachments (PDFs, documents - size limits apply)
+- Voice messages (future)
+
+**Messaging Features:**
+- One-on-one conversations
+- Group chats (up to 50 participants)
+- Real-time delivery (Supabase Realtime)
+- Read receipts
+- Typing indicators
+- Message reactions (emoji)
+- Reply to specific message
+- Forward message
+- Delete message (for self or both)
+- Search within conversation
+- Archive conversation
+- Mute notifications
+- Block user
+
+**Message Organization:**
+- Inbox (all conversations)
+- Unread messages
+- Archived
+- Spam/blocked
+
+**Notifications:**
+- Push notifications (web/mobile)
+- Email notifications (configurable)
+- Desktop notifications
+
+---
+
+### Follow System
+
+**Following:**
+- Follow any public profile
+- Private profiles require approval (future)
+- Unfollow anytime
+- Followers/Following lists viewable
+
+**Follow Feed:**
+- See posts from users you follow
+- Activity feed (follower liked X, commented on Y)
+- New follower notifications
+
+**Alternative Naming (Under Consideration):**
+- Instead of "Followers/Following", consider:
+  - Connections/Connected
+  - Supporters/Supporting
+  - Network/Networking
+  - Community/Communities
+- **Decision:** Keep "Followers/Following" for familiarity (similar to Instagram/Twitter)
+
+---
+
+### Notifications System
+
+**Notification Types:**
+
+**Social:**
+- New follower
+- Someone liked your post
+- Someone commented on your post
+- Someone mentioned you
+- Someone shared your content
+- New message
+
+**Marketplace:**
+- New order received
+- Order completed
+- Product review received
+- Payment received
+- Refund processed
+
+**Groups:**
+- Invited to group
+- Join request approved
+- Someone posted in your group
+- Role change (made admin/mod)
+
+**Platform:**
+- Subscription renewal reminder
+- Featured product going live
+- New feature announcements
+- Maintenance notifications
+
+**Collaboration:**
+- Collab request received
+- Collab request accepted/declined
+- Match found (Collab Matcher)
+
+**Notification Settings:**
+- Enable/disable each type
+- Choose delivery method (push, email, SMS)
+- Set quiet hours
+- Batch notifications (hourly, daily digest)
+
+**Notification Center:**
+- All notifications in one place
+- Mark as read/unread
+- Clear all
+- Filter by type
+- Search notifications
+
+---
+
+## MARKETPLACE FEATURES
+
+### Products
+
+**Product Types:**
+- Audio samples (WAV, MP3, FLAC)
+- Loops and beats
+- MIDI files
+- Presets (synths, effects)
+- DAW templates
+- Sample packs (ZIP files)
+- Stems (multi-track exports)
+- Cover art (JPG, PNG, PSD)
+- Animations/visualizers (MP4, MOV)
+- Project files (DAW-specific)
+- eBooks (PDF, EPUB)
+- Sound libraries
+- Video tutorials (recorded)
+- Other digital goods
+
+**Product Listing:**
+- Title (100 characters max)
+- Description (rich text, 2000 characters)
+- Category and subcategory
+- Tags (up to 10)
+- Genre tags (multiple)
+- Price (or free/name-your-price)
+- Files:
+  - Main files (product delivery)
+  - Preview/demo files (for listening/viewing)
+  - Thumbnail image (required)
+  - Additional images (up to 5)
+- Technical details:
+  - File formats
+  - File size
+  - BPM (if applicable)
+  - Key (if applicable)
+  - Sample rate, bit depth
+  - Compatibility info
+- License type:
+  - Personal use
+  - Commercial use
+  - Exclusive rights
+  - Custom license (text field)
+- Reviews enabled (yes/no)
+
+**Product Features:**
+- Featured badge (subscription tier dependent)
+- "New" badge (first 7 days)
+- "Trending" badge (algorithm)
+- "Bestseller" badge (top sales in category)
+- "Free" badge
+- Wishlist/Save for later
+- Share product (social, copy link)
+- Report product
+- Ask seller a question (pre-purchase messaging)
+
+**Product Management (Seller):**
+- Create/edit/delete products
+- Manage inventory (if limited quantity)
+- Pause sales (temporarily unavailable)
+- Set product to draft (not live)
+- View analytics:
+  - Views
+  - Likes/saves
+  - Clicks
+  - Conversions
+  - Revenue
+  - Traffic sources
+- Respond to reviews
+- Update files (with version history)
+- Create discount codes
+- Bundle products
+
+---
+
+### Services
+
+**Service Types:**
+- Custom production/beat making
+- Mixing services
+- Mastering services
+- Recording sessions
+- Session musician work
+- Vocal recordings (singing, rap, VO)
+- Songwriting/lyrics
+- Cover art design
+- Video editing
+- Animation
+- Consultation/coaching
+- Transcription/notation
+- Arrangement
+- Sound design
+- Other custom services
+
+**Service Listing:**
+- Title
+- Description (detailed scope of work)
+- Category and tags
+- Genre specialization
+- Pricing structure:
+  - Fixed price (per project)
+  - Hourly rate
+  - Package tiers (Basic, Standard, Premium)
+- Delivery time (1 day, 3 days, 1 week, custom)
+- Revisions included
+- Add-ons/extras (with additional cost)
+- Requirements from buyer (text instructions, file uploads)
+- Portfolio samples (audio, video, images)
+- Availability calendar (future)
+- Reviews enabled
+
+**Service Package Example:**
+```
+Mixing Service - Basic: $100
+- Up to 15 tracks
+- 2 revisions
+- 5-day delivery
+
+Mixing Service - Standard: $200
+- Up to 30 tracks
+- 4 revisions
+- 3-day delivery
+- Stem delivery included
+
+Mixing Service - Premium: $400
+- Unlimited tracks
+- Unlimited revisions
+- 1-day delivery
+- Stem delivery
+- Mastering included
+```
+
+**Service Workflow:**
+1. Buyer purchases service
+2. Buyer provides requirements/files
+3. Seller receives order notification
+4. Seller delivers work
+5. Buyer reviews work
+6. Buyer requests revisions (if included)
+7. Seller delivers final version
+8. Order marked complete
+9. Payment released to seller
+10. Buyer leaves review
+
+**Service Features:**
+- "Top Rated" badge (high reviews, many sales)
+- "Fast Delivery" badge
+- "Verified Skills" badge (future)
+- Response time displayed (avg. hours to respond)
+- Completion rate displayed
+- FAQ section
+- Custom offers (seller quotes custom price)
+
+---
+
+### Webinars
+
+**Webinar Types:**
+- **Live Webinars:** One-time live sessions
+- **Recorded Webinars:** Pre-recorded content (sold as products)
+- **Series Webinars:** Multi-session courses
+
+**Live Webinar Listing:**
+- Title
+- Description
+- Date and time (with timezone)
+- Duration
+- Host information
+- Price (free or paid)
+- Max attendees (optional limit)
+- Category and tags
+- Genre relevance
+- Thumbnail/cover image
+- What attendees will learn (bullet points)
+- Requirements (software, equipment needed)
+- Q&A enabled (yes/no)
+- Recording available (yes/no - if yes, access duration)
+- Certificate of completion (optional, future)
+
+**Webinar Features (MVP - Zoom Integration):**
+- Create webinar listing on Producers Avenue
+- Set price and attendee limit
+- Users purchase tickets via Stripe
+- After purchase:
+  - Attendee receives email confirmation
+  - Email contains Zoom meeting link
+  - Calendar invite attached
+  - Reminder email 1 day before
+  - Reminder email 1 hour before
+- Webinar happens on Zoom
+  - Host controls: mute, spotlight, screen share
+  - Q&A via Zoom chat/Q&A feature
+  - Polls (if enabled)
+- Zoom auto-records to cloud
+- After webinar:
+  - Host downloads recording
+  - Optional: Convert to product (recorded webinar)
+  - Recording uploaded to Bunny CDN
+  - Database updated with recording URL
+
+**Webinar as Product (Post-Live):**
+- Host can convert live webinar to product
+- Recording accessible on-demand
+- Typically lower price than live ticket
+- Same listing shows "Live" and "Recording" options
+- Recording includes:
+  - Full video
+  - Downloadable slides (if provided)
+  - Resources/links mentioned
+  - Certificate (if applicable)
+
+**Webinar Discovery:**
+- Upcoming webinars (calendar view)
+- Past webinars (recorded, available for purchase)
+- Filter by:
+  - Category (production, mixing, marketing, etc.)
+  - Genre
+  - Date/time
+  - Price (free/paid)
+  - Host experience level
+- Featured webinars (promoted)
+
+**Webinar Management (Host):**
+- Schedule/reschedule
+- Cancel webinar (auto-refund attendees)
+- Send updates to attendees
+- View attendee list
+- Manage recording settings
+- Convert to product
+- View analytics:
+  - Tickets sold
+  - Attendance rate
+  - Revenue
+  - Attendee feedback/reviews
+
+**Future Enhancement (Phase 2):**
+- Built-in live streaming (Mux or Daily.co)
+- In-platform video player
+- Custom chat and Q&A interface
+- Polls and interactivity tools
+- Screen sharing from platform
+- Breakout rooms (advanced)
+
+---
+
+### Mentoring
+
+**Mentoring as Hybrid Feature:**
+- Listed under Marketplace > Services (backend)
+- Dedicated "Find a Mentor" section (frontend)
+- Special UI/UX for mentoring-specific features
+
+**Mentor Profile/Listing:**
+- Mentor bio (why you're qualified)
+- Years of experience
+- Specializations (categories/skills)
+- Teaching style description
+- Success stories/testimonials
+- Session types offered:
+  - One-time consultation
+  - Multi-session packages
+  - Ongoing mentorship
+- Pricing:
+  - Per session (hourly)
+  - Package deals (e.g., 5 sessions)
+  - Monthly mentorship
+- Availability calendar (future)
+- Languages spoken
+- Time zone
+
+**Mentoring Session Booking:**
+1. Student finds mentor (search, matcher, or browse)
+2. Student books session(s)
+3. Payment processed (held in escrow)
+4. Mentor and student schedule time (via messaging or calendar integration)
+5. Session happens (Zoom/Google Meet initially)
+6. After session:
+   - Student confirms completion
+   - Payment released to mentor
+   - Optional: student leaves review
+   - Optional: mentor adds session notes (private or shared)
+
+**Mentor Matcher Tool:**
+- Similar to Collab Matcher
+- Input what you want to learn:
+  - Skill/category
+  - Genre
+  - Experience level
+  - Budget
+  - Availability (days/times)
+- Algorithm matches with suitable mentors
+- Shows match score and reasons
+- Can message mentors directly
+
+**Mentorship Features:**
+- Progress tracking (future): Student and mentor track goals
+- Resources library: Mentor shares files, links, notes
+- Session history: Both parties see past sessions
+- Multi-session discounts
+- Group mentorship (1 mentor, multiple students)
+- Referral system (mentor refers other mentors)
+
+**Differences from Regular Services:**
+- More emphasis on relationship and trust
+- Longer-term engagement
+- Focus on education and growth
+- Calendar/scheduling integration (future)
+- Progress reports and goal setting (future)
+
+---
+
+### Search & Discovery
+
+**Unified Search Bar (Header):**
+- Single search input, always visible
+- Searches across all content types
+- Auto-suggest as user types
+- Recent searches saved
+
+**Search Results Page:**
+- Tabbed interface showing counts:
+  - **Members** (47 results)
+  - **Products** (123 results)
+  - **Services** (28 results)
+  - **Groups** (5 results)
+  - **Tags** (#bassplayer, #lofi) (12 results)
+  - **Articles** (3 results)
+- Empty tabs hidden or grayed out
+- Each tab shows grid layout with relevant cards
+
+**Search Features:**
+- Keyword search (titles, descriptions, tags, user bios)
+- Tag search (clicking tag shows all content with that tag)
+- Boolean search (AND, OR, NOT) (future)
+- Phrase search with quotes: "mixing engineer"
+- Filters applied per tab:
+  - Members: category, skills, genres, location, experience
+  - Products: category, price range, genre, file type, free/paid
+  - Services: category, price range, delivery time, rating
+  - Groups: public/private, category, member count
+  - Articles: topic, date, author
+
+**Advanced Filters:**
+- Sort by:
+  - Relevance (default)
+  - Most recent
+  - Most popular
+  - Highest rated
+  - Price (low to high, high to low)
+- Multiple filters applied simultaneously
+- Save search (future)
+- Search alerts (notify when new matches) (future)
+
+**Search on Dedicated Pages:**
+- Members page has member-specific filters
+- Products page has product-specific filters
+- Same grid layouts as search results
+- Persistent filters (stay applied as you browse)
+
+**Tag System:**
+- Users add tags to:
+  - Posts (#collaboration, #feedback)
+  - Products (#lofi, #trap, #free)
+  - Services (#mixing, #urgent)
+  - Groups (#producertalk, #beginnerfriendly)
+- Tags are searchable and clickable
+- Trending tags displayed on explore page
+- Auto-complete suggests popular tags
+
+---
+
+### Wallet & Transactions
+
+**Wallet Dashboard:**
+- Current balance
+- Pending balance (funds held in escrow)
+- Total earnings (all-time)
+- Transaction history
+- Upcoming payouts
+- Charts and analytics (premium tiers)
+
+**Transaction Types:**
+- Product sales
+- Service completions
+- Webinar ticket sales
+- Mentoring session payments
+- Subscription fees (if applicable)
+- Refunds
+- Withdrawals
+
+**Transaction Details:**
+- Date and time
+- Type (sale, payout, refund)
+- Amount (gross, commission, net)
+- Buyer/seller info
+- Product/service name
+- Status (completed, pending, refunded)
+- Invoice/receipt download
+
+**Earning Money:**
+1. Seller lists product/service/webinar
+2. Buyer purchases
+3. Stripe collects payment
+4. Platform commission deducted (based on seller tier)
+5. Net amount added to seller's balance
+6. Funds held for dispute period (7 days)
+7. After 7 days, funds available for withdrawal
+
+**Withdrawal:**
+- Minimum withdrawal: **$50** (all tiers)
+- Withdrawal methods:
+  - Bank transfer (ACH - US)
+  - Stripe payout to bank account
+  - PayPal (future)
+- Processing time: 2-5 business days
+- Withdrawal history tracked
+- Tax forms generated (1099-K for US, future)
+
+**Spending on Platform:**
+- Use wallet balance to purchase
+- Credits system (future): Buy credits, get bonus
+- Subscription payment via wallet (future)
+
+**Security:**
+- All transactions via Stripe (PCI compliant)
+- Escrow system for services
+- Dispute resolution process
+- Fraud detection
+- Two-factor authentication for withdrawals (future)
+
+**Commission Structure:**
+- Basic: 40% commission
+- Standard: 30% commission
+- Premium: 20% commission
+- Ultimate: 10% commission
+- Clearly displayed at checkout and in wallet
+
+**Refund Policy:**
+- Digital products: Case-by-case basis
+- Services: Depends on milestone completion
+- Webinars: Refund up to 24 hours before event
+- Mentoring: Refund before first session
+- Dispute process: Contact support, review, resolution
+
+---
+
+### Reviews & Ratings
+
+**Review System:**
+- 5-star rating (required)
+- Written review (optional, 500 characters)
+- Only buyers can leave reviews
+- One review per purchase
+- Reviews visible on product/service/webinar page
+- Reviews also visible on seller profile
+
+**Review Display:**
+- Overall rating (average of all reviews)
+- Total number of reviews
+- Rating breakdown (5-star: 80%, 4-star: 15%, etc.)
+- Recent reviews (most recent 10)
+- Top reviews (most helpful)
+- Filter reviews by star rating
+
+**Review Moderation:**
+- Seller can respond to reviews
+- Buyer can edit review (within 30 days)
+- Reviews can be reported (spam, inappropriate)
+- Admins review flagged reviews
+- Fake reviews removed
+
+**Verified Purchase Badge:**
+- Reviews from verified buyers show badge
+- Builds trust
+
+**Review Incentives:**
+- Buyers prompted to leave review after purchase
+- Optional: Discount code for next purchase if leave review (future)
+
+---
+
+## TOOLS & INTEGRATIONS
+
+### Collab Matcher
+
+**Purpose:** Help members find perfect collaborators based on skills, genres, and goals
+
+**How It Works:**
+1. User accesses Collab Matcher tool
+2. User inputs what they're looking for:
+   - Skills needed (e.g., vocalist, guitarist)
+   - Genre preferences
+   - Experience level
+   - Location (optional, for in-person collabs)
+   - Project type (single, EP, album, ongoing)
+   - Availability (timeline)
+3. Algorithm searches database:
+   - Matches complementary skills
+   - Genre overlap
+   - Experience compatibility
+   - Activity level (recent users prioritized)
+4. Returns ranked list of matches with scores
+5. User can:
+   - View match profiles
+   - Send collab request
+   - Message directly
+   - Save for later
+
+**Matching Algorithm:**
+- Skill complementarity (producer + vocalist = high score)
+- Genre overlap (both work in hip-hop = bonus points)
+- Experience gap not too large (avoid mismatch)
+- Geographic proximity (optional preference)
+- Recent activity (active users ranked higher)
+- Previous successful collabs (future)
+
+**Collab Request:**
+- Send formal collab request with details:
+  - Project description
+  - Role needed
+  - Timeline
+  - Compensation (paid, split, credit only)
+  - References/examples
+- Recipient can:
+  - Accept
+  - Decline
+  - Counter-offer
+  - Ask questions
+
+**Collab Tracking (Future):**
+- Track active collaborations
+- Milestone management
+- File sharing
+- Communication thread
+- Credit allocation
+- Completion confirmation
+
+---
+
+### Release Organizer Integration
+
+**What is Release Organizer:**
+- External tool for planning music releases (https://releaseorganizer.com)
+- Helps artists organize: artwork, distribution, marketing, playlists, etc.
+
+**Integration:**
+- Deep link from Producers Avenue to Release Organizer
+- Single sign-on (SSO) if possible (future)
+- Share release plans with collaborators on Producers Avenue
+- Embed release checklist in user dashboard (future)
+- Notifications for release milestones
+
+**Integration Points:**
+- Tools menu > Release Organizer
+- User can connect their Release Organizer account
+- View upcoming releases in dashboard
+- Collaborate on releases with PA members
+- Promote releases to PA community
+
+---
+
+### Additional Tools (Future)
+
+**Brainstorming for future tools:**
+- BPM/Key detector (upload audio, get analysis)
+- Collaboration contract generator (template legal agreements)
+- Mixing checklist tool (interactive checklist)
+- Royalty split calculator
+- Sample clearance database
+- Music theory tools (chord progressions, scales)
+- Session file organizer
+- DAW project backup integration
+
+---
+
+## NEWS & ARTICLES
+
+### News Categories
+
+**Industry News:**
+- New gear releases (DAWs, plugins, hardware)
+- Music industry trends
+- Artist news (major releases, awards, etc.)
+- Technology updates (new music tech)
+- Festival/event announcements
+- Tips and tutorials
+- Interviews with professionals
+
+**Producers Avenue News:**
+- Platform updates and new features
+- Member spotlights (showcase successful members)
+- Success stories (collaborations, big sales)
+- Community highlights
+- Company announcements
+- Upcoming webinars/events on platform
+- Monthly newsletter digest
+
+### Article Structure
+
+**Article Page:**
+- Title
+- Author (Author role user, with byline)
+- Publication date
+- Category (Industry or PA News)
+- Tags (relevant topics)
+- Featured image
+- Article body (rich text, images, embeds)
+- Related articles
+- Share buttons
+- Comments section (optional, moderated)
+
+**Article Features:**
+- Rich text editor for Authors
+- Embed audio/video
+- Code blocks (for tutorials)
+- Image galleries
+- Pull quotes
+- Table of contents (for long articles)
+- Reading time estimate
+- Save/bookmark article
+- Print article
+
+**Article Management (Authors):**
+- Create article (draft mode)
+- Preview article
+- Schedule publication (future)
+- Edit after publication
+- Moderate comments on own articles
+- View analytics:
+  - Views
+  - Read time
+  - Shares
+  - Comments
+  - Traffic sources
+
+**Article Discovery:**
+- Latest articles on homepage
+- News page with all articles
+- Filter by category (Industry vs PA News)
+- Search articles
+- Tag-based discovery
+- Recommended articles (based on interests)
+
+**Newsletter Integration (Future):**
+- Weekly/monthly newsletter
+- Curated articles, platform highlights
+- Subscriber-only content (premium tiers)
+
+---
+
+## ANALYTICS (For Sellers/Creators)
+
+### Basic Analytics (Standard Tier)
+
+**Metrics:**
+- Total views (products, services, profile)
+- Total clicks (CTR)
+- Total sales
+- Total revenue
+- Top-performing products/services
+- Simple charts (line graph of sales over time)
+
+**Timeframes:**
+- Last 7 days
+- Last 30 days
+- Last 90 days
+- All time
+
+---
+
+### Advanced Analytics (Premium Tier)
+
+**Additional Metrics:**
+- Traffic sources (where visitors came from)
+- Conversion rate (views to sales)
+- Average order value
+- Revenue by product/service
+- Geographic data (where buyers are located)
+- Demographic data (age, gender if available)
+- Engagement metrics (likes, saves, shares)
+
+**Visualizations:**
+- Multiple chart types (line, bar, pie)
+- Comparison views (this month vs last month)
+- Top 10 lists (products, services, traffic sources)
+
+---
+
+### Professional Analytics (Ultimate Tier)
+
+**All Advanced Features Plus:**
+- Real-time dashboard
+- Custom date ranges
+- Predictive insights (projected revenue, trends)
+- Cohort analysis
+- Funnel analysis (how users move through your store)
+- Competitor benchmarking (anonymized aggregate data)
+- Custom reports (build your own)
+- Data export (CSV, PDF)
+- API access to your data
+
+---
+
+## MOBILE EXPERIENCE
+
+**Responsive Design (MVP):**
+- All pages fully responsive
+- Mobile-first design approach
+- Touch-friendly UI elements
+- Optimized for smaller screens
+- Hamburger menu on mobile
+- Bottom navigation (optional)
+
+**PWA (Progressive Web App):**
+- Installable on mobile home screen
+- Offline functionality (view cached content)
+- Push notifications
+- Fast loading
+
+**Future Native Apps:**
+- iOS app (React Native)
+- Android app (React Native)
+- Enhanced mobile features:
+  - Camera integration (for uploads)
+  - Voice messages in chat
+  - Offline mode
+  - Better notifications
+
+---
+
+## FUTURE FEATURES (Post-MVP)
+
+**Phase 2 (6-12 months):**
+- API for third-party integrations
+- Advanced collaboration tools
+- Video streaming for webinars (in-platform)
+- Mobile apps (iOS/Android)
+- Advanced search with AI recommendations
+- Skill endorsements
+- Verified badges
+- Contest/challenge system
+
+**Phase 3 (12-24 months):**
+- White-label solutions for labels/schools
+- Blockchain/NFT integration (if relevant)
+- AI-powered features:
+  - Smart matching
+  - Content recommendations
+  - Automated tagging
+  - Song analysis tools
+- International expansion (multi-currency, multi-language)
+- Educational courses platform
+- Crowdfunding for projects
+
+---
+
+**Document Version:** 1.0  
+**Last Updated:** November 1, 2025  
+**Status:** Features finalized for MVP
+-e 
+
+---
+---
+
+
+# PRODUCERS AVENUE - UI/UX DESIGN
+
+## Design Philosophy
+
+Producers Avenue aims for a **clean, modern, and professional** aesthetic that appeals to music industry professionals. The design should be:
+- **Intuitive:** Users find what they need without confusion
+- **Fast:** Minimal loading times, snappy interactions
+- **Accessible:** WCAG 2.1 AA compliant
+- **Consistent:** Reusable components, predictable patterns
+- **Responsive:** Works beautifully on mobile, tablet, and desktop
+
+---
+
+## Design System
+
+### Color Palette
+
+**Primary Color:**
+- **Main Blue:** `#009ae9`
+  - Used for: Primary buttons, links, active states, highlights
+  - Hover: `#0088d1`
+  - Active: `#0076b9`
+
+**Neutral Colors (Light Theme):**
+- Background: `#ffffff`
+- Surface: `#f5f5f5` (cards, panels)
+- Border: `#e0e0e0`
+- Text Primary: `#1a1a1a`
+- Text Secondary: `#666666`
+- Text Disabled: `#9e9e9e`
+
+**Neutral Colors (Dark Theme):**
+- Background: `#0a0a0a`
+- Surface: `#1a1a1a` (cards, panels)
+- Border: `#2a2a2a`
+- Text Primary: `#f5f5f5`
+- Text Secondary: `#b3b3b3`
+- Text Disabled: `#666666`
+
+**Semantic Colors:**
+- Success: `#10b981` (green)
+- Warning: `#f59e0b` (amber)
+- Error: `#ef4444` (red)
+- Info: `#3b82f6` (blue)
+
+**Accent Colors:**
+- Featured Badge: `#fbbf24` (gold)
+- Premium Badge: `#8b5cf6` (purple)
+- New Badge: `#10b981` (green)
+
+**Gradients (Optional Use):**
+- Hero Gradient: `linear-gradient(135deg, #009ae9 0%, #0076b9 100%)`
+- Card Hover: `linear-gradient(135deg, rgba(0,154,233,0.1) 0%, rgba(0,118,185,0.1) 100%)`
+
+---
+
+### Typography
+
+**Font Families:**
+- **Primary Font:** TBD (suggestions: Inter, Manrope, or DM Sans)
+  - Used for: Body text, UI elements, buttons
+  - Weights: 400 (Regular), 500 (Medium), 600 (Semibold), 700 (Bold)
+  
+- **Heading Font:** TBD (can be same as primary or: Outfit, Space Grotesk)
+  - Used for: Headlines, titles, section headers
+  - Weights: 500 (Medium), 600 (Semibold), 700 (Bold)
+
+- **Monospace Font:** 'JetBrains Mono' or 'Fira Code'
+  - Used for: Code blocks, technical details, file names
+
+**Font Sizes (Desktop):**
+```css
+--text-xs: 0.75rem;    /* 12px - captions, labels */
+--text-sm: 0.875rem;   /* 14px - small text */
+--text-base: 1rem;     /* 16px - body text */
+--text-lg: 1.125rem;   /* 18px - large body */
+--text-xl: 1.25rem;    /* 20px - subheadings */
+--text-2xl: 1.5rem;    /* 24px - headings */
+--text-3xl: 1.875rem;  /* 30px - page titles */
+--text-4xl: 2.25rem;   /* 36px - hero titles */
+--text-5xl: 3rem;      /* 48px - large hero */
+```
+
+**Line Heights:**
+- Headings: 1.2
+- Body text: 1.6
+- Tight (labels): 1.4
+
+**Font Smoothing:**
+```css
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+```
+
+---
+
+### Spacing System
+
+**Base unit:** 4px
+
+```css
+--space-1: 0.25rem;   /* 4px */
+--space-2: 0.5rem;    /* 8px */
+--space-3: 0.75rem;   /* 12px */
+--space-4: 1rem;      /* 16px */
+--space-5: 1.25rem;   /* 20px */
+--space-6: 1.5rem;    /* 24px */
+--space-8: 2rem;      /* 32px */
+--space-10: 2.5rem;   /* 40px */
+--space-12: 3rem;     /* 48px */
+--space-16: 4rem;     /* 64px */
+--space-20: 5rem;     /* 80px */
+```
+
+**Common Spacing:**
+- Component padding: `space-4` or `space-6`
+- Section padding: `space-12` to `space-20`
+- Card gap in grids: `space-4` to `space-6`
+- Form field spacing: `space-4`
+
+---
+
+### Border Radius
+
+```css
+--radius-sm: 0.25rem;  /* 4px - small elements */
+--radius-md: 0.5rem;   /* 8px - buttons, inputs */
+--radius-lg: 0.75rem;  /* 12px - cards */
+--radius-xl: 1rem;     /* 16px - large cards */
+--radius-2xl: 1.5rem;  /* 24px - modals */
+--radius-full: 9999px; /* Fully rounded - avatars, pills */
+```
+
+---
+
+### Shadows
+
+```css
+--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+--shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+--shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+--shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+--shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+
+/* Dark theme shadows (lighter) */
+--shadow-sm-dark: 0 1px 2px rgba(255, 255, 255, 0.05);
+--shadow-md-dark: 0 4px 6px rgba(255, 255, 255, 0.07);
+```
+
+---
+
+### Animations & Transitions
+
+**Timing Functions:**
+```css
+--ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+--ease-out: cubic-bezier(0, 0, 0.2, 1);
+--ease-in: cubic-bezier(0.4, 0, 1, 1);
+--ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+```
+
+**Durations:**
+```css
+--duration-fast: 150ms;
+--duration-base: 300ms;
+--duration-slow: 500ms;
+```
+
+**Common Transitions:**
+```css
+transition: all var(--duration-base) var(--ease-in-out);
+```
+
+**Hover Effects:**
+- Buttons: Scale up slightly (1.02) + shadow increase
+- Cards: Shadow increase + subtle border color change
+- Links: Color change + underline animation
+- Images: Slight zoom (1.05) within container
+
+---
+
+## Layout Structure
+
+### Container Widths
+
+```css
+--container-sm: 640px;
+--container-md: 768px;
+--container-lg: 1024px;
+--container-xl: 1280px;
+--container-2xl: 1536px;
+```
+
+**Usage:**
+- Full-width: Homepage hero, some landing sections
+- Container XL (1280px): Main content areas
+- Container LG (1024px): Forms, article content
+
+---
+
+### Grid System
+
+**Grid Columns:**
+- Desktop: 12 columns
+- Tablet: 8 columns
+- Mobile: 4 columns
+
+**Gap:**
+- Desktop: `space-6` (24px)
+- Tablet: `space-4` (16px)
+- Mobile: `space-3` (12px)
+
+**Breakpoints:**
+```css
+--breakpoint-sm: 640px;
+--breakpoint-md: 768px;
+--breakpoint-lg: 1024px;
+--breakpoint-xl: 1280px;
+--breakpoint-2xl: 1536px;
+```
+
+---
+
+## Header (Global)
+
+**Structure:**
+```
+[Logo] [Community ▼] [Marketplace ▼] [Tools ▼] [Search Bar] [Avatar ▼]
+```
+
+**Desktop Layout:**
+- Height: 64px
+- Background: White (light) / Dark surface (dark)
+- Border bottom: 1px solid border color
+- Sticky on scroll (stays at top)
+- Shadow on scroll: `shadow-md`
+
+**Mobile Layout:**
+- Height: 56px
+- Hamburger menu (left side)
+- Logo (center)
+- Avatar (right side)
+- Search icon (opens full-screen search)
+
+**Navigation Dropdowns:**
+- Appear on hover (desktop) or click (mobile)
+- Smooth fade-in animation
+- Background: Surface color
+- Border: 1px solid border color
+- Shadow: `shadow-lg`
+- Border radius: `radius-lg`
+- Max width: 250px
+- Padding: `space-2` vertical, `space-0` horizontal
+
+**Dropdown Items:**
+- Padding: `space-3` horizontal, `space-2` vertical
+- Hover: Background changes to primary with 10% opacity
+- Active: Bold text + primary color
+
+**Search Bar (Desktop):**
+- Width: 300px (default), expands to 400px on focus
+- Height: 40px
+- Border radius: `radius-full`
+- Background: Light gray (light theme), lighter dark (dark theme)
+- Placeholder: "Search members, products, services..."
+- Icon: Search icon (left side)
+- Clear button (right side, appears when typing)
+
+**Avatar Dropdown:**
+- Profile picture (circular, 40px)
+- Green dot indicator (online status - future)
+- Dropdown aligned to right edge
+- Items:
+  - Profile (with username and email preview)
+  - Store
+  - Messages (with unread count badge)
+  - Wallet (with balance preview)
+  - Notifications (with unread count badge)
+  - My Groups
+  - Followers
+  - Following
+  - Divider
+  - Settings
+  - Logout
+
+**When Logged Out:**
+- Avatar shows placeholder icon
+- Dropdown only shows:
+  - Login
+  - Sign Up
+
+---
+
+## Footer (Global)
+
+**Structure:** Four columns
+
+**Desktop Layout:**
+```
+[Column 1: Logo + Social]  [Column 2: Links]  [Column 3: Legal]  [Column 4: Newsletter]
+```
+
+**Column 1: Logo + Social**
+- Producers Avenue logo (grayscale or white in dark mode)
+- Social icons (Instagram, Twitter, Facebook, YouTube, Discord)
+- Icons: 24px, with hover effect (scale + color change)
+
+**Column 2: Quick Links**
+- Community
+- Marketplace
+- Tools
+- News
+- About
+- Contact
+
+**Column 3: Legal**
+- Terms of Service
+- Privacy Policy
+- Cookie Policy
+- DMCA / Copyright
+- Help Center
+
+**Column 4: Newsletter**
+- Heading: "Stay Updated"
+- Email input field
+- Subscribe button
+- Small text: "Get news, updates, and exclusive offers"
+
+**Mobile Layout:**
+- Stacked single column
+- Collapsible sections (accordion style)
+- Social icons at bottom
+
+**Footer Styling:**
+- Background: Dark surface (light theme) / Darker than main (dark theme)
+- Text color: Light gray
+- Padding: `space-12` vertical, responsive horizontal
+- Border top: 1px solid border color
+
+**Copyright:**
+- Small text at very bottom
+- Center-aligned
+- "© 2025 Producers Avenue. All rights reserved."
+
+---
+
+## Homepage Layout
+
+### Hero Section
+
+**Desktop:**
+- Full viewport height (100vh) or fixed height (600px)
+- Background: Animated music-related visual (waveform, vinyl spinning, etc.)
+- Animation fades to 50% opacity
+- Text content fades in after animation
+- Content centered vertically and horizontally
+
+**Content:**
+- Main heading (text-4xl or text-5xl, bold)
+  - Example: "Where Music Creators Connect, Collaborate & Thrive"
+- Subheading (text-lg or text-xl, lighter weight)
+  - Example: "Join the ultimate platform for producers, musicians, and music professionals"
+- Search bar (large, prominent, 500px width)
+  - Placeholder: "Find members, products, or services..."
+- CTA buttons:
+  - Primary: "Get Started" (large, primary color)
+  - Secondary: "Learn More" (outline style)
+
+**Mobile:**
+- Height: 70vh
+- Smaller text sizes
+- Search bar: Full width minus padding
+- Buttons: Stack vertically
+
+---
+
+### Feature Cards Section
+
+**Layout:**
+- Three cards in a row (desktop)
+- Each card: 33% width with gap
+- Single column on mobile (stacked)
+
+**Card Design:**
+- Background image at 50% opacity
+- Overlay gradient (dark to transparent)
+- Text content over image
+- Border radius: `radius-xl`
+- Hover: Scale up slightly (1.02), shadow increases
+- Height: 300px (desktop), 200px (mobile)
+
+**Card Content:**
+- Icon (48px, top or center)
+- Title (text-2xl, bold, white or high contrast)
+- Description (text-base, 2-3 lines)
+- Link: "Explore →"
+
+**Cards:**
+1. **Community** - Background: People collaborating image
+2. **Marketplace** - Background: Music gear/studio image
+3. **Tools** - Background: Tech/software interface image
+
+---
+
+### Users Carousel (Optional)
+
+**Layout:**
+- Horizontal scrollable carousel
+- Shows 4-5 user cards at once (desktop)
+- 1-2 cards on mobile
+- Scroll buttons (left/right arrows)
+- Dots indicator (bottom center)
+
+**User Card:**
+- Profile picture (circular, 80px)
+- Username (text-base, bold)
+- Role/category (text-sm, secondary color)
+- Follow button (small)
+- Size: 200px width, auto height
+
+**Heading:**
+- "Find Your Next Collaborator" or "Connect With Creators"
+- text-3xl, bold, centered
+
+---
+
+### Featured Carousels
+
+**Three separate carousels:**
+1. Featured Products
+2. Featured Services
+3. Featured Webinars
+
+**Layout (each carousel):**
+- Heading (text-2xl, bold): "Featured Products"
+- Horizontal scrollable
+- 4 cards visible (desktop), 2 visible (tablet), 1.5 visible (mobile)
+- Scroll buttons
+- "View All" link (top right)
+
+**Product/Service Card:**
+- Image (thumbnail, 16:9 or 1:1 aspect ratio)
+- Title (text-base, bold, 2-line truncate)
+- Creator name (text-sm, secondary color)
+- Price (text-lg, bold, primary color)
+- Rating stars + review count (text-sm)
+- Featured badge (top left corner)
+- Hover: Shadow + border highlight
+
+**Webinar Card:**
+- Cover image
+- Title
+- Host name
+- Date/time
+- Price or "Free"
+- "Register" button
+
+---
+
+## Community Pages
+
+### Member Directory
+
+**Layout:**
+- Search/filter sidebar (left, 25% width on desktop)
+- Results grid (right, 75% width)
+- Mobile: Filters in collapsible drawer
+
+**Filters:**
+- Categories (checkboxes)
+- Skills (checkboxes with search)
+- Genres (checkboxes with search)
+- Location (text input with autocomplete)
+- Experience level (radio buttons)
+- Online status (toggle - future)
+
+**Results Grid:**
+- Desktop: 3 columns
+- Tablet: 2 columns
+- Mobile: 1 column
+- Gap: `space-6`
+
+**Member Card:**
+- Profile picture (circular, 100px)
+- Username (text-lg, bold)
+- Display name (text-sm, secondary)
+- Categories (pills/badges, primary color)
+- Location (text-sm with icon)
+- Follower count
+- "Follow" button (primary)
+- "Message" button (secondary)
+- Hover: Card shadow increases
+
+---
+
+### Group Page
+
+**Layout:**
+- Cover image (full width, 300px height)
+- Group info (overlay on cover or below)
+  - Group name (text-3xl, bold)
+  - Member count, category
+  - Description (text-base)
+  - Join/Joined button (large, prominent)
+- Tabs: Posts | Members | About
+
+**Posts Tab:**
+- Feed layout (similar to main feed)
+- Create post box at top (if member)
+
+**Members Tab:**
+- Grid of member cards (smaller than directory)
+- Owner/Admin/Mod badges visible
+
+**About Tab:**
+- Full description
+- Rules
+- Created date
+- Group admins list
+
+---
+
+## Marketplace Pages
+
+### Product Listing Page
+
+**Layout:**
+- Filter sidebar (left, 25%)
+- Results grid (right, 75%)
+
+**Filters:**
+- Category (select dropdown or pills)
+- Price range (slider)
+- Genre (checkboxes)
+- File type (checkboxes)
+- Free/Paid toggle
+- Rating filter
+- Sort by (dropdown)
+
+**Results Grid:**
+- Desktop: 4 columns
+- Tablet: 3 columns
+- Mobile: 2 columns
+
+**Product Card:**
+- Thumbnail image (1:1 or 16:9)
+- Title (text-base, 2-line truncate)
+- Seller name (text-sm, with avatar)
+- Price (text-lg, bold)
+- Rating + reviews
+- Featured badge (if applicable)
+- Like/Save icon (top right)
+- Hover: Shadow + scale
+
+---
+
+### Product Detail Page
+
+**Layout:**
+- Two-column layout (desktop)
+- Left: Product media (50%)
+- Right: Product info (50%)
+- Mobile: Stacked
+
+**Left Column:**
+- Main image/player (large, responsive)
+- Thumbnail gallery below (scrollable)
+- Audio player (if audio product)
+- Video player (if video product)
+
+**Right Column:**
+- Product title (text-3xl, bold)
+- Seller info (avatar, name, rating)
+- Price (text-4xl, bold, primary color)
+- Add to Cart button (large, primary)
+- Buy Now button (large, secondary)
+- Save/Wishlist button (icon only)
+- Short description (2-3 lines)
+- Expandable sections:
+  - Full description
+  - Technical details
+  - License information
+  - FAQ
+- Tags (clickable pills)
+
+**Below (Full Width):**
+- Tabs: Details | Reviews | Seller Info
+- Related products carousel
+- "You may also like" section
+
+---
+
+### Service Detail Page
+
+**Similar to Product, but:**
+- Package selector (Basic, Standard, Premium)
+- Each package shows:
+  - Price
+  - Delivery time
+  - What's included (bullet points)
+  - Revisions
+  - Add-ons available
+- Order button (leads to requirements form)
+
+**Seller Info:**
+- Response time
+- Completion rate
+- Number of orders
+- Portfolio samples
+
+---
+
+### Webinar Page
+
+**Layout:**
+- Hero image/video (full width, 400px height)
+- Title + host info overlay
+- Two columns below:
+  - Left (70%): Description, what you'll learn, requirements
+  - Right (30%): Sticky sidebar with:
+    - Date/time
+    - Duration
+    - Price
+    - Register/Buy button
+    - Attendees count
+    - Recording available? (if past webinar)
+
+**Upcoming Webinars (Browse Page):**
+- Calendar view option (month view with webinar cards on dates)
+- List view option (cards in chronological order)
+- Filters: Category, date range, free/paid
+
+---
+
+## User Profile Page
+
+**Layout:**
+- Banner image (full width, 200px height)
+- Profile picture (150px, overlaps banner)
+- Profile info (below banner):
+  - Username (text-3xl, bold)
+  - Display name (text-lg, secondary)
+  - Bio (text-base)
+  - Categories/skills (pills)
+  - Location, joined date
+  - Social links (icons)
+- Action buttons:
+  - Follow/Unfollow (primary)
+  - Message (secondary)
+  - More (dropdown: Share, Report)
+- Stats row:
+  - Products | Services | Followers | Following
+- Tabs: Products | Services | Webinars | About
+
+**Products/Services/Webinars Tabs:**
+- Grid layout (same as marketplace)
+- Filters specific to user's items
+
+**About Tab:**
+- Full bio
+- Skills and endorsements (future)
+- Portfolio links
+- Reviews received
+
+---
+
+## Messaging Interface
+
+**Layout:**
+- Sidebar (left, 30%): Conversation list
+- Main area (right, 70%): Active conversation
+
+**Conversation List:**
+- Search bar (top)
+- List of conversations (chronological)
+- Each conversation item:
+  - Avatar (circular, 48px)
+  - Name (text-base, bold)
+  - Last message preview (text-sm, gray, truncate)
+  - Timestamp (text-xs, gray)
+  - Unread badge (red dot or count)
+- Active conversation highlighted
+
+**Conversation Area:**
+- Header:
+  - Other user's avatar + name
+  - Online status dot
+  - More options (dropdown: Mute, Archive, Block)
+- Message thread (scrollable):
+  - Messages grouped by sender
+  - Timestamps shown periodically
+  - Own messages: Right-aligned, primary color background
+  - Other messages: Left-aligned, gray background
+  - Images/files shown inline
+- Input area (bottom):
+  - Text input (multi-line)
+  - Emoji button
+  - Attach file button
+  - Send button
+
+**Mobile:**
+- Conversation list is default view
+- Tapping conversation opens full-screen message view
+- Back button returns to list
+
+---
+
+## Forms & Inputs
+
+### Text Input
+- Height: 40px
+- Border: 1px solid border color
+- Border radius: `radius-md`
+- Padding: `space-3` horizontal
+- Focus: Border changes to primary color, `shadow-sm`
+- Error state: Border red, helper text below in red
+
+### Textarea
+- Min height: 120px
+- Resizable (vertical only)
+- Same styling as text input
+
+### Select Dropdown
+- Same as text input
+- Chevron icon (right side)
+- Dropdown: `shadow-lg`, max height with scroll
+
+### Checkbox
+- Size: 20px
+- Border radius: `radius-sm`
+- Checked: Primary color background, white checkmark
+- Label: text-base, clickable
+
+### Radio Button
+- Size: 20px
+- Circle shape
+- Checked: Primary color border (thick), primary dot in center
+
+### Button Styles
+**Primary:**
+- Background: Primary color
+- Text: White
+- Hover: Darker primary + shadow
+- Height: 40px (default), 48px (large), 32px (small)
+- Padding: `space-4` to `space-6`
+- Border radius: `radius-md`
+
+**Secondary:**
+- Background: Transparent
+- Border: 1px solid primary
+- Text: Primary color
+- Hover: Primary background, white text
+
+**Outline:**
+- Background: Transparent
+- Border: 1px solid border color
+- Text: Text primary
+- Hover: Background light gray
+
+**Ghost:**
+- No border, no background
+- Text: Primary or text color
+- Hover: Light background
+
+### Tags/Pills
+- Background: Primary color with 10% opacity
+- Text: Primary color
+- Border radius: `radius-full`
+- Padding: `space-1` vertical, `space-3` horizontal
+- Removable (with X icon)
+
+---
+
+## Cards & Panels
+
+### Standard Card
+- Background: Surface color
+- Border: 1px solid border color (optional)
+- Border radius: `radius-lg`
+- Padding: `space-6`
+- Shadow: `shadow-sm` default, `shadow-md` on hover
+
+### Product/Service Card
+- Image on top (aspect ratio locked)
+- Content below (padding `space-4`)
+- Title + description + price
+- Action button at bottom
+
+### User Card (Small)
+- Avatar + name + role
+- Compact, used in lists
+
+---
+
+## Modals & Dialogs
+
+**Modal Overlay:**
+- Background: Black with 50% opacity
+- Blur backdrop (if supported)
+
+**Modal Content:**
+- Background: Surface color
+- Border radius: `radius-2xl`
+- Shadow: `shadow-2xl`
+- Max width: 600px (default), varies by content
+- Padding: `space-6` to `space-8`
+- Close button (top right, icon only)
+
+**Modal Header:**
+- Title (text-2xl, bold)
+- Optional subtitle (text-sm, secondary)
+
+**Modal Body:**
+- Scrollable if content overflows
+- Max height: 70vh
+
+**Modal Footer:**
+- Action buttons (right-aligned)
+- Cancel (secondary) + Confirm (primary)
+
+---
+
+## Notifications & Toasts
+
+**Toast Notification:**
+- Fixed position (top right or bottom right)
+- Width: 320px
+- Background: White (light), dark surface (dark)
+- Border left: 4px solid (color depends on type)
+- Shadow: `shadow-lg`
+- Border radius: `radius-lg`
+- Padding: `space-4`
+- Auto-dismiss after 5 seconds
+- Close button (top right)
+
+**Types:**
+- Success: Green border + checkmark icon
+- Error: Red border + X icon
+- Warning: Amber border + warning icon
+- Info: Blue border + info icon
+
+---
+
+## Loading States
+
+**Skeleton Screens:**
+- Use for loading lists/grids
+- Animated gradient shimmer effect
+- Match layout of actual content
+
+**Spinners:**
+- Primary color
+- Size: 24px (default), 32px (large), 16px (small)
+- Used in buttons or center of page
+
+**Progress Bars:**
+- Full width or contained
+- Primary color
+- Animated indeterminate or determinate
+
+---
+
+## Accessibility
+
+**Focus States:**
+- Visible outline (2px solid primary color)
+- Offset: 2px
+
+**Keyboard Navigation:**
+- All interactive elements keyboard accessible
+- Skip to content link
+- Focus trap in modals
+- Escape closes modals/dropdowns
+
+**Screen Readers:**
+- Proper ARIA labels
+- Alt text for images
+- Semantic HTML
+
+**Color Contrast:**
+- WCAG AA minimum (4.5:1 for normal text, 3:1 for large text)
+- Ensure dark mode also meets contrast requirements
+
+---
+
+## Responsive Breakpoints
+
+**Mobile (< 640px):**
+- Single column layouts
+- Hamburger menu
+- Bottom navigation (optional)
+- Full-width cards
+- Stacked forms
+
+**Tablet (640px - 1024px):**
+- Two-column layouts where appropriate
+- Collapsible sidebars
+- Adaptive grids (2-3 columns)
+
+**Desktop (> 1024px):**
+- Multi-column layouts
+- Persistent sidebars
+- Hover interactions
+- Larger text/elements
+
+---
+
+## Animation Examples
+
+**Page Transitions:**
+- Fade in content on load (300ms)
+- Slide up modals (300ms, ease-out)
+
+**Hover Animations:**
+- Scale cards (1.02, 150ms)
+- Color transitions (200ms)
+
+**Loading:**
+- Skeleton shimmer (1.5s loop)
+- Spinner rotation (1s linear infinite)
+
+**Micro-interactions:**
+- Button press: Scale down (0.98) then bounce back
+- Like animation: Heart scale + color change
+- Success checkmark: Draw animation
+
+---
+
+## Icons
+
+**Icon Library:** Lucide React (recommended) or Heroicons
+- Size: 20px (default), 24px (medium), 32px (large)
+- Stroke width: 2px (default), 1.5px (thin)
+- Color: Inherit from parent or custom
+
+**Common Icons:**
+- Search: Magnifying glass
+- User: Person outline
+- Message: Chat bubble
+- Notification: Bell
+- Settings: Gear
+- Menu: Hamburger (3 lines)
+- Close: X
+- Chevron: For dropdowns/accordions
+
+---
+
+## Mobile App Considerations (Future)
+
+**Bottom Navigation (Mobile):**
+- 5 tabs: Home | Discover | Messages | Notifications | Profile
+- Icons + labels
+- Active tab: Primary color
+- Fixed at bottom
+
+**Swipe Gestures:**
+- Swipe right: Back
+- Swipe left on message: Archive
+- Pull to refresh: Reload feed
+
+**Native Feel:**
+- Native date/time pickers
+- Native share sheet
+- Haptic feedback on actions
+- Smooth 60fps animations
+
+---
+
+**Document Version:** 1.0  
+**Last Updated:** November 1, 2025  
+**Design Status:** System defined, pending final font/animation decisions
+-e 
+
+---
+---
+
+
+# PRODUCERS AVENUE - DEVELOPMENT ROADMAP
+
+## Overview
+
+This document outlines the phased development approach for Producers Avenue. The strategy prioritizes launching a functional MVP quickly, gathering user feedback, and iteratively adding features based on real usage data and user requests.
+
+---
+
+## Development Principles
+
+1. **Ship Fast, Iterate Faster**
+   - Launch MVP within 3-4 months
+   - Get real users ASAP
+   - Learn from actual usage
+
+2. **Build for Scale, Start Simple**
+   - Architecture supports growth
+   - Features start minimal, expand based on need
+
+3. **User Feedback Driven**
+   - Regular user surveys
+   - Monitor feature usage
+   - Prioritize requested features
+
+4. **Quality Over Quantity**
+   - Fewer features done well > many features done poorly
+   - Thorough testing before launch
+   - Fix critical bugs immediately
+
+---
+
+## Phase 1: MVP (Minimum Viable Product)
+**Timeline:** Months 0-4  
+**Goal:** Launch core platform with essential features
+
+### Core Features
+
+#### 1. Authentication & User Management
+**Priority:** CRITICAL
+**Timeline:** Week 1-2
+
+- [ ] User registration (email/password)
+- [ ] Email verification
+- [ ] Login/logout
+- [ ] Password reset
+- [ ] Basic profile creation
+- [ ] Profile editing
+- [ ] Social login (Google, GitHub) - Optional but recommended
+
+**Technical:**
+- Supabase Auth integration
+- RLS policies for user data
+- JWT token handling
+
+---
+
+#### 2. User Profiles
+**Priority:** CRITICAL
+**Timeline:** Week 2-3
+
+- [ ] Profile page layout
+- [ ] Profile picture upload (Supabase Storage)
+- [ ] Banner image upload
+- [ ] Bio/description field
+- [ ] Category selection (multiple)
+- [ ] Skill selection (checkboxes under categories)
+- [ ] Genre preferences
+- [ ] Experience level
+- [ ] Social links
+- [ ] Location field
+- [ ] View other user profiles
+- [ ] Follow/unfollow users
+
+**Technical:**
+- `profiles` table
+- `user_categories`, `user_skills`, `user_genres` junction tables
+- File upload to Supabase Storage
+- Image resizing/optimization
+
+---
+
+#### 3. Social Feed
+**Priority:** HIGH
+**Timeline:** Week 3-4
+
+- [ ] Create post (text, image, link)
+- [ ] View feed (following + discover)
+- [ ] Like posts
+- [ ] Comment on posts
+- [ ] Delete own posts/comments
+- [ ] Basic feed algorithm (chronological + trending)
+- [ ] @mentions (basic)
+- [ ] #hashtags (basic)
+
+**Technical:**
+- `posts`, `comments`, `likes` tables
+- Real-time subscriptions for new posts (Supabase Realtime)
+- Pagination (infinite scroll)
+
+**Deferred to Phase 2:**
+- Post editing
+- Rich text formatting
+- Polls
+- Sharing/reposting
+- Advanced algorithm
+
+---
+
+#### 4. Marketplace - Products
+**Priority:** CRITICAL
+**Timeline:** Week 4-6
+
+- [ ] Create product listing
+- [ ] Product detail page
+- [ ] Product browsing (grid view)
+- [ ] Basic search (keyword)
+- [ ] Basic filters (category, price, genre)
+- [ ] Product image upload (Supabase Storage small, Bunny.net for large files)
+- [ ] File upload for product delivery (Bunny.net)
+- [ ] Pricing setup
+- [ ] Free products (download without payment)
+- [ ] Purchase flow (Stripe Checkout)
+- [ ] Download product after purchase
+- [ ] Seller dashboard (view products, sales)
+- [ ] Product limits by subscription tier
+
+**Technical:**
+- `products` table
+- File upload to Bunny.net
+- Stripe integration (checkout session)
+- Webhook handling (purchase confirmation)
+- Download link generation (signed URLs)
+
+**Deferred to Phase 2:**
+- Featured products
+- Reviews/ratings
+- Wishlist
+- Name-your-price
+- Discount codes
+
+---
+
+#### 5. Marketplace - Services
+**Priority:** HIGH
+**Timeline:** Week 6-7
+
+- [ ] Create service listing
+- [ ] Service detail page
+- [ ] Service browsing
+- [ ] Package tiers (Basic, Standard, Premium)
+- [ ] Order service flow
+- [ ] Requirements form (buyer fills out after purchase)
+- [ ] Delivery system (seller uploads deliverables)
+- [ ] Order status (pending, in progress, delivered, completed)
+- [ ] Basic messaging between buyer/seller within order
+
+**Technical:**
+- `services` table
+- `orders` table
+- `order_messages` table
+- File delivery via Bunny.net
+- Order state machine
+
+**Deferred to Phase 2:**
+- Revisions system
+- Milestones
+- Escrow/refunds
+
+---
+
+#### 6. Messaging
+**Priority:** HIGH
+**Timeline:** Week 7-8
+
+- [ ] One-on-one direct messaging
+- [ ] Send text messages
+- [ ] Send image attachments
+- [ ] Conversation list (inbox)
+- [ ] Real-time message delivery (Supabase Realtime)
+- [ ] Unread message count
+- [ ] Mark as read
+- [ ] Basic notification (new message)
+
+**Technical:**
+- `conversations`, `messages` tables
+- Realtime subscriptions for new messages
+- File attachments to Supabase Storage
+
+**Deferred to Phase 2:**
+- Group chats
+- Voice messages
+- Read receipts
+- Typing indicators
+- Message reactions
+- Search within conversation
+
+---
+
+#### 7. Subscription Plans
+**Priority:** CRITICAL
+**Timeline:** Week 8-9
+
+- [ ] Subscription plan display (pricing page)
+- [ ] Stripe subscription integration
+- [ ] Upgrade/downgrade flow
+- [ ] Subscription status in profile
+- [ ] Enforce product upload limits
+- [ ] Enforce commission rates
+- [ ] Basic member vs paid member UI differences
+
+**Technical:**
+- Stripe subscription products
+- Webhooks for subscription events
+- `subscriptions` table
+- Check subscription tier in backend functions
+
+**Deferred to Phase 2:**
+- Featured product allocation
+- Advanced analytics
+- Trial periods
+- Prorated billing display
+
+---
+
+#### 8. Wallet & Payouts
+**Priority:** HIGH
+**Timeline:** Week 9-10
+
+- [ ] Wallet dashboard (view balance)
+- [ ] Transaction history
+- [ ] Commission calculation (based on tier)
+- [ ] Payout request ($50 minimum)
+- [ ] Stripe Connect integration (seller onboarding)
+- [ ] Payout processing (manual approval initially)
+
+**Technical:**
+- `wallet`, `transactions` tables
+- Stripe Connect (Standard or Express accounts)
+- Payout handling via Stripe API
+
+**Deferred to Phase 2:**
+- Automated payouts
+- Spend balance on platform
+- Tax document generation
+
+---
+
+#### 9. Search
+**Priority:** HIGH
+**Timeline:** Week 10-11
+
+- [ ] Unified search bar (header)
+- [ ] Search results page with tabs (Members, Products, Services)
+- [ ] Basic keyword search (PostgreSQL full-text search)
+- [ ] Filters on each tab
+- [ ] Clickable tags (search by tag)
+
+**Technical:**
+- PostgreSQL `tsvector` for full-text search
+- Search indexes on relevant columns
+
+**Deferred to Phase 2:**
+- Groups tab
+- Articles tab
+- Advanced filters
+- Search suggestions/autocomplete
+- Saved searches
+
+---
+
+#### 10. Notifications
+**Priority:** MEDIUM
+**Timeline:** Week 11-12
+
+- [ ] Notification center (bell icon)
+- [ ] Notification types:
+  - New follower
+  - New message
+  - Order received
+  - Payment received
+- [ ] Mark as read
+- [ ] Email notifications (via Resend)
+
+**Technical:**
+- `notifications` table
+- Real-time notification delivery
+- Email templates (Resend)
+
+**Deferred to Phase 2:**
+- Push notifications
+- Notification preferences (granular control)
+- Digest emails
+
+---
+
+#### 11. Groups (Basic)
+**Priority:** MEDIUM
+**Timeline:** Week 12-13
+
+- [ ] Create group (Public/Private)
+- [ ] Group page (info, posts)
+- [ ] Join/leave group
+- [ ] Post in group
+- [ ] Group discovery (browse, search)
+- [ ] Group owner can remove members
+
+**Technical:**
+- `groups`, `group_members`, `group_posts` tables
+- RLS for group privacy
+
+**Deferred to Phase 2:**
+- Group roles (Admin, Moderator)
+- Secret groups
+- Group settings (approval, rules)
+- Group analytics
+
+---
+
+#### 12. Basic Admin Panel
+**Priority:** MEDIUM
+**Timeline:** Week 13-14
+
+- [ ] Super Admin login
+- [ ] View all users
+- [ ] Suspend/ban user
+- [ ] View all products/services
+- [ ] Approve/reject products (if moderation enabled)
+- [ ] View transactions
+- [ ] Basic platform stats (users, sales, revenue)
+
+**Technical:**
+- Admin-only pages (protected routes)
+- Admin role check in Supabase RLS
+
+**Deferred to Phase 2:**
+- Full admin dashboard
+- Advanced moderation tools
+- Role management (Admins, Authors)
+- Detailed analytics
+
+---
+
+#### 13. Homepage & Landing Pages
+**Priority:** MEDIUM
+**Timeline:** Week 14-15
+
+- [ ] Homepage layout (hero, features, carousels)
+- [ ] Animated hero section
+- [ ] Feature cards (Community, Marketplace, Tools)
+- [ ] About page
+- [ ] Pricing page
+- [ ] Terms of Service
+- [ ] Privacy Policy
+
+**Technical:**
+- Static content pages
+- Animations (CSS/Framer Motion)
+
+**Deferred to Phase 2:**
+- User carousel
+- Featured carousels
+- Dynamic content
+
+---
+
+### MVP Feature Summary
+
+**By End of Phase 1, Users Can:**
+1. Register and create profile with categories/skills
+2. Follow other users and view feed
+3. Post to social feed (text, images)
+4. Create and sell products (digital goods)
+5. Create and sell services
+6. Message other users
+7. Subscribe to paid plans (Standard, Premium, Ultimate)
+8. Earn money and request payouts
+9. Search for members, products, services
+10. Join and post in groups
+11. Receive notifications
+
+**What's NOT in MVP:**
+- Webinars
+- Mentoring (dedicated section)
+- Collab Matcher
+- Reviews/ratings
+- Featured products
+- Analytics
+- News/articles
+- Advanced moderation
+- Mobile app
+
+---
+
+## Phase 2: Enhanced Features
+**Timeline:** Months 5-12  
+**Goal:** Add high-value features based on user feedback
+
+### Features to Add
+
+#### 1. Reviews & Ratings
+**Priority:** HIGH
+**Timeline:** Month 5
+
+- Star ratings (1-5)
+- Written reviews
+- Verified purchase badge
+- Seller response to reviews
+- Review moderation
+
+**Why:** Critical for marketplace trust
+
+---
+
+#### 2. Webinars (Zoom Integration)
+**Priority:** HIGH
+**Timeline:** Month 5-6
+
+- Create webinar listing
+- Purchase tickets
+- Email with Zoom link
+- Auto-record
+- Convert recording to product
+
+**Why:** Requested feature, new revenue stream
+
+---
+
+#### 3. Mentoring (Dedicated Section)
+**Priority:** HIGH
+**Timeline:** Month 6-7
+
+- "Find a Mentor" section
+- Mentor profiles
+- Session booking
+- Mentor Matcher tool
+
+**Why:** High-value feature, differentiates platform
+
+---
+
+#### 4. Collab Matcher
+**Priority:** HIGH
+**Timeline:** Month 7-8
+
+- Input desired collaborator criteria
+- Matching algorithm (Edge Function)
+- Send collab requests
+- Track active collaborations
+
+**Why:** Core value proposition, unique feature
+
+---
+
+#### 5. Featured Products
+**Priority:** MEDIUM
+**Timeline:** Month 8
+
+- Featured product allocation by tier
+- Homepage carousel
+- Category page featuring
+- Featured badge
+
+**Why:** Monetization opportunity, seller benefit
+
+---
+
+#### 6. Advanced Analytics
+**Priority:** MEDIUM
+**Timeline:** Month 8-9
+
+- Dashboard for Premium/Ultimate users
+- Traffic sources
+- Conversion rates
+- Revenue charts
+
+**Why:** Seller retention, premium tier value
+
+---
+
+#### 7. News & Articles
+**Priority:** MEDIUM
+**Timeline:** Month 9-10
+
+- Article CMS for Authors
+- Industry News section
+- Producers Avenue News section
+- Article page layout
+
+**Why:** Content marketing, SEO, community engagement
+
+---
+
+#### 8. Enhanced Search
+**Priority:** MEDIUM
+**Timeline:** Month 10
+
+- Groups and Articles in search tabs
+- Autocomplete suggestions
+- Advanced filters
+- Saved searches
+
+**Why:** Improved discovery, user experience
+
+---
+
+#### 9. Group Enhancements
+**Priority:** MEDIUM
+**Timeline:** Month 11
+
+- Group roles (Admin, Moderator)
+- Group settings and rules
+- Secret groups
+- Post approval
+
+**Why:** Better community management
+
+---
+
+#### 10. Email Marketing
+**Priority:** MEDIUM
+**Timeline:** Month 12
+
+- Newsletter system
+- Seller can email followers (Premium+)
+- Platform newsletters
+
+**Why:** Retention, engagement, marketing
+
+---
+
+### Phase 2 Goals
+
+**Metrics:**
+- 10,000+ registered users
+- 500+ paid subscriptions
+- $100,000+ in transactions
+- 100+ webinars hosted
+- 500+ active groups
+
+---
+
+## Phase 3: Scale & Optimize
+**Timeline:** Months 13-24  
+**Goal:** Scale platform, add advanced features
+
+### Features to Add
+
+#### 1. Mobile Apps (iOS/Android)
+**Priority:** HIGH
+**Timeline:** Month 13-18
+
+- React Native app
+- Native UI/UX
+- Push notifications
+- Camera integration
+- Offline mode
+
+**Why:** Mobile-first users, better engagement
+
+---
+
+#### 2. API for Third Parties
+**Priority:** MEDIUM
+**Timeline:** Month 16-18
+
+- RESTful API
+- Developer documentation
+- API keys
+- Rate limiting
+- Webhooks
+
+**Why:** Ecosystem growth, integrations
+
+---
+
+#### 3. Advanced Collaboration Tools
+**Priority:** MEDIUM
+**Timeline:** Month 18-20
+
+- Project management (tasks, milestones)
+- File versioning
+- Collaboration timeline
+- Credit allocation
+- Contract templates
+
+**Why:** Enhance collab experience
+
+---
+
+#### 4. Built-in Webinar Streaming
+**Priority:** MEDIUM
+**Timeline:** Month 20-22
+
+- Replace Zoom with Mux/Daily.co
+- In-platform video streaming
+- Custom chat and Q&A
+- Better branding
+
+**Why:** Better UX, lower costs at scale
+
+---
+
+#### 5. AI-Powered Features
+**Priority:** LOW-MEDIUM
+**Timeline:** Month 22-24
+
+- Smart recommendations
+- Auto-tagging
+- Content moderation (spam detection)
+- Collab matching improvements
+
+**Why:** Differentiation, improved experience
+
+---
+
+### Phase 3 Goals
+
+**Metrics:**
+- 50,000+ registered users
+- 2,000+ paid subscriptions
+- $500,000+ in transactions
+- Mobile app: 10,000+ downloads
+- API: 50+ third-party integrations
+
+---
+
+## Post-Phase 3: Future Vision
+**Timeline:** Year 3+
+
+### Potential Features
+
+- White-label solutions for labels/schools
+- International expansion (multi-currency, multi-language)
+- Blockchain/NFT integration (if relevant)
+- Educational courses platform
+- Crowdfunding for projects
+- Music industry database (contracts, rates, credits)
+- Live events (virtual conferences)
+- Premium content subscriptions (for consumers)
+
+---
+
+## Technical Debt Management
+
+### Regular Maintenance (Ongoing)
+
+**Weekly:**
+- Monitor error logs (Sentry)
+- Review user feedback
+- Fix critical bugs
+
+**Monthly:**
+- Performance audit (Lighthouse, Core Web Vitals)
+- Security updates
+- Database optimization
+- Review and refactor code
+
+**Quarterly:**
+- Major dependency updates
+- Infrastructure review
+- Scalability assessment
+- User research sessions
+
+---
+
+## Testing Strategy
+
+### Pre-MVP Launch
+- Manual testing (all core flows)
+- Beta testers (10-20 users)
+- Load testing (simulate 1,000 concurrent users)
+- Security audit (basic)
+
+### Post-MVP
+- Automated tests (Jest, Playwright)
+- Continuous integration (GitHub Actions)
+- Staging environment
+- Regular security audits
+
+---
+
+## Launch Strategy
+
+### Soft Launch (MVP Complete)
+**Week 1-2:**
+- Invite-only (100 early adopters)
+- Onboarding survey
+- Daily check-ins
+- Fix critical bugs
+
+### Public Beta
+**Week 3-8:**
+- Open registration (with waitlist initially)
+- Email drip campaign
+- Social media presence
+- Content marketing (blog posts, tutorials)
+- Partnerships (influencers, music schools)
+
+### Official Launch
+**Week 9+:**
+- Press release
+- Paid advertising (targeted)
+- Community events (virtual)
+- Referral program
+- Launch offers (discounts for early subscribers)
+
+---
+
+## Success Metrics
+
+### MVP Success Criteria (Phase 1)
+- 1,000+ registered users
+- 100+ active sellers
+- $5,000+ in transactions
+- 50+ paid subscriptions
+- 20% user retention (30-day)
+- <5% critical bugs
+
+### Phase 2 Success Criteria
+- 10,000+ users
+- 500+ active sellers
+- $100,000+ in transactions
+- 500+ paid subscriptions
+- 40% user retention (30-day)
+- <2% critical bugs
+
+### Phase 3 Success Criteria
+- 50,000+ users
+- 2,000+ active sellers
+- $500,000+ in transactions
+- 2,000+ paid subscriptions
+- 50% user retention (30-day)
+- <1% critical bugs
+
+---
+
+## Risk Mitigation
+
+### Technical Risks
+**Risk:** Platform doesn't scale with growth
+**Mitigation:** Built on scalable stack (Supabase, Bunny.net), monitor performance, upgrade infrastructure proactively
+
+**Risk:** Security breach or data leak
+**Mitigation:** Regular security audits, follow best practices, use trusted services (Stripe, Supabase), implement 2FA
+
+**Risk:** Downtime during critical periods
+**Mitigation:** Uptime monitoring, redundant systems, maintenance windows during low-traffic times
+
+### Business Risks
+**Risk:** Low user adoption
+**Mitigation:** Strong marketing, referral program, competitive pricing, unique features
+
+**Risk:** High churn rate
+**Mitigation:** User feedback loops, continuous improvement, community building, retention campaigns
+
+**Risk:** Marketplace fraud or abuse
+**Mitigation:** Verification systems, escrow, dispute resolution, active moderation
+
+---
+
+## Budget & Resources
+
+### Development Team (MVP)
+**Option A (Solo Developer):**
+- Timeline: 4-6 months
+- Cost: Your time (sweat equity)
+
+**Option B (Small Team):**
+- 1 Full-stack Developer (you or hired)
+- 1 Designer (part-time or contract)
+- Timeline: 3-4 months
+- Cost: $10,000-$20,000 (if hiring)
+
+### Ongoing Costs (Monthly)
+- Infrastructure: $50-$100
+- Tools/Services: $50-$100
+- Marketing: $500-$2,000 (post-launch)
+- Support: Your time initially
+
+### Break-Even Analysis
+**Assumptions:**
+- Monthly costs: $200 (infrastructure + tools)
+- Average subscription: $25/month
+- Average commission per transaction: $10
+
+**Break-even:**
+- 8 paid subscribers + 20 transactions/month = ~$200 revenue
+- **Goal:** Achieve within 3 months of launch
+
+---
+
+## Decision Points
+
+### Key Decisions to Make
+
+**Before Development Starts:**
+1. Final font choices
+2. Exact animation style for hero
+3. "Other" field approval process details
+4. Follower alternative naming (if changing)
+
+**During MVP Development:**
+1. Beta tester recruitment strategy
+2. Launch marketing plan
+3. Initial pricing (confirm or adjust)
+4. Payment processor backup (PayPal timing)
+
+**After MVP Launch:**
+1. Which Phase 2 features to prioritize (based on feedback)
+2. When to migrate from Hostinger to Vercel
+3. Mobile app timing
+4. Hiring decisions
+
+---
+
+## Communication & Updates
+
+### Internal (Team)
+- Daily standups (if team)
+- Weekly sprint planning
+- Monthly roadmap review
+
+### External (Users)
+- Monthly newsletter (platform updates)
+- Release notes (for major updates)
+- Roadmap visibility (public board - future)
+- Feature voting (let users vote on next features - future)
+
+---
+
+**Document Version:** 1.0  
+**Last Updated:** November 1, 2025  
+**Roadmap Status:** Defined for MVP and beyond

@@ -1,0 +1,1319 @@
+# PRODUCERS AVENUE V2 - TECHNICAL SPECIFICATIONS
+
+## Overview
+
+This document provides detailed technical specifications for all platform features and systems.
+
+---
+
+## 1. ANTI-SCAM SYSTEM
+
+### 1.1 File Hash Checking (Duplicate Detection)
+
+**Purpose:** Prevent users from uploading stolen/duplicate content
+
+**Implementation:**
+- Calculate MD5 or SHA-256 hash of every uploaded file
+- Store hash in database with product_id
+- Check new uploads against existing hashes
+- Block if match found
+
+**Database Structure:**
+```
+product_files table:
+- id (UUID)
+- product_id (UUID, FK)
+- file_path (TEXT)
+- file_hash (TEXT, UNIQUE)
+- file_size (BIGINT)
+- created_at (TIMESTAMP)
+```
+
+**Flow:**
+1. User uploads file
+2. Calculate file hash
+3. Query database: SELECT * FROM product_files WHERE file_hash = ?
+4. If exists: Reject upload, show error
+5. If new: Store hash, proceed with upload
+
+**Edge Cases:**
+- Same seller uploading variations (allow)
+- Free vs paid versions of same file (admin review)
+- Slightly modified files (won't catch, acceptable limitation)
+
+---
+
+### 1.2 Rate Limiting
+
+**Upload Limits:**
+- 5 products per day (all tiers)
+- 5 services per day (all tiers)
+- 10 posts per hour
+- 50 messages per hour
+
+**Implementation:**
+- Track in database or Redis
+- Reset daily at midnight UTC
+
+**Database Structure:**
+```
+rate_limits table:
+- user_id (UUID, FK)
+- action_type (TEXT) -- 'product_upload', 'service_upload', 'post', 'message'
+- count (INT)
+- reset_at (TIMESTAMP)
+```
+
+**Flow:**
+1. User attempts action
+2. Check count for action_type
+3. If count >= limit: Reject with error message
+4. If under limit: Increment count, allow action
+5. Reset count when reset_at reached
+
+---
+
+### 1.3 Trust Score System
+
+**Purpose:** Automated risk assessment for users
+
+**Score Calculation:**
+```
+Starting score: 50
+
+Positive Factors:
++ Email verified: +10
++ ID verified: +15
++ Phone verified: +10 (Phase 2)
++ 10+ sales: +10
++ Rating 4.5+: +10
++ Account age 90+ days: +5
++ Active community (100+ posts/comments): +5
+
+Negative Factors:
+- Dispute opened: -20
+- 3+ reports by users: -15
+- Refund rate >20%: -25
+- Failed ID verification: -30
+- DMCA strike: -40
+
+Min: 0, Max: 100
+```
+
+**Database Structure:**
+```
+profiles table additions:
+- trust_score (INT, DEFAULT 50)
+- trust_score_updated_at (TIMESTAMP)
+- total_sales (INT, DEFAULT 0)
+- dispute_count (INT, DEFAULT 0)
+- report_count (INT, DEFAULT 0)
+- refund_count (INT, DEFAULT 0)
+- dmca_strike_count (INT, DEFAULT 0)
+```
+
+**Recalculation Triggers:**
+- After every sale
+- After every review received
+- After dispute resolution
+- After user report
+- After verification completed
+- Daily (for time-based factors)
+
+**Actions by Score:**
+```
+90-100: All features, instant payouts (Phase 2)
+70-89:  Normal access
+50-69:  7-day payout hold, strict limits
+30-49:  Products require manual approval
+0-29:   Account restricted, contact support
+```
+
+---
+
+### 1.4 Virus Scanning (ClamAV)
+
+**Setup:**
+```bash
+# Install on server
+sudo apt-get install clamav clamav-daemon
+
+# Start daemon
+sudo systemctl start clamav-daemon
+sudo systemctl enable clamav-daemon
+
+# Update virus definitions (daily cron)
+sudo freshclam
+```
+
+**Database Structure:**
+```
+security_incidents table:
+- id (UUID)
+- user_id (UUID, FK)
+- incident_type (TEXT) -- 'malware', 'spam', 'duplicate', 'report'
+- details (TEXT)
+- file_path (TEXT)
+- action_taken (TEXT) -- 'deleted', 'quarantined', 'flagged'
+- created_at (TIMESTAMP)
+```
+
+**Upload Flow:**
+1. File uploaded to Supabase Storage (quarantine bucket)
+2. Trigger Edge Function
+3. Edge Function calls ClamAV: `clamscan /path/to/file`
+4. If FOUND: Delete file, flag user, log incident
+5. If OK: Move to public bucket, create product record
+
+**Quarantine Bucket Structure:**
+```
+supabase-storage/
+├── quarantine/          # New uploads (not public)
+│   └── pending-scan/
+└── products/            # Scanned, safe files (public with signed URLs)
+    ├── product-files/
+    └── product-previews/
+```
+
+---
+
+### 1.5 User Reporting System
+
+**Report Types:**
+- Spam
+- Copyright infringement
+- Inappropriate content
+- Scam/fraud
+- Harassment
+- Other (requires description)
+
+**Database Structure:**
+```
+reports table:
+- id (UUID)
+- reporter_id (UUID, FK to profiles)
+- reported_user_id (UUID, FK to profiles, nullable)
+- reported_product_id (UUID, FK to products, nullable)
+- reported_post_id (UUID, FK to posts, nullable)
+- report_type (TEXT)
+- description (TEXT)
+- status (TEXT) -- 'pending', 'reviewing', 'resolved', 'dismissed'
+- admin_notes (TEXT)
+- resolved_by (UUID, FK to profiles, nullable)
+- resolved_at (TIMESTAMP, nullable)
+- created_at (TIMESTAMP)
+```
+
+**Auto-Hide Logic:**
+- Product/post receives 5 reports → Auto-hide
+- Send to admin review queue
+- Notify content creator
+- Admin reviews within 24 hours
+
+**Flow:**
+1. User clicks "Report" button
+2. Fill report form (type + description)
+3. Submit report
+4. Increment report_count on reported item
+5. If report_count >= 5: Set is_hidden = true
+6. Add to admin review queue
+7. Email admin notification
+
+---
+
+## 2. PAYMENT & PAYOUT SYSTEM
+
+### 2.1 Unified Wallet Architecture
+
+**Concept:** Show single balance, handle dual payment sources behind scenes
+
+**Database Structure:**
+```
+seller_wallets table:
+- id (UUID)
+- seller_id (UUID, FK to profiles, UNIQUE)
+- stripe_balance (DECIMAL(10,2), DEFAULT 0)
+- paypal_balance (DECIMAL(10,2), DEFAULT 0)
+- total_balance (DECIMAL(10,2) GENERATED AS stripe_balance + paypal_balance)
+- pending_balance (DECIMAL(10,2), DEFAULT 0)
+- lifetime_earnings (DECIMAL(10,2), DEFAULT 0)
+- last_updated (TIMESTAMP)
+
+transactions table:
+- id (UUID)
+- seller_id (UUID, FK)
+- buyer_id (UUID, FK, nullable)
+- product_id (UUID, FK, nullable)
+- service_id (UUID, FK, nullable)
+- order_id (UUID, FK, nullable)
+- amount (DECIMAL(10,2))
+- commission (DECIMAL(10,2))
+- net_amount (DECIMAL(10,2))
+- payment_method (TEXT) -- 'stripe', 'paypal'
+- transaction_type (TEXT) -- 'sale', 'payout', 'refund', 'commission'
+- status (TEXT) -- 'pending', 'completed', 'failed'
+- stripe_payment_intent_id (TEXT, nullable)
+- paypal_transaction_id (TEXT, nullable)
+- created_at (TIMESTAMP)
+
+payouts table:
+- id (UUID)
+- seller_id (UUID, FK)
+- amount (DECIMAL(10,2))
+- stripe_amount (DECIMAL(10,2), DEFAULT 0)
+- paypal_amount (DECIMAL(10,2), DEFAULT 0)
+- payout_method (TEXT) -- 'stripe', 'paypal', 'both'
+- status (TEXT) -- 'requested', 'approved', 'processing', 'completed', 'failed'
+- verification_status (TEXT) -- 'pending', 'approved', 'rejected'
+- verification_notes (TEXT, nullable)
+- stripe_payout_id (TEXT, nullable)
+- paypal_payout_id (TEXT, nullable)
+- requested_at (TIMESTAMP)
+- approved_at (TIMESTAMP, nullable)
+- completed_at (TIMESTAMP, nullable)
+- admin_notes (TEXT, nullable)
+```
+
+---
+
+### 2.2 Stripe Integration
+
+**Products:**
+- Stripe Standard Account (receive buyer payments)
+- Stripe Connect (seller payouts to banks)
+- Stripe Checkout (payment processing)
+- Stripe Webhooks (payment confirmations)
+
+**Payment Flow:**
+1. Buyer clicks "Buy Now"
+2. Create Stripe Checkout Session:
+   - Amount: Product price
+   - Application fee: Commission based on seller's tier
+   - Transfer destination: Seller's Stripe Connect account
+3. Redirect to Stripe Checkout
+4. Buyer completes payment
+5. Webhook fires: `checkout.session.completed`
+6. Update database:
+   - Create transaction record
+   - Update seller's stripe_balance
+   - Create order record
+   - Send confirmation emails
+
+**Subscription Flow:**
+1. User selects plan on pricing page
+2. Create Stripe Subscription:
+   - Product ID: Based on tier
+   - Price ID: Monthly or annual
+3. Redirect to Stripe Checkout
+4. Subscription created
+5. Webhook fires: `customer.subscription.created`
+6. Update profiles.subscription_tier
+7. Set subscription_expires_at
+
+**Payout Flow (Stripe Connect):**
+1. Seller requests payout
+2. Admin approves (after ID verification)
+3. Call Stripe API:
+   ```
+   stripe.transfers.create({
+     amount: seller.stripe_balance,
+     destination: seller.stripe_account_id
+   })
+   ```
+4. Money moves: Platform Stripe → Seller's bank (via Connect)
+5. Update database:
+   - Create payout record
+   - Set seller.stripe_balance = 0
+   - Send confirmation email
+
+**Webhooks to Handle:**
+- `checkout.session.completed` (payment success)
+- `charge.succeeded` (charge confirmed)
+- `customer.subscription.created` (subscription started)
+- `customer.subscription.updated` (plan changed)
+- `customer.subscription.deleted` (subscription canceled)
+- `transfer.created` (payout initiated)
+- `transfer.paid` (payout completed)
+
+---
+
+### 2.3 PayPal Integration
+
+**Products:**
+- PayPal Business Account (receive payments)
+- PayPal Checkout (payment processing)
+- PayPal Payouts API (send money to sellers)
+- PayPal Webhooks (payment confirmations)
+
+**Payment Flow:**
+1. Buyer clicks "Pay with PayPal"
+2. Create PayPal Order:
+   ```
+   {
+     amount: product_price,
+     platform_fee: commission,
+     payee: platform_paypal_email
+   }
+   ```
+3. Redirect to PayPal
+4. Buyer approves payment
+5. Capture payment
+6. Webhook fires: `PAYMENT.CAPTURE.COMPLETED`
+7. Update database:
+   - Create transaction record
+   - Update seller's paypal_balance
+   - Create order record
+   - Send confirmation emails
+
+**Payout Flow (PayPal Payouts API):**
+1. Seller requests payout
+2. Admin approves
+3. Call PayPal API:
+   ```
+   paypal.payouts.create({
+     email: seller.paypal_email,
+     amount: seller.paypal_balance,
+     currency: 'USD'
+   })
+   ```
+4. Money moves: Platform PayPal → Seller's PayPal
+5. Update database:
+   - Create payout record
+   - Set seller.paypal_balance = 0
+   - Send confirmation email
+
+**Webhooks to Handle:**
+- `PAYMENT.CAPTURE.COMPLETED` (payment success)
+- `PAYMENT.CAPTURE.DENIED` (payment failed)
+- `PAYMENT.CAPTURE.REFUNDED` (refund issued)
+
+---
+
+### 2.4 Commission Calculation
+
+**Formula:**
+```
+Buyer pays: $100
+Commission rate: 30% (Standard tier)
+
+Commission: $100 × 0.30 = $30
+Seller earns: $100 - $30 = $70
+
+Platform keeps: $30
+```
+
+**Edge Function Logic:**
+```typescript
+function calculateCommission(amount: number, tier: string): {
+  commission: number;
+  sellerEarnings: number;
+} {
+  const rates = {
+    basic: 0.40,
+    standard: 0.30,
+    premium: 0.20,
+    ultimate: 0.10
+  };
+  
+  const commissionRate = rates[tier] || rates.basic;
+  const commission = amount * commissionRate;
+  const sellerEarnings = amount - commission;
+  
+  return { commission, sellerEarnings };
+}
+```
+
+**Stored in Database:**
+- Original amount (what buyer paid)
+- Commission amount (what platform keeps)
+- Net amount (what seller earns)
+
+---
+
+### 2.5 Payout Request Flow
+
+**Step 1: Seller initiates**
+- Navigate to Wallet page
+- Click "Request Payout"
+- Must have minimum $50 balance
+- Select payout method (Stripe or PayPal or Both)
+
+**Step 2: Verification check**
+- If first payout: Requires ID verification
+- Upload government ID photo
+- Upload selfie holding ID
+- Status: `verification_status = 'pending'`
+
+**Step 3: Admin review**
+- Admin sees request in queue
+- Reviews ID and selfie
+- Checks for red flags (trust score, disputes, reports)
+- Approve or reject
+
+**Step 4: Processing**
+- If approved: Trigger payout APIs
+- Stripe: Transfer to Connect account
+- PayPal: Payout via API
+- Status: `status = 'processing'`
+
+**Step 5: Completion**
+- Webhooks confirm success
+- Update balances
+- Status: `status = 'completed'`
+- Email seller confirmation
+
+**Timeline:**
+- Verification: 24-48 hours
+- Processing: 1-3 business days (Stripe), instant (PayPal)
+- Total: 2-5 business days
+
+---
+
+## 3. AUDIO PREVIEW & WATERMARKING
+
+### 3.1 Preview Requirements
+
+**Specifications:**
+- Format: MP3 only
+- Duration: 15-30 seconds (seller chooses section)
+- Max file size: 5MB
+- Bitrate: 128-320 kbps
+
+**Auto-Watermarking:**
+- Platform adds "Available on Producers Avenue" voice tag
+- Inserted every 10 seconds
+- Uses FFmpeg
+
+---
+
+### 3.2 FFmpeg Watermarking Process
+
+**Watermark Audio File:**
+- Location: `/public/audio/watermark-voice.mp3`
+- Duration: 2 seconds
+- Content: "Available on Producers Avenue"
+
+**Processing Flow:**
+1. Seller uploads full audio file + selects preview section
+2. Edge Function extracts 15-30 second clip
+3. Apply watermark using FFmpeg:
+   ```bash
+   ffmpeg -i input.mp3 \
+          -i watermark.mp3 \
+          -filter_complex "[1]volume=0.3[wm];[0][wm]amix=inputs=2:duration=first" \
+          -c:a libmp3lame -q:a 4 \
+          output-preview.mp3
+   ```
+4. Watermark inserted at 0s, 10s, 20s
+5. Save watermarked preview to Bunny.net
+6. Original file (full) saved separately (locked until purchase)
+
+---
+
+### 3.3 Preview Player
+
+**Features:**
+- Waveform visualization (WaveSurfer.js)
+- Play/pause button
+- Time scrubber
+- Volume control
+- Download preview button (optional)
+
+**Streaming:**
+- Previews hosted on Bunny.net CDN
+- Fast global delivery
+- No authentication required (public)
+
+**Full Files:**
+- Hosted on Bunny.net (private storage zone)
+- Signed URLs with expiration (30 days)
+- Only accessible after purchase
+
+---
+
+### 3.4 Download Link Generation
+
+**After Purchase:**
+1. Create signed URL for full file:
+   ```typescript
+   const expiresAt = Date.now() + (30 * 24 * 60 * 60 * 1000); // 30 days
+   const signedUrl = generateBunnySignedUrl(filePath, expiresAt);
+   ```
+2. Save URL in orders table
+3. Display on order page: "Download Your Files"
+4. Link expires after 30 days
+5. Buyer can request new link (max 3 times)
+
+**Seller Dashboard:**
+- "Regenerate Download Link" button
+- Creates new signed URL
+- Notifies buyer via email
+
+---
+
+## 4. SEARCH SYSTEM
+
+### 4.1 Unified Search
+
+**Search Tabs:**
+- Members (profiles)
+- Products (digital products)
+- Services (offerings)
+- Groups (Phase 1)
+- Articles (Phase 2)
+
+**Technology:**
+- PostgreSQL full-text search (tsvector)
+- Indexes on searchable columns
+
+---
+
+### 4.2 Full-Text Search Implementation
+
+**Searchable Fields:**
+
+**Profiles:**
+- username
+- display_name
+- bio
+- categories
+- skills
+- genres
+
+**Products:**
+- title
+- description
+- tags
+- categories
+
+**Services:**
+- title
+- description
+- tags
+- categories
+
+**Database Setup:**
+```sql
+-- Add tsvector column
+ALTER TABLE profiles ADD COLUMN search_vector tsvector;
+
+-- Create index
+CREATE INDEX profiles_search_idx ON profiles USING GIN(search_vector);
+
+-- Update function
+CREATE FUNCTION update_profile_search_vector() RETURNS trigger AS $$
+BEGIN
+  NEW.search_vector :=
+    setweight(to_tsvector('english', coalesce(NEW.username, '')), 'A') ||
+    setweight(to_tsvector('english', coalesce(NEW.display_name, '')), 'A') ||
+    setweight(to_tsvector('english', coalesce(NEW.bio, '')), 'B');
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger
+CREATE TRIGGER update_profile_search_vector_trigger
+  BEFORE INSERT OR UPDATE ON profiles
+  FOR EACH ROW EXECUTE FUNCTION update_profile_search_vector();
+```
+
+**Query:**
+```sql
+SELECT * FROM profiles
+WHERE search_vector @@ to_tsquery('english', 'producer & music')
+ORDER BY ts_rank(search_vector, to_tsquery('english', 'producer & music')) DESC
+LIMIT 20;
+```
+
+---
+
+### 4.3 Tag System
+
+**Database Structure:**
+```
+tags table:
+- id (UUID)
+- name (TEXT, UNIQUE)
+- type (TEXT) -- 'category', 'genre', 'skill'
+- use_count (INT, DEFAULT 0)
+- created_at (TIMESTAMP)
+
+product_tags table:
+- product_id (UUID, FK)
+- tag_id (UUID, FK)
+- PRIMARY KEY (product_id, tag_id)
+
+service_tags table:
+- service_id (UUID, FK)
+- tag_id (UUID, FK)
+- PRIMARY KEY (service_id, tag_id)
+```
+
+**Clickable Tags:**
+- Tags are links: `/search?tag=hip-hop`
+- Clicking tag searches items with that tag
+- Can combine multiple tags
+
+---
+
+### 4.4 Filters
+
+**Product Filters:**
+- Price range (slider)
+- Category (checkboxes)
+- Genre (checkboxes)
+- Free vs Paid
+- Sort by: Newest, Price (low-high), Price (high-low), Popular
+
+**Service Filters:**
+- Price range
+- Category
+- Delivery time
+- Seller level (verified, top seller)
+- Sort by: Newest, Price, Rating, Popular
+
+**Member Filters:**
+- Category
+- Skills
+- Genre
+- Location (country)
+- Verified only
+- Sort by: Newest, Popular, Most Followers
+
+---
+
+## 5. SUBSCRIPTION SYSTEM
+
+### 5.1 Subscription Tiers
+
+**Basic (Free):**
+- 40% commission
+- 5 products max
+- 3 services max
+- 1 free product per month
+- Basic analytics
+- Standard support
+
+**Standard ($9.99/mo):**
+- 30% commission
+- 25 products max
+- 10 services max
+- 2 free products per month
+- Enhanced analytics
+- Priority support
+
+**Premium ($24.99/mo):**
+- 20% commission
+- 100 products max
+- 25 services max
+- 5 free products per month
+- Advanced analytics
+- Featured placement (1/month)
+- Priority support
+
+**Ultimate ($99.99/mo):**
+- 10% commission
+- Unlimited products
+- Unlimited services
+- Unlimited free products
+- Full analytics + export
+- Featured placement (5/month)
+- Dedicated support
+- Verification badge priority
+
+---
+
+### 5.2 Database Structure
+
+```sql
+subscriptions table:
+- id (UUID)
+- user_id (UUID, FK, UNIQUE)
+- stripe_subscription_id (TEXT, UNIQUE)
+- plan (TEXT) -- 'basic', 'standard', 'premium', 'ultimate'
+- status (TEXT) -- 'active', 'canceled', 'past_due', 'unpaid'
+- current_period_start (TIMESTAMP)
+- current_period_end (TIMESTAMP)
+- cancel_at_period_end (BOOLEAN, DEFAULT false)
+- created_at (TIMESTAMP)
+- updated_at (TIMESTAMP)
+
+-- Add to profiles table:
+ALTER TABLE profiles ADD COLUMN subscription_tier TEXT DEFAULT 'basic';
+ALTER TABLE profiles ADD COLUMN subscription_expires_at TIMESTAMP;
+```
+
+---
+
+### 5.3 Upgrade/Downgrade Flow
+
+**Upgrade (Immediate):**
+1. User selects higher plan
+2. Create new Stripe subscription
+3. Cancel old subscription
+4. Prorate difference
+5. Update profiles.subscription_tier immediately
+6. New limits apply immediately
+
+**Downgrade (End of Period):**
+1. User selects lower plan
+2. Set cancel_at_period_end = true for current sub
+3. Create new subscription to start at period end
+4. User keeps current benefits until period ends
+5. At period end: Update to new tier
+
+**Cancel:**
+1. User clicks "Cancel Subscription"
+2. Set cancel_at_period_end = true
+3. User keeps access until period ends
+4. At period end: Downgrade to Basic
+
+---
+
+### 5.4 Enforcement
+
+**Product Upload Limit Check:**
+```typescript
+async function canUploadProduct(userId: string): Promise<boolean> {
+  const user = await getProfile(userId);
+  const productCount = await countUserProducts(userId);
+  
+  const limits = {
+    basic: 5,
+    standard: 25,
+    premium: 100,
+    ultimate: Infinity
+  };
+  
+  return productCount < limits[user.subscription_tier];
+}
+```
+
+**Commission Rate Check:**
+```typescript
+function getCommissionRate(tier: string): number {
+  const rates = {
+    basic: 0.40,
+    standard: 0.30,
+    premium: 0.20,
+    ultimate: 0.10
+  };
+  return rates[tier] || 0.40;
+}
+```
+
+**Applied:**
+- On product upload: Check limits
+- On payment: Calculate commission based on seller's tier at time of sale
+- On feature access: Check tier before allowing (e.g., featured placement)
+
+---
+
+## 6. NOTIFICATION SYSTEM
+
+### 6.1 Notification Types
+
+**In-App Notifications:**
+- New follower
+- New message
+- Order received (seller)
+- Order status update (buyer)
+- Payment received
+- Payout approved/rejected
+- Product approved/rejected (if moderation)
+- Comment on your post
+- Like on your post
+- @mention in post
+
+**Email Notifications:**
+- Welcome email (signup)
+- Email verification
+- Password reset
+- Order confirmation
+- Delivery notification
+- Payout confirmation
+- Subscription renewal
+- Failed payment
+- Important platform updates
+
+---
+
+### 6.2 Database Structure
+
+```sql
+notifications table:
+- id (UUID)
+- user_id (UUID, FK)
+- type (TEXT)
+- title (TEXT)
+- message (TEXT)
+- link (TEXT, nullable)
+- read (BOOLEAN, DEFAULT false)
+- read_at (TIMESTAMP, nullable)
+- created_at (TIMESTAMP)
+
+notification_preferences table:
+- user_id (UUID, FK, UNIQUE)
+- email_followers (BOOLEAN, DEFAULT true)
+- email_messages (BOOLEAN, DEFAULT true)
+- email_orders (BOOLEAN, DEFAULT true)
+- email_payments (BOOLEAN, DEFAULT true)
+- email_marketing (BOOLEAN, DEFAULT false)
+- created_at (TIMESTAMP)
+- updated_at (TIMESTAMP)
+```
+
+---
+
+### 6.3 Real-Time Delivery
+
+**Supabase Realtime:**
+- Subscribe to notifications table
+- Filter: WHERE user_id = current_user_id
+- Insert triggers real-time update in UI
+- Bell icon shows red dot for unread count
+
+**Implementation:**
+```typescript
+const subscription = supabase
+  .channel('notifications')
+  .on('postgres_changes', {
+    event: 'INSERT',
+    schema: 'public',
+    table: 'notifications',
+    filter: `user_id=eq.${userId}`
+  }, payload => {
+    // Add notification to UI
+    addNotification(payload.new);
+    // Update unread count
+    updateBadge();
+  })
+  .subscribe();
+```
+
+---
+
+### 6.4 Email Integration (Resend)
+
+**Templates:**
+- Welcome email
+- Order confirmation
+- Payout notification
+- Weekly digest (optional)
+
+**Sending:**
+```typescript
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+await resend.emails.send({
+  from: 'notifications@producersavenue.com',
+  to: user.email,
+  subject: 'New Order Received',
+  html: emailTemplate
+});
+```
+
+**Unsubscribe:**
+- Link in every email footer
+- Updates notification_preferences
+- Required by law (CAN-SPAM Act)
+
+---
+
+## 7. ADMIN PANEL
+
+### 7.1 Dashboard Overview
+
+**Stats Cards:**
+- Total users (today, this week, this month)
+- Total transactions (amount + count)
+- Active subscriptions
+- Pending payouts
+- Open reports
+- Pending verifications
+
+**Charts:**
+- User signups over time (line chart)
+- Revenue over time (line chart)
+- Top selling products (bar chart)
+- Top earning sellers (table)
+
+---
+
+### 7.2 User Management
+
+**Table Columns:**
+- Username
+- Email
+- Subscription tier
+- Trust score
+- Total sales
+- Status (active, suspended, banned)
+- Actions (view, edit, suspend, ban)
+
+**User Detail Page:**
+- Profile info
+- Subscription history
+- Transaction history
+- Products/services
+- Reports against user
+- Trust score breakdown
+- Admin notes
+
+**Actions:**
+- Suspend account (temporary)
+- Ban account (permanent)
+- Adjust trust score manually
+- Send email to user
+- Add admin notes
+
+---
+
+### 7.3 Product/Service Moderation
+
+**Review Queue:**
+- New products from low-trust users
+- Reported products
+- Flagged content (malware, copyright)
+
+**Table Columns:**
+- Thumbnail
+- Title
+- Seller
+- Price
+- Status (pending, approved, rejected)
+- Reports count
+- Actions (view, approve, reject)
+
+**Actions:**
+- Approve (make live)
+- Reject with reason
+- Request changes
+- Remove from platform
+- Suspend seller
+
+---
+
+### 7.4 Payout Approval Queue
+
+**Table Columns:**
+- Seller username
+- Amount
+- Payout method (Stripe, PayPal, Both)
+- Verification status
+- Requested date
+- Actions (review, approve, reject)
+
+**Verification Review:**
+- View uploaded ID photo
+- View selfie holding ID
+- Check name matches profile
+- Check trust score
+- Check for red flags (disputes, reports)
+- Approve or reject with notes
+
+**Actions:**
+- Approve → Triggers payout APIs
+- Reject with reason → Email seller
+- Request better photos
+
+---
+
+### 7.5 Reports Management
+
+**Table Columns:**
+- Reporter
+- Reported user/product/post
+- Report type
+- Status (pending, reviewing, resolved)
+- Date reported
+- Actions (view, resolve, dismiss)
+
+**Review Process:**
+1. Click report to view details
+2. Review evidence
+3. Check reported content
+4. Make decision:
+   - Remove content
+   - Warn user
+   - Suspend user
+   - Dismiss report (false alarm)
+5. Add admin notes
+6. Mark as resolved
+
+---
+
+## 8. CHATBOT (OpenAI)
+
+### 8.1 Implementation
+
+**Purpose:** Answer common support questions
+
+**Tech Stack:**
+- OpenAI GPT-4 API
+- Custom UI (chat widget)
+- Training data (FAQ, documentation)
+
+---
+
+### 8.2 Chat Widget
+
+**Features:**
+- Floating button (bottom-right)
+- Expandable chat window
+- Message history
+- Typing indicator
+- Quick action buttons
+
+**Flow:**
+1. User clicks chat button
+2. Widget opens
+3. User types question
+4. Send to `/api/chatbot`
+5. API calls OpenAI with context
+6. Stream response back
+7. Display in chat
+
+---
+
+### 8.3 Training Context
+
+**System Prompt:**
+```
+You are a helpful support assistant for Producers Avenue, a music industry marketplace and social network.
+
+Your knowledge:
+- Platform features and how to use them
+- Common troubleshooting steps
+- Pricing and subscription information
+- Payment and payout process
+- Upload requirements
+- Terms of Service highlights
+
+When you don't know the answer:
+- Suggest relevant help articles
+- Offer to escalate to human support
+- Never make up information
+
+Be friendly, concise, and professional.
+```
+
+**Context Documents:**
+- FAQ content
+- Feature documentation
+- Common issues solutions
+
+---
+
+### 8.4 Escalation to Human
+
+**When to Escalate:**
+- User explicitly requests human
+- Issue requires account access
+- Billing/payment problems
+- Legal concerns
+- Multiple failed resolution attempts
+
+**Process:**
+1. Chatbot: "I'll create a support ticket for you"
+2. Ask for details
+3. Create ticket in database
+4. Email admin
+5. Give user ticket number
+6. Close chatbot conversation
+
+---
+
+## 9. SECURITY MEASURES
+
+### 9.1 Authentication Security
+
+**Password Requirements:**
+- Minimum 8 characters
+- At least 1 uppercase letter
+- At least 1 lowercase letter
+- At least 1 number
+- At least 1 special character
+
+**Password Storage:**
+- Bcrypt hashing (Supabase Auth handles this)
+- Never store plain text
+- Never log passwords
+
+**Session Management:**
+- JWT tokens (Supabase Auth)
+- HttpOnly cookies
+- Secure flag in production
+- SameSite=Strict
+
+**2FA (Phase 2):**
+- TOTP (Time-based One-Time Password)
+- QR code for authenticator apps
+- Backup codes
+
+---
+
+### 9.2 Input Sanitization
+
+**All User Inputs:**
+- Strip HTML tags (except allowed in rich text)
+- Escape special characters
+- Validate length limits
+- Check for SQL injection patterns
+- Validate file types
+
+**Rich Text Editor:**
+- Allow only safe HTML tags
+- Strip `<script>` tags
+- Sanitize href attributes
+- Use DOMPurify library
+
+---
+
+### 9.3 Rate Limiting
+
+**API Endpoints:**
+- Login: 5 attempts per 15 minutes per IP
+- Registration: 3 accounts per hour per IP
+- Password reset: 3 requests per hour per email
+- File upload: 10 uploads per hour per user
+- Search: 60 requests per minute per user
+
+**Implementation:**
+- Redis or Supabase Edge Functions
+- Return 429 Too Many Requests
+- Include Retry-After header
+
+---
+
+### 9.4 HTTPS & CORS
+
+**HTTPS:**
+- Force HTTPS in production
+- Redirect HTTP → HTTPS
+- HSTS header enabled
+
+**CORS:**
+- Whitelist allowed origins
+- Credentials: true for authenticated requests
+- Allowed methods: GET, POST, PUT, DELETE, OPTIONS
+
+---
+
+### 9.5 Error Handling
+
+**Never Expose:**
+- Database errors (generic "Something went wrong")
+- Stack traces in production
+- File paths
+- API keys or secrets
+
+**Log Errors:**
+- Sentry for error tracking
+- Log to Supabase Edge Functions logs
+- Include context (user ID, endpoint, timestamp)
+
+---
+
+## 10. PERFORMANCE OPTIMIZATION
+
+### 10.1 Database Optimization
+
+**Indexes:**
+- Primary keys (automatic)
+- Foreign keys
+- Commonly queried columns:
+  - profiles.username
+  - products.title
+  - services.title
+  - Full-text search vectors
+
+**Query Optimization:**
+- Use SELECT specific columns (not SELECT *)
+- Limit results with pagination
+- Use joins instead of N+1 queries
+- Cache frequent queries (Redis in Phase 2)
+
+---
+
+### 10.2 Image Optimization
+
+**On Upload:**
+- Resize to max dimensions (profile: 500x500, banner: 1500x500)
+- Compress (80% quality)
+- Convert to WebP format
+- Generate multiple sizes (thumbnail, medium, large)
+
+**CDN Delivery:**
+- Bunny.net CDN
+- Global edge servers
+- Automatic caching
+
+---
+
+### 10.3 Code Splitting
+
+**Next.js Automatic:**
+- Each page is separate bundle
+- Lazy load components
+- Dynamic imports for heavy libraries
+
+**Manual Optimization:**
+- Lazy load modal dialogs
+- Lazy load audio player
+- Lazy load charts (admin panel)
+
+---
+
+### 10.4 Caching Strategy
+
+**Static Content:**
+- Cache-Control: public, max-age=31536000 (1 year)
+- Versioned file names (bundle.abc123.js)
+
+**Dynamic Content:**
+- Cache-Control: private, no-cache (user-specific)
+- Revalidate on demand (ISR in Next.js)
+
+**API Responses:**
+- Cache public data (product listings, user profiles)
+- No cache for personalized data (wallet, orders)
+
+---
+
+## DEPLOYMENT CHECKLIST
+
+### Before First Deployment:
+
+✅ Environment variables configured
+✅ Database migrations applied
+✅ RLS policies tested
+✅ File storage buckets created
+✅ Stripe webhooks configured
+✅ PayPal webhooks configured
+✅ Domain DNS configured
+✅ SSL certificate active
+✅ Error tracking setup (Sentry)
+✅ Analytics tracking setup
+✅ Email sending tested
+✅ Backup system configured
+
+### After Deployment:
+
+✅ Test authentication flow
+✅ Test payment flow (sandbox mode)
+✅ Test payout flow (sandbox)
+✅ Test file uploads
+✅ Test virus scanning
+✅ Verify all emails sending
+✅ Check error logs
+✅ Monitor performance
+✅ Test on mobile devices
+
+---
+
+**Last Updated:** November 5, 2025
+**Version:** 1.0
+**Status:** Ready for Development

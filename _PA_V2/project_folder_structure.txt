@@ -1,0 +1,634 @@
+# PRODUCERS AVENUE V2 - PROJECT FOLDER STRUCTURE
+
+## Root Directory Structure
+
+```
+producers-avenue-v2/
+├── .github/                      # GitHub Actions, workflows
+│   └── workflows/
+│       ├── ci.yml               # Continuous integration
+│       └── deploy.yml           # Deployment automation
+│
+├── public/                       # Static assets
+│   ├── images/
+│   │   ├── logo.svg
+│   │   ├── logo-dark.svg
+│   │   ├── hero-bg.jpg
+│   │   ├── default-avatar.png
+│   │   └── default-banner.jpg
+│   ├── fonts/                   # Custom fonts
+│   ├── icons/                   # Favicon, app icons
+│   │   ├── favicon.ico
+│   │   ├── apple-touch-icon.png
+│   │   └── manifest.json
+│   └── audio/
+│       └── watermark-voice.mp3  # "Available on Producers Avenue" audio
+│
+├── src/
+│   ├── app/                     # Next.js 14 App Router
+│   │   ├── (auth)/             # Auth routes group
+│   │   │   ├── login/
+│   │   │   │   └── page.tsx
+│   │   │   ├── register/
+│   │   │   │   └── page.tsx
+│   │   │   ├── forgot-password/
+│   │   │   │   └── page.tsx
+│   │   │   └── verify-email/
+│   │   │       └── page.tsx
+│   │   │
+│   │   ├── (marketing)/        # Public pages
+│   │   │   ├── page.tsx        # Homepage
+│   │   │   ├── about/
+│   │   │   │   └── page.tsx
+│   │   │   ├── pricing/
+│   │   │   │   └── page.tsx
+│   │   │   ├── terms/
+│   │   │   │   └── page.tsx
+│   │   │   ├── privacy/
+│   │   │   │   └── page.tsx
+│   │   │   └── faq/
+│   │   │       └── page.tsx
+│   │   │
+│   │   ├── (platform)/         # Protected platform routes
+│   │   │   ├── feed/
+│   │   │   │   └── page.tsx
+│   │   │   ├── explore/
+│   │   │   │   └── page.tsx
+│   │   │   ├── messages/
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── [conversationId]/
+│   │   │   │       └── page.tsx
+│   │   │   ├── notifications/
+│   │   │   │   └── page.tsx
+│   │   │   └── settings/
+│   │   │       ├── page.tsx
+│   │   │       ├── profile/
+│   │   │       ├── account/
+│   │   │       ├── billing/
+│   │   │       └── preferences/
+│   │   │
+│   │   ├── marketplace/
+│   │   │   ├── products/
+│   │   │   │   ├── page.tsx           # Browse products
+│   │   │   │   ├── [id]/
+│   │   │   │   │   └── page.tsx       # Product detail
+│   │   │   │   └── create/
+│   │   │   │       └── page.tsx       # Create product
+│   │   │   └── services/
+│   │   │       ├── page.tsx           # Browse services
+│   │   │       ├── [id]/
+│   │   │       │   └── page.tsx       # Service detail
+│   │   │       └── create/
+│   │   │           └── page.tsx       # Create service
+│   │   │
+│   │   ├── orders/
+│   │   │   ├── page.tsx               # Orders list
+│   │   │   └── [id]/
+│   │   │       └── page.tsx           # Order detail
+│   │   │
+│   │   ├── groups/
+│   │   │   ├── page.tsx               # Browse groups
+│   │   │   ├── [id]/
+│   │   │   │   └── page.tsx           # Group detail
+│   │   │   └── create/
+│   │   │       └── page.tsx           # Create group
+│   │   │
+│   │   ├── collab-matcher/
+│   │   │   ├── page.tsx               # Collab matcher main
+│   │   │   └── matches/
+│   │   │       └── page.tsx           # View matches
+│   │   │
+│   │   ├── wallet/
+│   │   │   ├── page.tsx               # Wallet dashboard
+│   │   │   ├── transactions/
+│   │   │   │   └── page.tsx           # Transaction history
+│   │   │   └── payout/
+│   │   │       └── page.tsx           # Request payout
+│   │   │
+│   │   ├── webinars/                  # Phase 2
+│   │   │   ├── page.tsx               # Browse webinars
+│   │   │   ├── [id]/
+│   │   │   │   └── page.tsx           # Webinar detail
+│   │   │   ├── create/
+│   │   │   │   └── page.tsx           # Create webinar
+│   │   │   └── room/
+│   │   │       └── [id]/
+│   │   │           └── page.tsx       # Live webinar room
+│   │   │
+│   │   ├── mentoring/                 # Phase 2
+│   │   │   ├── page.tsx               # Browse mentors
+│   │   │   ├── [id]/
+│   │   │   │   └── page.tsx           # Mentor profile
+│   │   │   └── sessions/
+│   │   │       └── [id]/
+│   │   │           └── page.tsx       # Session detail
+│   │   │
+│   │   ├── news/                      # Phase 2
+│   │   │   ├── page.tsx               # News feed
+│   │   │   └── [slug]/
+│   │   │       └── page.tsx           # Article page
+│   │   │
+│   │   ├── [username]/                # User profiles
+│   │   │   ├── page.tsx               # Profile view
+│   │   │   └── edit/
+│   │   │       └── page.tsx           # Edit profile
+│   │   │
+│   │   ├── search/
+│   │   │   └── page.tsx               # Unified search
+│   │   │
+│   │   ├── admin/                     # Admin panel
+│   │   │   ├── layout.tsx             # Admin layout
+│   │   │   ├── page.tsx               # Dashboard
+│   │   │   ├── users/
+│   │   │   │   ├── page.tsx           # User management
+│   │   │   │   └── [id]/
+│   │   │   │       └── page.tsx       # User detail
+│   │   │   ├── products/
+│   │   │   │   └── page.tsx           # Product moderation
+│   │   │   ├── services/
+│   │   │   │   └── page.tsx           # Service moderation
+│   │   │   ├── orders/
+│   │   │   │   └── page.tsx           # Order management
+│   │   │   ├── payouts/
+│   │   │   │   └── page.tsx           # Payout approvals
+│   │   │   ├── reports/
+│   │   │   │   └── page.tsx           # User reports review
+│   │   │   ├── verification/
+│   │   │   │   └── page.tsx           # ID verification queue
+│   │   │   └── analytics/
+│   │   │       └── page.tsx           # Platform analytics
+│   │   │
+│   │   ├── api/                       # API routes
+│   │   │   ├── auth/
+│   │   │   │   ├── login/
+│   │   │   │   ├── register/
+│   │   │   │   └── verify/
+│   │   │   ├── webhooks/
+│   │   │   │   ├── stripe/
+│   │   │   │   │   └── route.ts       # Stripe webhooks
+│   │   │   │   └── paypal/
+│   │   │   │       └── route.ts       # PayPal webhooks
+│   │   │   ├── upload/
+│   │   │   │   ├── image/
+│   │   │   │   │   └── route.ts       # Image upload
+│   │   │   │   ├── audio/
+│   │   │   │   │   └── route.ts       # Audio upload
+│   │   │   │   └── file/
+│   │   │   │       └── route.ts       # File upload
+│   │   │   ├── payments/
+│   │   │   │   ├── create-checkout/
+│   │   │   │   │   └── route.ts       # Create payment
+│   │   │   │   └── create-payout/
+│   │   │   │       └── route.ts       # Process payout
+│   │   │   └── chatbot/
+│   │   │       └── route.ts           # OpenAI chatbot endpoint
+│   │   │
+│   │   ├── layout.tsx                 # Root layout
+│   │   ├── globals.css                # Global styles
+│   │   └── error.tsx                  # Error boundary
+│   │
+│   ├── components/                    # React components
+│   │   ├── ui/                        # shadcn/ui components
+│   │   │   ├── button.tsx
+│   │   │   ├── input.tsx
+│   │   │   ├── dialog.tsx
+│   │   │   ├── dropdown-menu.tsx
+│   │   │   ├── card.tsx
+│   │   │   ├── avatar.tsx
+│   │   │   ├── badge.tsx
+│   │   │   ├── tabs.tsx
+│   │   │   └── ...                    # Other shadcn components
+│   │   │
+│   │   ├── layout/
+│   │   │   ├── Header.tsx
+│   │   │   ├── Footer.tsx
+│   │   │   ├── Sidebar.tsx
+│   │   │   └── MobileNav.tsx
+│   │   │
+│   │   ├── auth/
+│   │   │   ├── LoginForm.tsx
+│   │   │   ├── RegisterForm.tsx
+│   │   │   ├── ForgotPasswordForm.tsx
+│   │   │   └── SocialLogin.tsx
+│   │   │
+│   │   ├── profile/
+│   │   │   ├── ProfileCard.tsx
+│   │   │   ├── ProfileHeader.tsx
+│   │   │   ├── ProfileTabs.tsx
+│   │   │   ├── EditProfileForm.tsx
+│   │   │   └── FollowButton.tsx
+│   │   │
+│   │   ├── feed/
+│   │   │   ├── PostCard.tsx
+│   │   │   ├── CreatePost.tsx
+│   │   │   ├── PostComments.tsx
+│   │   │   └── FeedFilter.tsx
+│   │   │
+│   │   ├── marketplace/
+│   │   │   ├── products/
+│   │   │   │   ├── ProductCard.tsx
+│   │   │   │   ├── ProductGrid.tsx
+│   │   │   │   ├── ProductDetail.tsx
+│   │   │   │   ├── CreateProductForm.tsx
+│   │   │   │   └── AudioPreviewPlayer.tsx
+│   │   │   ├── services/
+│   │   │   │   ├── ServiceCard.tsx
+│   │   │   │   ├── ServiceGrid.tsx
+│   │   │   │   ├── ServiceDetail.tsx
+│   │   │   │   ├── CreateServiceForm.tsx
+│   │   │   │   └── PackageTiers.tsx
+│   │   │   └── filters/
+│   │   │       ├── PriceFilter.tsx
+│   │   │       ├── CategoryFilter.tsx
+│   │   │       └── GenreFilter.tsx
+│   │   │
+│   │   ├── orders/
+│   │   │   ├── OrderCard.tsx
+│   │   │   ├── OrderList.tsx
+│   │   │   ├── OrderDetail.tsx
+│   │   │   ├── OrderMessages.tsx
+│   │   │   └── DeliveryUpload.tsx
+│   │   │
+│   │   ├── messaging/
+│   │   │   ├── ConversationList.tsx
+│   │   │   ├── ConversationItem.tsx
+│   │   │   ├── MessageThread.tsx
+│   │   │   ├── MessageInput.tsx
+│   │   │   └── MessageBubble.tsx
+│   │   │
+│   │   ├── groups/
+│   │   │   ├── GroupCard.tsx
+│   │   │   ├── GroupList.tsx
+│   │   │   ├── GroupHeader.tsx
+│   │   │   ├── GroupMembers.tsx
+│   │   │   ├── GroupPosts.tsx
+│   │   │   └── CreateGroupForm.tsx
+│   │   │
+│   │   ├── wallet/
+│   │   │   ├── WalletBalance.tsx
+│   │   │   ├── TransactionList.tsx
+│   │   │   ├── PayoutRequestForm.tsx
+│   │   │   └── PaymentMethodsCard.tsx
+│   │   │
+│   │   ├── search/
+│   │   │   ├── SearchBar.tsx
+│   │   │   ├── SearchResults.tsx
+│   │   │   ├── SearchTabs.tsx
+│   │   │   └── SearchFilters.tsx
+│   │   │
+│   │   ├── notifications/
+│   │   │   ├── NotificationBell.tsx
+│   │   │   ├── NotificationList.tsx
+│   │   │   └── NotificationItem.tsx
+│   │   │
+│   │   ├── admin/
+│   │   │   ├── StatsCard.tsx
+│   │   │   ├── UserTable.tsx
+│   │   │   ├── ProductModerationQueue.tsx
+│   │   │   ├── PayoutApprovalQueue.tsx
+│   │   │   ├── VerificationQueue.tsx
+│   │   │   └── ReportsTable.tsx
+│   │   │
+│   │   ├── subscription/
+│   │   │   ├── PricingCards.tsx
+│   │   │   ├── SubscriptionStatus.tsx
+│   │   │   └── UpgradeModal.tsx
+│   │   │
+│   │   ├── chatbot/
+│   │   │   ├── ChatWidget.tsx
+│   │   │   ├── ChatWindow.tsx
+│   │   │   └── ChatMessage.tsx
+│   │   │
+│   │   └── shared/
+│   │       ├── LoadingSpinner.tsx
+│   │       ├── EmptyState.tsx
+│   │       ├── ErrorMessage.tsx
+│   │       ├── ConfirmDialog.tsx
+│   │       ├── ImageUpload.tsx
+│   │       ├── FileUpload.tsx
+│   │       ├── RichTextEditor.tsx
+│   │       ├── TagInput.tsx
+│   │       └── Tooltip.tsx
+│   │
+│   ├── lib/                           # Utility functions
+│   │   ├── supabase/
+│   │   │   ├── client.ts              # Browser client
+│   │   │   ├── server.ts              # Server client
+│   │   │   ├── middleware.ts          # Auth middleware
+│   │   │   └── queries/
+│   │   │       ├── users.ts
+│   │   │       ├── products.ts
+│   │   │       ├── services.ts
+│   │   │       ├── orders.ts
+│   │   │       ├── posts.ts
+│   │   │       ├── messages.ts
+│   │   │       └── wallet.ts
+│   │   │
+│   │   ├── stripe/
+│   │   │   ├── client.ts              # Stripe client setup
+│   │   │   ├── checkout.ts            # Checkout sessions
+│   │   │   ├── connect.ts             # Stripe Connect
+│   │   │   ├── subscriptions.ts       # Subscription management
+│   │   │   ├── payouts.ts             # Payout handling
+│   │   │   └── webhooks.ts            # Webhook handlers
+│   │   │
+│   │   ├── paypal/
+│   │   │   ├── client.ts              # PayPal client setup
+│   │   │   ├── checkout.ts            # PayPal checkout
+│   │   │   ├── payouts.ts             # PayPal payouts API
+│   │   │   └── webhooks.ts            # Webhook handlers
+│   │   │
+│   │   ├── bunny/
+│   │   │   ├── client.ts              # Bunny.net client
+│   │   │   ├── upload.ts              # File upload
+│   │   │   ├── stream.ts              # Video streaming
+│   │   │   └── cdn.ts                 # CDN helpers
+│   │   │
+│   │   ├── openai/
+│   │   │   ├── client.ts              # OpenAI client
+│   │   │   └── chatbot.ts             # Chatbot logic
+│   │   │
+│   │   ├── email/
+│   │   │   ├── client.ts              # Resend client
+│   │   │   ├── templates.ts           # Email templates
+│   │   │   └── send.ts                # Send functions
+│   │   │
+│   │   ├── security/
+│   │   │   ├── virus-scan.ts          # ClamAV integration
+│   │   │   ├── file-hash.ts           # File hash checking
+│   │   │   ├── rate-limit.ts          # Rate limiting
+│   │   │   └── trust-score.ts         # Trust score calculation
+│   │   │
+│   │   ├── audio/
+│   │   │   ├── watermark.ts           # Audio watermarking (FFmpeg)
+│   │   │   ├── preview.ts             # Preview generation
+│   │   │   └── metadata.ts            # Audio metadata
+│   │   │
+│   │   ├── utils/
+│   │   │   ├── validation.ts          # Form validation
+│   │   │   ├── formatting.ts          # Date, currency formatting
+│   │   │   ├── slugify.ts             # URL slug generation
+│   │   │   ├── sanitize.ts            # Input sanitization
+│   │   │   └── constants.ts           # App constants
+│   │   │
+│   │   └── hooks/                     # Custom React hooks
+│   │       ├── useAuth.ts
+│   │       ├── useUser.ts
+│   │       ├── useWallet.ts
+│   │       ├── useSubscription.ts
+│   │       ├── useNotifications.ts
+│   │       └── useDebounce.ts
+│   │
+│   ├── types/                         # TypeScript types
+│   │   ├── database.ts                # Supabase generated types
+│   │   ├── user.ts
+│   │   ├── product.ts
+│   │   ├── service.ts
+│   │   ├── order.ts
+│   │   ├── post.ts
+│   │   ├── message.ts
+│   │   ├── wallet.ts
+│   │   └── index.ts
+│   │
+│   └── middleware.ts                  # Next.js middleware
+│
+├── supabase/                          # Supabase configuration
+│   ├── migrations/                    # Database migrations
+│   │   ├── 20250101000000_initial_schema.sql
+│   │   ├── 20250101000001_auth_setup.sql
+│   │   ├── 20250101000002_profiles.sql
+│   │   ├── 20250101000003_products.sql
+│   │   ├── 20250101000004_services.sql
+│   │   ├── 20250101000005_orders.sql
+│   │   ├── 20250101000006_posts.sql
+│   │   ├── 20250101000007_messages.sql
+│   │   ├── 20250101000008_groups.sql
+│   │   ├── 20250101000009_wallet.sql
+│   │   ├── 20250101000010_notifications.sql
+│   │   ├── 20250101000011_subscriptions.sql
+│   │   └── 20250101000012_admin_tables.sql
+│   │
+│   ├── functions/                     # Edge Functions
+│   │   ├── scan-upload/
+│   │   │   └── index.ts               # Virus scanning
+│   │   ├── process-payment/
+│   │   │   └── index.ts               # Payment processing
+│   │   ├── generate-preview/
+│   │   │   └── index.ts               # Audio preview + watermark
+│   │   ├── calculate-commission/
+│   │   │   └── index.ts               # Commission calculation
+│   │   ├── process-payout/
+│   │   │   └── index.ts               # Payout processing
+│   │   ├── send-notification/
+│   │   │   └── index.ts               # Notification sending
+│   │   └── check-trust-score/
+│   │       └── index.ts               # Trust score check
+│   │
+│   ├── config.toml                    # Supabase config
+│   └── seed.sql                       # Seed data
+│
+├── scripts/                           # Utility scripts
+│   ├── setup-database.sh              # Database setup
+│   ├── generate-types.sh              # Generate TS types from DB
+│   ├── seed-data.sh                   # Seed test data
+│   ├── backup-database.sh             # Manual backup
+│   └── deploy.sh                      # Deployment script
+│
+├── docs/                              # Documentation
+│   ├── API.md                         # API documentation
+│   ├── CONTRIBUTING.md                # Contribution guide
+│   ├── DEPLOYMENT.md                  # Deployment guide
+│   ├── DATABASE.md                    # Database schema docs
+│   └── SECURITY.md                    # Security practices
+│
+├── tests/                             # Tests (Phase 2)
+│   ├── unit/
+│   ├── integration/
+│   └── e2e/
+│
+├── .env.local.example                 # Environment variables template
+├── .env.local                         # Local environment (gitignored)
+├── .gitignore
+├── next.config.js                     # Next.js configuration
+├── tailwind.config.ts                 # Tailwind configuration
+├── tsconfig.json                      # TypeScript configuration
+├── package.json
+├── pnpm-lock.yaml                     # or yarn.lock, package-lock.json
+└── README.md
+
+```
+
+---
+
+## Key Folders Explained:
+
+### `/app` - Next.js 14 App Router
+- Uses route groups: `(auth)`, `(marketing)`, `(platform)`
+- Separates public vs protected routes
+- API routes in `/app/api`
+
+### `/components` - React Components
+- `/ui` - shadcn/ui reusable components
+- Feature-specific folders (profile, marketplace, feed, etc.)
+- `/shared` - Common components used everywhere
+
+### `/lib` - Business Logic
+- Third-party service integrations (Stripe, PayPal, Supabase)
+- Utility functions and helpers
+- Custom React hooks
+- Security functions (virus scan, rate limiting)
+
+### `/supabase` - Database & Edge Functions
+- Migrations: Version-controlled database changes
+- Edge Functions: Serverless functions for heavy processing
+- Run close to users for performance
+
+### `/types` - TypeScript Definitions
+- Database types (auto-generated from Supabase)
+- Custom type definitions
+- Ensures type safety across app
+
+---
+
+## File Naming Conventions:
+
+### Components:
+- PascalCase: `ProductCard.tsx`, `UserProfile.tsx`
+- Prefix with feature: `CreateProductForm.tsx`
+
+### Utilities:
+- camelCase: `validation.ts`, `formatDate.ts`
+- Grouped by purpose in folders
+
+### API Routes:
+- kebab-case folders: `/create-checkout/route.ts`
+- Always named `route.ts` (Next.js convention)
+
+### Database Files:
+- snake_case: `user_profiles.sql`
+- Timestamped migrations: `20250101000000_description.sql`
+
+---
+
+## Environment Variables (.env.local):
+
+```
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+
+# Stripe
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+STRIPE_CONNECT_CLIENT_ID=
+
+# PayPal
+PAYPAL_CLIENT_ID=
+PAYPAL_CLIENT_SECRET=
+PAYPAL_WEBHOOK_ID=
+
+# Bunny.net
+BUNNY_STORAGE_API_KEY=
+BUNNY_STREAM_API_KEY=
+BUNNY_CDN_HOSTNAME=
+BUNNY_STORAGE_ZONE_NAME=
+
+# OpenAI
+OPENAI_API_KEY=
+
+# Resend (Email)
+RESEND_API_KEY=
+
+# App
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NODE_ENV=development
+```
+
+---
+
+## Database Migration Strategy:
+
+### Numbered migrations ensure order:
+```
+20250101000000_initial_schema.sql      # Tables, extensions
+20250101000001_auth_setup.sql          # Auth configuration
+20250101000002_profiles.sql            # User profiles
+...
+```
+
+### To apply migrations:
+```bash
+supabase db push
+```
+
+### To generate types:
+```bash
+supabase gen types typescript --local > src/types/database.ts
+```
+
+---
+
+## Development Workflow:
+
+### 1. Install dependencies:
+```bash
+pnpm install
+```
+
+### 2. Setup Supabase locally:
+```bash
+supabase start
+supabase db reset  # Apply migrations
+```
+
+### 3. Run development server:
+```bash
+pnpm dev
+```
+
+### 4. Access:
+- App: http://localhost:3000
+- Supabase Studio: http://localhost:54323
+
+---
+
+## Deployment Structure:
+
+### Hosting:
+- **Frontend**: Vercel
+- **Database**: Supabase Cloud
+- **Storage**: Bunny.net CDN
+- **Edge Functions**: Supabase Edge Functions
+
+### CI/CD:
+- GitHub Actions automatically deploy on push to `main`
+- Run tests before deployment
+- Automated database migrations
+
+---
+
+## Phase 2 Additions:
+
+When implementing Phase 2 features, add:
+
+```
+src/
+├── app/
+│   ├── webinars/          # Webinar pages
+│   ├── mentoring/         # Mentoring pages
+│   └── news/              # Articles/news
+├── components/
+│   ├── webinars/          # Webinar components
+│   ├── mentoring/         # Mentoring components
+│   └── news/              # Article components
+└── lib/
+    ├── 100ms/             # 100ms video API
+    └── calendar/          # Google Calendar integration
+```
+
+---
+
+**Last Updated:** November 5, 2025
+**Version:** 1.0

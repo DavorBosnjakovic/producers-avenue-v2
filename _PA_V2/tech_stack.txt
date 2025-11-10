@@ -1,0 +1,746 @@
+# PRODUCERS AVENUE V2 - TECHNICAL STACK & ARCHITECTURE
+
+**Version:** 2.0  
+**Last Updated:** November 5, 2025  
+**Status:** ✅ Production Ready
+
+---
+
+## Architecture Overview
+
+Producers Avenue uses a modern, scalable architecture built on proven technologies. The frontend is a Next.js application deployed on Vercel, while all backend functionality is managed by Supabase. Large media files are stored and delivered via Bunny.net CDN for optimal performance and cost efficiency.
+
+## Architecture Diagram
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                         USER BROWSER                         │
+│                    (Desktop/Mobile/Tablet)                   │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+            ┌────────────┴────────────┐
+            │                         │
+    ┌───────▼────────┐       ┌───────▼────────┐
+    │     VERCEL     │       │   BUNNY CDN    │
+    │  Next.js App   │       │  Media Files   │
+    │  (Static/SSR)  │       │  (Audio/Video) │
+    └───────┬────────┘       └────────────────┘
+            │
+    ┌───────▼────────────────────────────────────┐
+    │            SUPABASE                        │
+    │  ┌──────────────────────────────────────┐ │
+    │  │ Auth (Users, Sessions, Social Login) │ │
+    │  ├──────────────────────────────────────┤ │
+    │  │ PostgreSQL Database (All Data)       │ │
+    │  ├──────────────────────────────────────┤ │
+    │  │ Storage (Profile pics, thumbnails)   │ │
+    │  ├──────────────────────────────────────┤ │
+    │  │ Realtime (Chat, Notifications)       │ │
+    │  ├──────────────────────────────────────┤ │
+    │  │ Edge Functions (Business Logic)      │ │
+    │  └──────────────────────────────────────┘ │
+    └────────┬───────────┬──────────────────────┘
+             │           │
+    ┌────────▼─────┐  ┌─────▼──────┐
+    │    STRIPE    │  │   RESEND   │
+    │   Payments   │  │    Email   │
+    └──────────────┘  └────────────┘
+```
+
+---
+
+## Frontend Stack
+
+### Core Framework
+**Next.js 14+ with TypeScript**
+- **Why:** Industry-standard React framework with excellent DX
+- **Deployment:** Vercel (automatic from GitHub)
+- **Routing:** App Router for modern, file-based routing
+- **TypeScript:** Full type safety across the application
+- **Rendering:** SSR + SSG + ISR support
+
+**Configuration:**
+```javascript
+// next.config.js
+module.exports = {
+  images: {
+    domains: ['cdn.producersavenue.com', 'supabase.co'],
+  },
+  reactStrictMode: true,
+}
+```
+
+### Styling
+**Tailwind CSS 3+**
+- **Why:** Utility-first CSS, fast development, small bundle size
+- **Customization:** Custom color palette with #009ae9 as primary
+- **Dark Mode:** Built-in dark mode support via class strategy
+- **Responsive:** Mobile-first responsive design
+
+### Component Library
+**shadcn/ui + Radix UI**
+- **Why:** Unstyled, accessible components we own and customize
+- **Components Used:**
+  - Cards, Modals, Dropdowns, Dialogs
+  - Forms, Inputs, Buttons
+  - Tabs, Accordions, Tooltips
+  - Toast notifications
+- **Customization:** Full control over styling with Tailwind
+
+### State Management
+**React Context + Hooks**
+- **Why:** Sufficient for our needs, no extra dependencies
+- **Usage:**
+  - Auth state (user session)
+  - Theme state (light/dark mode)
+  - Shopping cart (future)
+  - UI state (modals, drawers)
+
+**Zustand** (if complexity grows)
+- Lightweight state management
+- Better than Redux for our use case
+
+### Data Fetching
+**Supabase Client SDK**
+- Direct browser-to-Supabase communication
+- Real-time subscriptions for live features
+- Automatic auth token handling
+- Built-in query caching
+
+### Form Handling
+**React Hook Form + Zod**
+- **React Hook Form:** Performant, minimal re-renders
+- **Zod:** Type-safe schema validation
+- **Integration:** Works seamlessly with shadcn/ui form components
+
+### Additional Frontend Libraries
+```json
+{
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "typescript": "^5.0.0",
+    "tailwindcss": "^3.3.0",
+    "@supabase/supabase-js": "^2.38.0",
+    "react-hook-form": "^7.48.0",
+    "zod": "^3.22.0",
+    "lucide-react": "^0.292.0",
+    "date-fns": "^2.30.0",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.0.0"
+  }
+}
+```
+
+---
+
+## Backend Stack (Supabase)
+
+### Authentication
+**Supabase Auth**
+- Email/password authentication
+- Social logins (Google, GitHub, Discord, etc.)
+- Magic links
+- JWT tokens
+- Row Level Security integration
+- Session management
+- Email verification
+- Password reset
+
+### Database
+**PostgreSQL 15+ (Supabase-managed)**
+- Full SQL database
+- Automatic backups
+- Point-in-time recovery
+- Connection pooling
+- Query optimization
+- Extensions: pgvector, postgis, uuid-ossp
+
+**Key Features:**
+- ACID compliance
+- Foreign keys and constraints
+- Triggers and functions
+- Full-text search
+- JSON/JSONB support
+- Array types
+
+### Storage
+**Supabase Storage**
+- S3-compatible object storage
+- For: Profile pictures, thumbnails, small files
+- Features:
+  - Public and private buckets
+  - Automatic image resizing
+  - CDN delivery
+  - Signed URLs for private content
+  - Access control via RLS
+
+**File Limits:**
+- Profile pictures: 5MB max
+- Banners: 10MB max
+- Thumbnails: 2MB max
+- Documents: 25MB max
+
+### Realtime
+**Supabase Realtime**
+- WebSocket connections
+- Database change subscriptions
+- Presence tracking
+- Broadcast messaging
+
+**Use Cases:**
+- Live chat messages
+- Notification bell updates
+- Order status changes
+- Online user indicators
+
+### Edge Functions
+**Deno-based serverless functions**
+- Heavy processing logic
+- Payment webhooks
+- File processing
+- Email sending
+- Third-party API calls
+
+**Functions to Create:**
+- `process-payment`: Handle Stripe webhooks
+- `generate-preview`: Create audio previews with watermark
+- `send-notification`: Send emails via Resend
+- `scan-upload`: Virus scanning for uploads
+- `calculate-commission`: Commission calculations
+
+---
+
+## Media Storage & CDN
+
+### Bunny.net
+**Why Bunny.net:**
+- Extremely affordable ($0.01/GB storage, $0.01-0.03/GB bandwidth)
+- Fast global CDN
+- Perfect for large audio/video files
+- Simple API
+- Automatic video transcoding
+
+**Use Cases:**
+- Digital products (full files)
+- Audio samples and demos
+- Video previews
+- Service portfolios
+- Webinar recordings (Phase 2)
+
+**Storage Structure:**
+```
+/products/{product_id}/
+  - full-files/
+  - previews/
+  - thumbnails/
+
+/services/{service_id}/
+  - portfolio/
+  - deliverables/
+
+/orders/{order_id}/
+  - requirements/
+  - deliveries/
+```
+
+**Upload Flow:**
+1. User uploads file via frontend
+2. Supabase Edge Function receives upload
+3. Function uploads to Bunny Storage
+4. CDN URL saved in database
+5. Files served globally via Bunny CDN
+
+**Configuration:**
+- Storage Zone: `producers-avenue-media`
+- CDN Hostname: `cdn.producersavenue.com`
+- Regions: Multi-region for global coverage
+- Security: Signed URLs for premium content
+
+---
+
+## Payment Processing
+
+### Stripe
+**Stripe API + Stripe Connect**
+
+**Core Features:**
+- One-time payments (products, services, webinars)
+- Recurring subscriptions (membership plans)
+- Marketplace transactions with commission splits
+- Secure checkout
+- 3D Secure (SCA compliance)
+- Webhooks for event handling
+
+**Subscription Plans:**
+- Basic (Free) - No Stripe interaction
+- Standard ($9.99/mo, $99.99/year)
+- Premium ($24.99/mo, $229.99/year)
+- Ultimate ($99.99/mo, $799.99/year)
+
+**Marketplace Commission Flow:**
+1. Buyer purchases product/service
+2. Stripe collects full amount
+3. Platform commission held (40%-10% based on seller tier)
+4. Seller receives net amount
+5. Payouts processed via Stripe Connect
+
+**Webhook Events Handled:**
+- `checkout.session.completed`
+- `customer.subscription.created`
+- `customer.subscription.updated`
+- `customer.subscription.deleted`
+- `payment_intent.succeeded`
+- `payment_intent.failed`
+
+**Security:**
+- PCI DSS compliant (Stripe handles this)
+- No card data touches our servers
+- Webhook signature verification
+- Test mode for development
+
+**Pricing:**
+- 2.9% + $0.30 per successful card charge
+- Connect: Additional 0.5% for marketplace transactions
+- Subscriptions: No additional fee
+- Payouts: Free (2-7 days) or 1% (instant)
+
+### PayPal (Optional - Future)
+- Alternative payment method
+- Some users prefer PayPal
+- Lower priority for MVP
+
+---
+
+## Email Service
+
+### Resend
+**Why Resend:**
+- Modern, developer-friendly API
+- React Email component support
+- Good deliverability
+- Reasonable pricing
+- Clean dashboard
+
+**Email Types:**
+1. **Transactional**
+   - Welcome emails
+   - Password reset
+   - Email verification
+   - Purchase confirmations
+   - Payout notifications
+
+2. **Notification**
+   - New message alerts
+   - Order updates
+   - Subscription renewals
+   - Featured product notifications
+
+3. **Marketing** (Future)
+   - Newsletter
+   - Platform updates
+   - Promotional campaigns
+
+**Pricing:**
+- Free tier: 3,000 emails/month
+- $20/month: 50,000 emails
+- $70/month: 250,000 emails
+
+**Integration:**
+```typescript
+// Send via Edge Function
+import { Resend } from 'resend'
+
+const resend = new Resend(RESEND_API_KEY)
+
+await resend.emails.send({
+  from: 'noreply@producersavenue.com',
+  to: user.email,
+  subject: 'Welcome to Producers Avenue!',
+  html: welcomeEmailTemplate
+})
+```
+
+---
+
+## Analytics
+
+### Custom Analytics Dashboard
+**Why Custom:**
+- Full control over data
+- No third-party tracking scripts (faster page load)
+- Privacy-friendly (GDPR compliant)
+- No cookie consent needed
+- Customizable to our needs
+
+**Metrics Tracked:**
+- User growth (daily, weekly, monthly)
+- Revenue (total, by tier, by product/service)
+- Top sellers
+- Top products/services
+- Engagement metrics (posts, comments, likes)
+- Conversion rates (visitor → signup → paid)
+- Retention rates
+- Churn analysis
+
+**Implementation:**
+- Server-side tracking via Supabase Edge Functions
+- Pre-calculated metrics (fast loading)
+- Real-time dashboards
+- Automated daily reports (email)
+
+### PostHog (Optional Backup)
+If custom analytics insufficient:
+- Privacy-friendly
+- Self-hostable option
+- Feature flags
+- Session replay
+- Free tier: 1 million events/month
+
+---
+
+## Hosting & Deployment
+
+### Vercel (Production)
+**Why Vercel:**
+- Built for Next.js (by the same team)
+- Automatic deployments from GitHub
+- Global CDN (300+ edge locations)
+- Instant rollbacks
+- Preview deployments for PRs
+- Built-in analytics
+- Excellent DX
+
+**Features Used:**
+- Automatic SSL certificates
+- Custom domains
+- Environment variables per environment
+- Edge Functions (future)
+- Image optimization
+- Incremental Static Regeneration (ISR)
+
+**Deployment Workflow:**
+```bash
+# Automatic on Git push
+git push origin main
+# Vercel automatically:
+# 1. Detects push
+# 2. Builds project
+# 3. Runs tests (if configured)
+# 4. Deploys to production
+# 5. Sends Slack notification (optional)
+```
+
+**Pricing:**
+- Hobby Plan: Free (sufficient for start)
+- Pro Plan: $20/month (when scaling)
+- Enterprise: Custom pricing
+
+**Performance:**
+- Global CDN
+- Automatic caching
+- Edge network
+- 99.99% uptime SLA (Pro+)
+
+---
+
+## Development Tools
+
+### Version Control
+**Git + GitHub**
+- Private repository
+- Branch protection rules
+- Pull request workflow
+- GitHub Actions for CI/CD
+- Issue tracking
+- Project boards
+
+### Package Management
+**pnpm** (preferred) or **npm**
+- Fast installs
+- Disk space efficient
+- Lock files for consistency
+- Scripts for common tasks
+
+### Code Quality
+**ESLint + Prettier**
+- Code style enforcement
+- Automatic formatting
+- TypeScript linting
+- Import sorting
+- Pre-commit hooks (Husky)
+
+### Testing (Phase 2)
+**Jest + React Testing Library**
+- Unit tests
+- Component tests
+- Integration tests
+
+**Playwright**
+- End-to-end tests
+- User flow testing
+- Cross-browser testing
+
+---
+
+## Environment Variables
+
+```bash
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
+SUPABASE_SERVICE_ROLE_KEY=xxx # Server-side only
+
+# Stripe
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_xxx
+STRIPE_SECRET_KEY=sk_live_xxx
+STRIPE_WEBHOOK_SECRET=whsec_xxx
+STRIPE_CONNECT_CLIENT_ID=ca_xxx
+
+# Bunny.net
+BUNNY_STORAGE_API_KEY=xxx
+BUNNY_STREAM_API_KEY=xxx
+BUNNY_CDN_HOSTNAME=cdn.producersavenue.com
+BUNNY_STORAGE_ZONE_NAME=producers-avenue-media
+
+# Resend
+RESEND_API_KEY=re_xxx
+
+# App
+NEXT_PUBLIC_APP_URL=https://producersavenue.com
+NODE_ENV=production
+```
+
+---
+
+## Security Considerations
+
+### Frontend Security
+- Environment variables properly scoped (NEXT_PUBLIC_ only for public)
+- XSS protection via React's built-in escaping
+- Content Security Policy headers
+- HTTPS everywhere (Vercel automatic)
+- No sensitive data in localStorage
+- JWT tokens in httpOnly cookies
+
+### Backend Security (Supabase)
+- Row Level Security (RLS) on all tables
+- Service role key never exposed to frontend
+- API rate limiting
+- SQL injection prevention (parameterized queries)
+- Secure password hashing (bcrypt via Supabase)
+- Email verification required
+
+### Payment Security
+- PCI DSS compliance via Stripe
+- No card data stored or handled
+- Webhook signature verification
+- Secure redirect URLs
+- 3D Secure authentication
+
+### File Upload Security
+- File type validation (whitelist)
+- Size limits enforced
+- Virus scanning (ClamAV)
+- Signed URLs for private content
+- CORS properly configured
+- Content-Type validation
+
+---
+
+## Performance Optimization
+
+### Frontend
+- Code splitting via Next.js automatic
+- Lazy loading components
+- Image optimization (Vercel automatic)
+- Minimal JavaScript bundle
+- Tree shaking
+- Dynamic imports for heavy libraries
+
+### Backend
+- Database indexes on frequently queried columns
+- Connection pooling via Supabase
+- Edge Functions for low latency
+- Query optimization
+- Prepared statements
+- Caching strategies
+
+### Media
+- Bunny CDN for fast global delivery
+- Adaptive bitrate streaming (future)
+- Image compression (WebP format)
+- Lazy loading images
+- Video transcoding (future)
+
+---
+
+## Scalability Plan
+
+### Current Capacity
+- Supabase Pro: Handles thousands of users
+- Vercel: Unlimited bandwidth
+- Bunny.net: Unlimited bandwidth scaling
+- Stripe: Handles millions of transactions
+
+### Scaling Path
+1. **0-1,000 users:** Current setup sufficient
+2. **1,000-10,000 users:** Upgrade Supabase to Team plan ($599/mo)
+3. **10,000-100,000 users:** Upgrade Vercel to Pro, optimize database
+4. **100,000+ users:** Consider dedicated infrastructure, database sharding
+
+### Database Scaling
+- Read replicas for heavy queries
+- Partitioning large tables (orders, transactions)
+- Archive old data (older than 2 years)
+- Query optimization and indexes
+- Materialized views for reports
+
+---
+
+## Monitoring & Maintenance
+
+### Uptime Monitoring
+- Vercel Analytics (built-in)
+- UptimeRobot or Better Uptime
+- Alert on downtime (email, Slack)
+- Public status page
+
+### Error Tracking
+- Sentry for frontend errors
+- Supabase logs for backend
+- Slack/email alerts for critical errors
+- Error dashboards
+
+### Performance Monitoring
+- Lighthouse scores (target: 90+)
+- Core Web Vitals tracking
+- API response times (<200ms target)
+- Database query performance
+- Vercel Analytics
+
+### Backups
+- Supabase automatic daily backups (retained 7 days)
+- Point-in-time recovery (up to 7 days back)
+- Manual exports for critical data weekly
+- Backup verification monthly
+
+---
+
+## Cost Estimates
+
+### Monthly Costs (Estimated)
+
+**Small Scale (0-1,000 users):**
+- Supabase Pro: $25/mo
+- Vercel Hobby: Free
+- Bunny.net: ~$5-10/mo
+- Stripe fees: 2.9% + $0.30 per transaction
+- Resend: Free tier (3k emails)
+- Domain: ~$1/mo
+- **Total:** ~$31-36/mo + transaction fees
+
+**Medium Scale (1,000-10,000 users):**
+- Supabase Team: $599/mo
+- Vercel Pro: $20/mo
+- Bunny.net: ~$50-100/mo
+- Stripe fees: Negotiated rates
+- Resend: ~$20/mo (50k emails)
+- Sentry: ~$26/mo
+- **Total:** ~$715-765/mo + transaction fees
+
+**Large Scale (10,000+ users):**
+- Custom pricing and infrastructure
+- Dedicated support contracts
+- Enterprise features
+- **Total:** $2,000-5,000/mo + transaction fees
+
+---
+
+## Development Workflow
+
+### Local Development
+```bash
+# Install dependencies
+pnpm install
+
+# Start Supabase locally
+supabase start
+
+# Run dev server
+pnpm dev
+
+# Access
+# App: http://localhost:3000
+# Supabase Studio: http://localhost:54323
+```
+
+### Build & Test
+```bash
+# Build for production
+pnpm build
+
+# Test production build locally
+pnpm start
+
+# Run linter
+pnpm lint
+
+# Run tests (Phase 2)
+pnpm test
+```
+
+### Deployment Process
+1. Develop locally
+2. Create feature branch
+3. Push to GitHub
+4. Automatic preview deployment (Vercel)
+5. Test preview
+6. Create pull request
+7. Code review
+8. Merge to main
+9. Automatic production deployment
+10. Monitor for errors
+
+### CI/CD Pipeline (GitHub Actions)
+```yaml
+# Runs on every PR
+- Lint code
+- Run tests
+- Build project
+- Deploy preview (Vercel automatic)
+
+# Runs on merge to main
+- Run all checks
+- Deploy to production (Vercel automatic)
+- Run smoke tests
+- Notify team (Slack)
+```
+
+---
+
+## Technical Debt & Future Considerations
+
+### Known Limitations
+- No server-side rendering for all pages (performance tradeoff)
+- Limited image optimization on uploads (future enhancement)
+- No mobile app yet (Phase 2)
+
+### Future Enhancements
+- **Mobile App** (React Native / Capacitor)
+- **GraphQL API** for third-party integrations
+- **Advanced Analytics** (AI-powered insights)
+- **Video Streaming** optimization
+- **Internationalization** (i18n for multiple languages)
+- **Progressive Web App** (PWA) features
+- **AI Features:**
+  - Smart product recommendations
+  - Automated tagging
+  - Content moderation assistance
+  - Chatbot improvements
+
+---
+
+**Document Version:** 2.0  
+**Last Updated:** November 5, 2025  
+**Status:** Production Ready - Vercel Deployment

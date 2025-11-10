@@ -1,0 +1,1089 @@
+# PRODUCERS AVENUE V2 - FEATURES & USER ROLES
+
+**Version:** 2.0  
+**Last Updated:** November 5, 2025  
+**Status:** ✅ Complete Reference
+
+---
+
+## TABLE OF CONTENTS
+
+1. [Community Features](#community-features)
+2. [Marketplace Features](#marketplace-features)
+3. [Financial Features](#financial-features)
+4. [Specialized Tools](#specialized-tools)
+5. [Admin Features](#admin-features)
+6. [User Roles & Permissions](#user-roles--permissions)
+7. [Phase 2 Features](#phase-2-features)
+
+---
+
+## COMMUNITY FEATURES
+
+### User Profiles
+
+**Profile Components:**
+- Profile picture (avatar)
+- Banner/header image
+- Display name and username
+- Bio/description (rich text, 500 characters)
+- Location (city, country)
+- Categories and skills (from selection)
+- Genre preferences
+- Experience level
+- **Smart Link (rolink.me only)** - single link field
+- Member since date
+- Subscription badge
+- Verification badges (if applicable)
+- Statistics:
+  - Total products/services
+  - Total sales
+  - Average rating
+  - Followers count
+  - Following count
+  - Groups joined
+
+**Smart Link Integration (Release Organizer Partnership):**
+- **Single link field** - rolink.me URLs only
+- **No individual social media links** - all platforms go in rolink.me Smart Link
+- **Why:** Strategic partnership with Release Organizer
+  - Users create Smart Link at releaseorganizer.com
+  - Smart Link contains all their platforms (Instagram, SoundCloud, Spotify, etc.)
+  - Clean, professional profile design
+  - Cross-platform promotion
+  - One link to maintain instead of many
+
+**Profile Form:**
+```
+Smart Link (Release Organizer)
+┌──────────────────────────────────────────────┐
+│ https://rolink.me/yourlink                 │
+└──────────────────────────────────────────────┘
+
+ℹ️ Showcase all your platforms with your rolink.me Smart Link
+   Create your free Smart Link at releaseorganizer.com
+```
+
+**Link Validation:**
+- Only rolink.me/* URLs accepted
+- Auto-prepends https:// if missing
+- Error for other domains: "Only rolink.me Smart Links allowed"
+- Helpful message: "Add all your platforms to your rolink.me Smart Link on https://releaseorganizer.com/ instead!"
+
+**Profile Display:**
+- Prominent button: **[View All My Links]**
+- Opens rolink.me/{username} in new tab
+- Clean, single-button design
+- No cluttered social media icons
+
+**Benefits:**
+- Users maintain one Smart Link (easier than updating multiple fields)
+- Professional appearance
+- Link analytics from Release Organizer
+- Cross-promotion between platforms
+- Users stay in ecosystem
+
+**Profile Privacy:**
+- Public (default) - visible to all
+- Members only - visible to logged-in users
+- Private - visible only to connections (future feature)
+
+**Profile Actions:**
+- Follow/Unfollow
+- Send message
+- Send collab request
+- Report profile
+- Share profile (social media, copy link)
+
+---
+
+### Social Feed
+
+**Post Types:**
+- Text posts (500 characters)
+- Text + image (up to 4 images)
+- Text + audio (embedded player)
+- Text + video (embedded player)
+- Text + link (with preview card)
+- Poll (up to 4 options)
+- Shared product/service
+- Shared webinar
+
+**Post Features:**
+- Rich text formatting (bold, italic, links)
+- @ mentions (tag other users)
+- # hashtags (create/use tags)
+- Emoji support
+- Edit post (within 15 minutes)
+- Delete post
+- Pin to profile (3 posts max)
+- Save post (bookmark)
+
+**Post Interactions:**
+- Like/Unlike
+- Comment
+- Share/Repost
+- Report inappropriate content
+
+**Feed Algorithm:**
+- Following: Posts from users you follow
+- Discover: Trending posts from network
+- Latest: Chronological from all (opt-in)
+- Personalized: Based on your categories/genres
+
+**Feed Refresh:**
+- **Manual refresh only** (not real-time)
+- Pull-to-refresh on mobile
+- Refresh button on desktop
+- Better UX: Content doesn't jump while reading
+
+**Feed Filters:**
+- All posts
+- Media only (images/videos/audio)
+- Discussions only (text)
+- Polls only
+- From specific category/genre
+
+---
+
+### Follow System (Hybrid Model)
+
+**Following Mechanism:**
+- **One-way following** (like Twitter/Instagram)
+- Follow any public profile
+- Private profiles require approval (future)
+- Unfollow anytime
+- Followers/Following lists viewable
+
+**Display Logic:**
+- **One-way relationship:** Show "Following" / "Followers"
+- **Mutual relationship:** Show "Connected" badge
+
+**UI Examples:**
+```
+User A follows User B (one-way):
+→ A sees: "Following" button
+→ B sees: "Follow Back" button
+
+Both follow each other (mutual):
+→ Both see: "Connected" badge
+→ Profile: "You're connected with [Name]"
+```
+
+**Benefits:**
+- Asymmetric following (fan/artist dynamic)
+- Mutual connections encouraged (better engagement)
+- LinkedIn-like feel when connected
+- Simple to understand
+
+**Follow Feed:**
+- See posts from users you follow
+- Activity feed (follower liked X, commented on Y)
+- Discover suggested users based on network
+
+---
+
+### Groups
+
+**Group Types:**
+- **Public:** Anyone can see and join
+- **Private:** Anyone can see, must request to join
+- **Secret:** Invite-only, hidden from search
+
+**Group Features:**
+- Group name and description
+- Group image/banner
+- Category tags
+- Member count (visible/hidden)
+- Rules and guidelines
+- Pinned posts (important announcements)
+- Custom roles (Owner, Admin, Moderator, Member)
+- Post approval (optional, for Private/Secret groups)
+
+**Group Posts:**
+- Same functionality as social feed
+- Group-specific tags
+- Admin-only announcements
+- Polls for group decisions
+- Event scheduling (future)
+- File sharing (limited to certain file types)
+
+**Group Discovery:**
+- Search groups by name, category, tags
+- Suggested groups (based on user interests)
+- Trending groups
+- Similar groups recommendations
+
+**Group Management (Owner/Admin):**
+- Invite members
+- Approve/deny join requests
+- Remove members
+- Ban members
+- Appoint/remove Admins/Moderators
+- Edit group details
+- Archive/delete group
+- View member list with roles
+- Moderate posts and comments
+- View group analytics (engagement, growth)
+
+---
+
+### Direct Messaging
+
+**Message Types:**
+- Text messages (unlimited length)
+- Image attachments
+- Audio attachments
+- Video attachments
+- File attachments (PDFs, documents - size limits apply)
+- Voice messages (future)
+
+**Messaging Features:**
+- One-on-one conversations
+- Group chats (up to 50 participants)
+- **Real-time delivery** (Supabase Realtime)
+- Read receipts
+- Typing indicators
+- Message reactions (emoji)
+- Reply to specific message
+- Forward message
+- Delete message (for self or both)
+- Search within conversation
+- Archive conversation
+- Mute notifications
+- Block user
+
+**Message Organization:**
+- Inbox (all conversations)
+- Unread messages
+- Archived
+- Spam/blocked
+
+**Notifications:**
+- **Real-time push notifications**
+- Email notifications (configurable)
+- Desktop notifications
+
+---
+
+## MARKETPLACE FEATURES
+
+### Products (Digital Goods)
+
+**Product Types:**
+- Beats & instrumentals
+- Sample packs
+- Loops & one-shots
+- VST presets
+- Mixing/mastering templates
+- MIDI files
+- Project files (DAW sessions)
+- Sound effects
+- Music production tutorials
+- Recorded webinars (converted from live webinars)
+
+**Product Creation:**
+- Title, description, category
+- Multiple preview images
+- Audio preview (30-60 second watermarked sample)
+- Video preview (optional)
+- File upload (full product - stored on Bunny.net)
+- Technical details (BPM, key, sample rate, bit depth, file format)
+- Genre tags
+- Pricing (fixed or name-your-price with minimum)
+- License type (personal, commercial, exclusive, custom)
+- License terms (custom text)
+
+**Product Page:**
+- Product images carousel
+- Audio player with waveform
+- Technical specifications
+- License information
+- Reviews and ratings (Phase 2)
+- "Add to Cart" / "Buy Now"
+- Related products
+- Seller profile link
+
+**Purchase Flow:**
+1. Buyer adds to cart (or buy now)
+2. Checkout (Stripe)
+3. Payment processed
+4. **Real-time order status update** (seller & buyer)
+5. Buyer downloads files
+6. Order completed
+7. Review (optional - Phase 2)
+
+---
+
+### Services
+
+**Service Types:**
+- Music production
+- Mixing
+- Mastering
+- Recording
+- Vocal editing/tuning
+- Beat making
+- Sound design
+- Video editing
+- Graphic design
+- **Mentoring/Coaching** (flagged with `is_mentoring: true`)
+- Consultation
+
+**Service Packages:**
+- Multiple tier packages (Basic, Standard, Premium)
+- Each package includes:
+  - Price
+  - Delivery time
+  - Number of revisions
+  - Features list
+  - Add-ons (optional extras for additional cost)
+
+**Service Creation:**
+- Title, description, category
+- Service type selection
+- Portfolio samples (images, audio, video)
+- Package definitions
+- Buyer requirements (what they need to provide)
+- Genre tags
+
+**Order Flow:**
+1. Buyer selects package
+2. Buyer provides requirements/files
+3. Checkout (Stripe)
+4. Seller receives order notification
+5. Seller delivers files
+6. Buyer reviews delivery
+7. Buyer requests revision OR approves
+8. Order completed
+9. Review (optional - Phase 2)
+
+**Order Management:**
+- View all orders (buyer/seller views)
+- Download deliverables
+- Request revisions
+- Track status
+- Message seller/buyer
+- Leave review (Phase 2)
+
+**Order Statuses:**
+- Pending payment
+- In progress
+- Delivered
+- Revision requested
+- Completed
+- Cancelled
+- Refunded
+- Disputed
+
+---
+
+### Webinars (Phase 2)
+
+**Webinar Features:**
+- Live video sessions (100ms integration)
+- Screen sharing
+- Recording available after
+- Q&A chat
+- Polls during webinar
+- Up to 100 participants (standard), 1000+ (ultimate)
+- Co-hosts (Premium+)
+
+**Webinar Creation:**
+- Title, description, cover image
+- Scheduled date/time
+- Duration
+- Price (free or paid)
+- Max attendees
+- Category/tags
+- Preview video (optional)
+
+**Attendee Experience:**
+- Register for webinar
+- Receive reminders (email, notification)
+- Join live session
+- Interact via chat
+- Access recording after (if paid or allowed)
+
+**Host Dashboard:**
+- Participant list
+- Chat moderation
+- Q&A queue
+- Recording controls
+- Screen share
+- Analytics (attendance, engagement)
+
+**Webinar to Product Conversion:**
+- After webinar ends, host can convert recording to product
+- Recording uploaded to Bunny.net
+- Product created automatically
+- Host can set price
+- Available for purchase in marketplace
+
+---
+
+## FINANCIAL FEATURES
+
+### Wallet & Earnings
+
+**Wallet Features:**
+- View balance (available + pending)
+- Earnings history
+- Pending payouts
+- Transaction history
+- Withdraw funds (to Stripe Connect or PayPal)
+
+**Earnings Breakdown:**
+- Total earned (Stripe + PayPal)
+- Available balance (ready to withdraw)
+- Pending balance (7-day escrow hold)
+- Total withdrawn
+- Platform spending
+
+**Commission Structure:**
+- Basic: 40% platform commission
+- Standard: 30% commission
+- Premium: 20% commission
+- Ultimate: 10% commission
+- Ultimate for Friends: 10% commission
+
+**Payout Process:**
+- Minimum: $50 balance
+- Payout to bank account (Stripe Connect)
+- OR payout to PayPal
+- Processing time: 2-7 business days (Stripe), 1-3 days (PayPal)
+- Automatic payouts (weekly/monthly) OR manual request
+- Admin approval required for first payout (fraud prevention)
+
+**All Fees Paid By Sellers:**
+- Stripe fees: 2.9% + $0.30
+- PayPal fees: ~3.49% + $0.49
+- Platform commission: 10-40% (based on tier)
+- **Buyers always pay listed price only**
+
+---
+
+### Subscription Management
+
+**Subscription Tiers:** (See detailed breakdown in User Roles section below)
+- Basic (Free)
+- Standard ($9.99/mo, $99.99/year)
+- Premium ($24.99/mo, $229.99/year)
+- Ultimate ($99.99/mo, $799.99/year)
+- Ultimate for Friends (Free, admin-assigned)
+
+**Subscription Actions:**
+- Upgrade tier (immediate access, prorated billing)
+- Downgrade tier (at end of current period)
+- Cancel subscription (access until period ends)
+- Update payment method
+- View billing history
+- Download invoices
+
+**Prorated Billing:**
+- Upgrades: Charged difference immediately
+- Downgrades: Refund credited at end of period
+
+---
+
+## SPECIALIZED TOOLS
+
+### Collab Matcher
+
+**Purpose:** Match users for collaborations based on complementary skills
+
+**Matching Algorithm:**
+- Skills complement (producer + vocalist, guitarist + drummer)
+- Genre overlap (both work in hip-hop, both in rock)
+- Experience level compatibility
+- Location proximity (optional filter - GPS for paid users)
+- Availability status
+
+**How It Works:**
+1. User clicks "Find Collaborators"
+2. System analyzes user's profile (categories, skills, genres)
+3. Suggests complementary matches
+4. User can filter by genre, location, experience
+5. User sends collab request
+6. Match can accept/decline
+
+**Collab Request:**
+- Includes: Brief message, project idea, timeline
+- Receiver can accept, decline, or suggest alternatives
+
+---
+
+### Search & Discovery
+
+**Search Functionality:**
+- Global search (users, products, services, groups, webinars)
+- Filter by type, category, genre, price range
+- Sort by: Relevance, recent, popular, price (low/high)
+- Auto-suggest as you type
+
+**Discovery Features:**
+- Trending now
+- New members
+- Featured products
+- Popular services
+- Upcoming webinars
+- Recommended for you (based on interests)
+
+**Advanced Filters:**
+- Multiple categories/skills (AND/OR logic)
+- Location radius (paid users only - GPS-based)
+- Price range
+- Rating (Phase 2)
+- Verified users only
+
+---
+
+## ADMIN FEATURES
+
+### Content Moderation
+
+**Report System:**
+- Report button on all content (posts, products, services, profiles)
+- Report categories:
+  - Spam
+  - Harassment
+  - Inappropriate content
+  - Copyright violation
+  - Scam/fraud
+  - Other (with description)
+
+**Moderation Queue:**
+- View all reported items
+- Review content and user history
+- Take action:
+  - Dismiss report (false positive)
+  - Warn user
+  - Remove content
+  - Suspend user (temporary)
+  - Ban user (permanent)
+- Track reporter (false reporting = consequences)
+
+**False Reporting Prevention:**
+- Track false report count per user
+- 3 false reports = 30-day report ban
+- 5 false reports = permanent report ban
+- Email notification each time
+
+---
+
+### Custom Field Approval
+
+**User Experience:**
+1. User types "Tamburica" (not in skill list)
+2. Clicks "+ Request new skill"
+3. Saved as pending (**invisible to user**)
+4. Admin reviews in panel
+5. **Auto-approve if 3+ users request same field**
+6. Once approved → appears in checkbox list for everyone
+7. User notified: "Your skill 'Tamburica' was approved!"
+
+**Auto-Approval Thresholds:**
+- Skills: 3+ users
+- Genres: 5+ users
+- Categories: Manual only (too critical)
+
+**Admin Review:**
+- See all pending requests
+- See request count per field
+- Approve/reject with reason
+- Add to master list (if approved)
+- Notify all requesters
+
+---
+
+### Analytics (Admin Panel)
+
+**Custom Analytics Dashboard:**
+- User growth (daily, weekly, monthly)
+- Revenue (total, by tier, by product/service)
+- Top sellers
+- Top products/services
+- Engagement metrics (posts, comments, likes)
+- Conversion rates (visitor → signup → paid)
+- Automated daily reports (email)
+- Pre-calculated metrics (fast loading)
+
+**Benefits:**
+- Full control over data
+- No third-party scripts (faster page load)
+- No tracking concerns
+- Customizable to needs
+
+---
+
+## USER ROLES & PERMISSIONS
+
+### Member Subscription Tiers
+
+All users start as Members. Their privileges are determined by their subscription level. Members can upgrade or downgrade at any time.
+
+#### BASIC (Free Forever)
+
+**Pricing:** $0/month
+
+**Marketplace Privileges:**
+- Upload up to **3 products** (digital goods)
+- List unlimited **services**
+- Host unlimited **webinars**
+- Offer **mentoring sessions**
+- Commission: **40%** on all sales
+
+**Community Privileges:**
+- Create and join unlimited groups
+- Post to community feed
+- Comment and interact
+- Direct messaging (unlimited)
+- Follow other members
+- Search and discovery
+- Use Collab Matcher tool
+- Access to Release Organizer integration
+- **1 Smart Link (rolink.me only)**
+
+**Storage:**
+- Profile picture and banner
+- Product thumbnails (auto-generated)
+- Limited to 100MB total product files
+
+**Featured Placements:**
+- **0 featured products**
+- No homepage carousel placement
+- Standard search ranking
+
+**Support:**
+- Community support (forums, Discord)
+- Email support (48-hour response)
+
+**Limitations:**
+- Watermark on free products (optional setting)
+- No analytics dashboard
+- No custom store URL
+- Cannot submit products for curator review
+
+---
+
+#### STANDARD ($9.99/month, $99.99/year)
+
+**Pricing:** 
+- Monthly: $9.99
+- Annual: $99.99 (save $19.89 - 2 months free)
+
+**Marketplace Privileges:**
+- Upload up to **10 products**
+- List unlimited services
+- Host unlimited webinars
+- Offer mentoring sessions
+- Commission: **30%** on all sales
+
+**Community Privileges:**
+- All Basic privileges
+- Priority in search results
+- Early access to new features
+- Custom profile badge "Standard Member"
+- **1 Smart Link (rolink.me only)**
+
+**Storage:**
+- 500MB total product files
+- Higher quality thumbnails
+- Cover images for webinars
+
+**Featured Placements:**
+- **1 featured product** at a time
+- Rotates in category pages
+- Higher visibility in search
+
+**Support:**
+- Priority email support (24-hour response)
+- Access to knowledge base
+
+**Additional Features:**
+- Basic analytics (views, sales)
+- Subdomain for custom store (yourusername.producersavenue.com)
+
+---
+
+#### PREMIUM ($24.99/month, $229.99/year)
+
+**Pricing:**
+- Monthly: $24.99
+- Annual: $229.99 (save $69.89 - ~3 months free)
+
+**Marketplace Privileges:**
+- Upload up to **50 products**
+- List unlimited services
+- Host unlimited webinars with co-hosts (up to 3)
+- Offer mentoring sessions
+- Commission: **20%** on all sales
+
+**Community Privileges:**
+- All Standard privileges
+- "Premium Member" badge with special styling
+- Create verified groups
+- Early access to beta features
+- **1 Smart Link (rolink.me only)**
+
+**Storage:**
+- 5GB total product files
+- HD video support for webinars
+- Priority file processing
+
+**Featured Placements:**
+- **3 featured products** simultaneously
+- Priority in homepage feed
+- Category page highlights
+- "Premium Pick" badge on products
+
+**Support:**
+- Priority support (12-hour response)
+- Live chat support (business hours)
+- Dedicated account representative
+
+**Additional Features:**
+- Advanced analytics dashboard
+  - Revenue trends
+  - Audience demographics
+  - Traffic sources
+  - Conversion funnels
+- Subdomain for custom store
+- Discount code creation
+- Basic API access
+- Email marketing integration (future)
+
+---
+
+#### ULTIMATE ($99.99/month, $799.99/year)
+
+**Pricing:**
+- Monthly: $99.99
+- Annual: $799.99 (save $399.89 - 4 months free)
+
+**Marketplace Privileges:**
+- Upload **unlimited products**
+- List unlimited services
+- Host unlimited webinars with unlimited co-hosts
+- Offer mentoring sessions
+- Commission: **10%** on all sales (lowest rate!)
+
+**Community Privileges:**
+- All Premium privileges
+- "Ultimate Member" badge with special styling
+- Top priority in all search and discovery
+- Ability to verify other members (reputation system)
+- Create verified/official groups
+- Host platform-wide events
+- **1 Smart Link (rolink.me only)**
+
+**Storage:**
+- 50GB total product files
+- 4K video support for webinars
+- Priority CDN delivery
+- Dedicated bandwidth allocation
+
+**Featured Placements:**
+- **10 featured products** simultaneously
+- Guaranteed homepage hero section (rotation)
+- Featured in all relevant categories
+- Spotlight in newsletter
+- Social media promotion (monthly)
+
+**Curator Review:**
+- **Submit products to curators for review**
+- Potential feature on Platform News page
+- Curator feedback and recommendations
+- "Curator's Choice" badge eligibility
+
+**Support:**
+- VIP support (4-hour response, 24/7)
+- Dedicated account manager (call/video)
+- Priority bug fixes
+- Custom feature requests considered
+- Quarterly strategy consultation
+
+**Additional Features:**
+- Professional analytics suite
+  - Real-time dashboards
+  - Predictive insights
+  - Competitor analysis
+  - Custom reports
+  - Data export (CSV, JSON)
+- Fully custom store URL (own domain)
+- White-label store option
+- Advanced API access
+- Webhook integrations
+- Priority listings in all searches
+- Advertising credits (monthly allocation)
+
+**Exclusive Access:**
+- Ultimate-only networking events (virtual/in-person)
+- Direct access to platform founders
+- Advisory board participation opportunity
+- Pre-launch access to major features
+- Personal brand building support
+- Industry connections facilitation
+
+**Business Tools:**
+- Team accounts (add staff/collaborators)
+- Multi-user access controls
+- Bulk operations and automation
+- Integration with accounting software
+- Tax document generation (1099s, etc.)
+- Detailed financial reports
+
+---
+
+#### ULTIMATE FOR FRIENDS (Hidden Tier)
+
+**Pricing:** Free (Admin Assigned Only)
+
+**Visibility:**
+- Not shown on pricing page
+- Only assignable by Super Admin
+- For: Partners, team members, investors, VIP relationships
+- Displays publicly as "Ultimate" tier
+- Database flag: `is_partner_account: true`
+
+**Features:**
+- **Identical to Ultimate tier**
+- All Ultimate marketplace privileges
+- All Ultimate community privileges
+- All Ultimate storage and features
+- All Ultimate support and access
+- **1 Smart Link (rolink.me only)**
+
+**Assignment Process:**
+1. Super Admin identifies eligible users
+2. Manually assigns Ultimate for Friends status in admin panel
+3. User receives notification of upgrade
+4. Account shows "Ultimate" publicly
+5. No payment required, no expiration
+
+**Use Cases:**
+- Strategic partners (Release Organizer team)
+- Platform investors
+- Advisory board members
+- Core team members
+- Beta testers (selected)
+- Industry influencers (partnerships)
+
+---
+
+### Smart Links Strategy (Release Organizer Partnership)
+
+**Link Implementation - ALL TIERS:**
+
+**What Users Get:**
+- **Everyone gets exactly 1 link field**
+- **Must be rolink.me/* URL only**
+- **No other links allowed on profile**
+
+**Why This Strategy:**
+- Strategic partnership with Release Organizer
+- Users get unlimited platform links via their rolink.me Smart Link
+- Cross-promotion between platforms
+- Keeps users in Producers Avenue ecosystem
+- Drives Release Organizer sign-ups
+- Clean, professional profile design
+
+**Validation Rules:**
+- ✅ https://rolink.me/producer123
+- ✅ http://rolink.me/artist456
+- ✅ rolink.me/dj789 (auto-prepend https://)
+- ❌ https://linktr.ee/xyz → "Only rolink.me Smart Links allowed"
+- ❌ https://instagram.com/xyz → "Please use your rolink.me Smart Link"
+- ❌ Any other domain → "Only rolink.me Smart Links allowed"
+
+**User Experience:**
+1. User tries to add Instagram link
+2. System shows: "Add all your platforms to your rolink.me Smart Link instead!"
+3. Button: "Create Smart Link" → opens releaseorganizer.com
+4. User creates rolink.me Smart Link with all their platforms
+5. User pastes rolink.me link into Producers Avenue profile
+6. Profile shows single clean button: "View All My Links" → rolink.me
+
+---
+
+### Platform Administrative Roles
+
+These roles are separate from member subscriptions and manage platform operations.
+
+#### AUTHOR Role
+
+**Purpose:** Create platform content (news, tutorials, articles)
+
+**Permissions:**
+- Write and publish articles
+- Edit own articles
+- Access content management system (CMS)
+- View article analytics
+- Moderate comments on own articles
+
+**Cannot:**
+- Delete other authors' articles
+- Access admin panel
+- Moderate users
+- View financial data
+
+**Assignment:** Super Admin appoints Authors
+
+---
+
+#### ADMIN Role
+
+**Purpose:** Platform moderation and support
+
+**Permissions:**
+- Review reported content
+- Suspend users (temporary)
+- Remove inappropriate content
+- Approve custom field requests
+- View user profiles (all data)
+- View platform analytics
+- Respond to support tickets
+
+**Cannot:**
+- Permanently ban users (only Super Admin)
+- Access financial system
+- Modify platform settings
+- Assign roles
+
+**Assignment:** Super Admin appoints Admins
+
+---
+
+#### SUPER ADMIN Role
+
+**Purpose:** Full platform control
+
+**Permissions:**
+- All Admin permissions
+- Permanently ban users
+- Assign Ultimate for Friends status
+- Assign Author/Admin roles
+- Access financial systems
+- Approve payouts
+- Modify platform settings
+- View all data
+- Export user data
+- Manage third-party integrations
+
+**Assignment:** Platform owners only
+
+---
+
+### Subscription Comparison Table
+
+| Feature | Basic | Standard | Premium | Ultimate | Ultimate (Friends) |
+|---------|-------|----------|---------|----------|-------------------|
+| **Price (Monthly)** | Free | $9.99 | $24.99 | $99.99 | Free |
+| **Price (Annual)** | Free | $99.99 | $229.99 | $799.99 | Free |
+| **Product Uploads** | 3 | 10 | 50 | Unlimited | Unlimited |
+| **Commission Rate** | 40% | 30% | 20% | 10% | 10% |
+| **Smart Links** | 1 (rolink.me) | 1 (rolink.me) | 1 (rolink.me) | 1 (rolink.me) | 1 (rolink.me) |
+| **Featured Products** | 0 | 1 | 3 | 10 | 10 |
+| **Storage** | 100MB | 500MB | 5GB | 50GB | 50GB |
+| **Analytics** | None | Basic | Advanced | Professional | Professional |
+| **Support Response** | 48hr | 24hr | 12hr | 4hr (24/7) | 4hr (24/7) |
+| **Custom Store URL** | No | Subdomain | Subdomain | Full Custom | Full Custom |
+| **Curator Review** | No | No | No | Yes | Yes |
+| **API Access** | No | No | Basic | Advanced | Advanced |
+| **Account Manager** | No | No | No | Yes | Yes |
+
+---
+
+## PHASE 2 FEATURES (Not in MVP)
+
+### Features Coming Later:
+
+1. **Webinars** (100ms integration) - Month 5-6
+2. **Reviews & ratings** - Month 5
+3. **Mentoring section** (dedicated UI) - Month 6-7
+4. **Collab Matcher** - Month 7-8
+5. **Featured products** - Month 8
+6. **Advanced analytics** - Month 8-9
+7. **News/articles** (Author role) - Month 9-10
+8. **Email marketing** (Resend) - Month 12
+9. **Capacitor mobile app** - Month 9-12
+
+---
+
+## SEO & DISCOVERABILITY
+
+**SEO Implementation (Week 1):**
+- Meta tags on all pages (title, description, keywords)
+- XML sitemap (auto-generated)
+- Structured data (Schema.org)
+  - Person schema for profiles
+  - Product schema for marketplace items
+  - Event schema for webinars
+- Clean URLs with slugs (no IDs)
+- Open Graph tags (social sharing)
+- Canonical URLs
+- Proper heading hierarchy (H1, H2, H3)
+
+**On-Page SEO:**
+- Optimized page titles
+- Meta descriptions (unique per page)
+- Alt text for images
+- Internal linking
+- Fast page load (Vercel CDN)
+
+---
+
+## REAL-TIME FEATURES
+
+**MVP Real-Time (Supabase Realtime):**
+✅ Direct messages (instant delivery)
+✅ Notifications (bell updates)
+✅ Order status updates (buyer/seller)
+❌ Feed updates (manual refresh - better UX)
+
+**Phase 2 Real-Time:**
+- Online status indicators
+- Typing indicators
+- Live attendee counts (webinars)
+
+**Why No Real-Time Feed:**
+- Reading a post that suddenly disappears = bad UX
+- Posts jumping around while scrolling = confusing
+- Manual refresh = user controls content flow
+- Better for focused reading
+
+---
+
+## MOBILE RESPONSIVENESS
+
+**Mobile-First Design:**
+- Touch-friendly buttons (44px min)
+- Swipe gestures (delete, archive)
+- Pull-to-refresh
+- Bottom navigation (easy thumb reach)
+- Optimized forms (large inputs)
+- Sticky headers
+
+**Feature Animations (Mobile):**
+- Simple fade + 10px upward
+- 0.5s duration
+- No horizontal sliding (performance)
+
+---
+
+## ACCESSIBILITY
+
+**Accessibility Features:**
+- ARIA labels
+- Keyboard navigation
+- Screen reader support
+- Color contrast (WCAG AA)
+- Focus indicators
+- Alt text for images
+- Semantic HTML
+
+---
+
+**Document Version:** 2.0  
+**Last Updated:** November 5, 2025  
+**Status:** ✅ Complete - Smart Link Integration Confirmed

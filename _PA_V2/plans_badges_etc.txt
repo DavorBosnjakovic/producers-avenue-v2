@@ -1,0 +1,401 @@
+# PRODUCERS AVENUE V2 - PLANS, BADGES & CATEGORIES
+**Version:** 2.0 | **Date:** November 6, 2025 | **Status:** ✅ Final
+
+---
+
+## 1. MARKETPLACE CATEGORIES
+
+### PRODUCTS (Digital Downloadables)
+Everything that can be purchased and instantly downloaded.
+
+#### Sample Packs
+- Loops
+- One-Shots
+
+#### MIDI Packs
+
+#### Plugins
+- VST (EQ, Reverb, Delay, Saturation, Compressors, etc.)
+- VSTi (Synths, Drum Machines, Samplers)
+
+#### DAW Tools / Templates
+Project templates for FL Studio, Ableton, Logic Pro, etc.
+
+#### Plugin Expansions
+Add-on packs for specific plugins
+
+#### Presets
+- Synth Presets (Serum, Massive, Diva, etc.)
+- Plugin Presets (FabFilter, Ozone, Valhalla, etc.)
+- DAW Presets (Racks, Chains, Templates)
+
+#### Music
+- Ghost Production
+- Stock Music / Instrumentals (Royalty-free use)
+- Beats for Artists (Non-exclusive / exclusive licensing)
+- Soundtracks / Game Music / Film Scores
+
+#### Visuals
+- Cover Artwork
+- Video Loops / Visualizers
+- Logo Design Packs (for artists/labels)
+- Promo Templates (social media, YouTube thumbnails)
+- Animated Artwork (MP4 / GIF loop visuals)
+- Branding Kits (fonts, color palettes, etc.)
+
+#### Education
+- Courses (Production, Mixing, Music Theory, Marketing, etc.)
+- E-Books / Guides
+- Project Files (Learn-by-deconstruction)
+
+#### Beta / Freeware Zone (Optional)
+Feature up-and-coming developers and experimental tools
+
+---
+
+### SERVICES
+All music-related freelancing and collaboration services.
+
+#### Hire Professionals
+- Music Producer
+- Musician / Instrumentalist
+- Vocalist / Songwriter / Lyricist
+- Mixing Engineer
+- Mastering Engineer
+- Sound Designer
+- Video Producer / Editor
+- Visual Designer / Animator
+- Marketing Expert (playlisting, branding, strategy)
+- Social Media Manager (music-focused)
+- Legal Advisor (music law, contracts, publishing)
+
+#### Technical & Business Services
+- Website Design for Artists/Bands/Labels
+- Press Kit Creation (EPK)
+- Release Strategy / Campaign Management
+- Sync Licensing Assistance
+- Label Services (A&R, PR, release management)
+
+#### Influencer & Exposure Services
+- Hire Influencer / Curator for Promotion
+- Playlist Submission / Review
+- YouTube Channel Promotion
+- Music Reviewer / Blogger Collaboration
+- Radio & Podcast Submission Services
+
+---
+
+### WEBINARS / MASTERCLASSES
+Live sessions with option to record and sell as product after completion
+
+---
+
+## 2. MEMBER ROLES (What Users Are)
+
+**Note:** These are user professional identities, NOT marketplace categories.  
+Users select "I'm a..." during registration.
+
+### Main Roles:
+1. **Musician** (instruments as sub-skills)
+2. **Music Producer** (production skills as sub-skills)
+3. **Vocalist** (vocal styles as sub-skills)
+4. **Visual Designer** (design skills as sub-skills)
+5. **Promoter** (marketing skills as sub-skills)
+
+**Database Structure:**
+- `roles` table: Main professional roles (Musician, Producer, etc.)
+- `skills` table: Specific skills under each role (Guitar, Bass, Beat Making, etc.)
+- `user_roles` table: Many-to-many relationship (users can have multiple roles)
+- `user_skills` table: Many-to-many relationship (users can have multiple skills)
+
+**System Roles (Separate):**
+- `user_profiles.system_role` ENUM: 'member', 'admin', 'super_admin', 'author'
+- These are permission levels, NOT visible to regular users
+
+---
+
+## 3. SUBSCRIPTION PLANS
+
+### BASIC (FREE)
+**Pricing:** $0/month
+
+**Features:**
+- 5 Products
+- Up To 100MB Total Files
+- 40% Commission
+- Community Support, FAQ
+
+---
+
+### STANDARD ($9.99/month, $99.99/year)
+**Pricing:**
+- Monthly: $9.99
+- Annual: $99.99 (save $19.89 - 2 months free)
+
+**Features:**
+- 10 Products or Services
+- 1 Featured Product/Service (lasts 1 week)
+- Up To 500MB Total Files
+- 30% Commission
+- Email Support
+- Basic Analytics
+
+---
+
+### PREMIUM ($29.99/month, $279.99/year)
+**Pricing:**
+- Monthly: $29.99
+- Annual: $279.99 (save $79.89 - 2.6 months free)
+
+**Features:**
+- 50 Products or Services
+- 3 Featured Products/Services
+- Up to 3 Webinars Hosting
+- Up To 5 GB Total Files
+- 20% Commission
+- Premium Analytics
+- Priority Email Support
+
+---
+
+### ULTIMATE ($99.99/month, $899.99/year)
+**Pricing:**
+- Monthly: $99.99
+- Annual: $899.99 (save $299.89 - 3 months free)
+
+**Features:**
+- Unlimited Products/Services
+- 10 Featured Products/Services
+- Unlimited Webinars With Recording Option (sell after it's finished)
+- 3 Submissions to Curators/month
+- Editor's Choice Section Feature
+- Up to 50GB Total Files
+- Bulk Upload
+- 10% Commission
+- Detailed Analytics With Exports
+- Priority Support (WhatsApp)
+
+---
+
+## 4. PLAN FEATURES EXPLAINED (For Pricing Page)
+
+### Products & Services
+Digital products include sample packs, loop packs, presets, templates, and other downloadable content you create. Services are professional offerings like mixing, mastering, production, and consultation sessions. Each plan tier determines how many products and services you can list simultaneously on the marketplace.
+
+### Featured Products/Services
+Featured listings receive premium placement on the homepage, category pages, and search results, significantly increasing visibility and potential sales. Standard tier features last 1 week each. You can rotate which products/services are featured at any time through your dashboard.
+
+### Total File Storage
+This is your cumulative storage limit across all uploaded products, including audio files, presets, project files, and deliverables. Files are stored on our high-speed CDN for fast global delivery. Additional storage is available if needed.
+
+### Commission Structure
+Our commission is calculated on each sale and covers payment processing, platform maintenance, CDN delivery, and customer support. The commission rate is locked in at the time of purchase, so upgrading your plan immediately reduces fees on future sales. All commissions are transparently displayed before checkout.
+
+### Webinar Hosting
+Host live online workshops, masterclasses, or Q&A sessions directly on the platform. Premium tier supports up to 3 concurrent scheduled webinars. Ultimate tier offers unlimited hosting with automatic recording, allowing you to sell access to recordings after the live session ends. Includes screen sharing, chat, and interactive tools.
+
+### Curator Submissions
+Ultimate members can submit up to 3 products per month for consideration by our editorial team. Selected products receive premium exposure through our platform News page and monthly newsletter, sent to thousands of subscribers. Each feature includes a direct link to your product, driving high-quality traffic and potential sales. Think of it as free marketing for your best work—no feedback provided, just powerful promotional exposure when selected.
+
+### Editor's Choice Section Feature
+Products selected through curator submissions are showcased in the exclusive Editor's Choice section on the homepage. This prime real estate provides maximum visibility to every visitor, with featured products displaying a prestigious "Editor's Choice" badge that builds trust and credibility with potential buyers.
+
+### Analytics
+- **Basic Analytics** (Standard): Track views, clicks, sales, and revenue with simple charts and 7-day, 30-day, and all-time reporting.
+- **Premium Analytics** (Premium): Advanced insights including traffic sources, conversion rates, geographic data, and engagement metrics with comparison views.
+- **Detailed Analytics With Exports** (Ultimate): Professional-grade dashboard with real-time data, predictive insights, custom date ranges, cohort analysis, competitor benchmarking, and full CSV/PDF export capabilities for your records or accounting.
+
+### Support Tiers
+- **Community Support** (Basic): Access to our community forums, comprehensive FAQ library, and helpful guides created by experienced members.
+- **Email Support** (Standard): Direct email support with responses within 24-48 hours during business days.
+- **Priority Email Support** (Premium): Expedited email support with responses within 12-24 hours, including weekends.
+- **Priority Support via WhatsApp** (Ultimate): Direct WhatsApp line to our support team for immediate assistance. Average response time under 4 hours, 24/7 availability including holidays. Includes dedicated account manager for strategy consultation.
+
+### Annual Billing Discount
+Save significantly by choosing annual billing: Standard saves $19.89 (2 months free), Premium saves $79.89 (2.6 months free), and Ultimate saves $299.89 (3 months free). Annual subscriptions can be cancelled anytime, with access continuing through the paid period.
+
+### Plan Upgrades & Downgrades
+Upgrade your plan at any time to immediately access higher tier benefits. Upgrades are prorated, so you only pay the difference. Downgrades take effect at the end of your current billing cycle, allowing you to enjoy your current benefits until then. All your content and data are preserved when changing plans.
+
+### Professional Summary
+Our tiered subscription model is designed to grow with your creative business. Start free to test the platform, upgrade to Standard when you're ready to sell seriously, jump to Premium when you're scaling your offerings, and reach Ultimate when you're ready for maximum visibility and the lowest commission rates in the industry. Every tier is crafted to provide exceptional value while supporting the sustainable growth of our creator community.
+
+---
+
+## 5. BADGES SYSTEM
+
+### ACHIEVEMENT BADGES (Automatic)
+
+**First Sale**
+- Color: `#10B981` (Green)
+- Description: "Made your first sale!"
+- Criteria: `total_sales >= 1`
+- Auto-awarded: Yes
+
+**Rising Star**
+- Color: `#3B82F6` (Blue)
+- Description: "10 sales milestone"
+- Criteria: `total_sales >= 10`
+- Auto-awarded: Yes
+
+**Top Seller**
+- Color: `#EF4444` (Red)
+- Description: "100+ sales achieved"
+- Criteria: `total_sales >= 100`
+- Auto-awarded: Yes
+
+**Legendary Seller**
+- Color: `#8B5CF6` (Purple)
+- Description: "1000+ sales milestone"
+- Criteria: `total_sales >= 1000`
+- Auto-awarded: Yes
+
+**Highly Rated**
+- Color: `#F59E0B` (Gold)
+- Description: "4.8+ rating with 25+ reviews"
+- Criteria: `average_rating >= 4.8 AND reviews_count >= 25`
+- Auto-awarded: Yes
+
+**Popular Creator**
+- Color: `#EC4899` (Pink)
+- Description: "1000+ followers"
+- Criteria: `followers_count >= 1000`
+- Auto-awarded: Yes
+
+**Influencer**
+- Color: `#8B5CF6` (Purple)
+- Description: "5000+ followers"
+- Criteria: `followers_count >= 5000`
+- Auto-awarded: Yes
+
+---
+
+### REPUTATION BADGES (Automatic)
+
+**Trusted Seller**
+- Color: `#10B981` (Green)
+- Description: "High trust score & consistent quality"
+- Criteria: `trust_score >= 85 AND total_sales >= 50`
+- Auto-awarded: Yes
+
+**Fast Responder**
+- Color: `#FBBF24` (Yellow)
+- Description: "Responds within 1 hour on average"
+- Criteria: `avg_response_time_hours <= 1`
+- Auto-awarded: Yes
+
+**Reliable Delivery**
+- Color: `#10B981` (Green)
+- Description: "Always delivers on time"
+- Criteria: `completed_orders >= 20 AND on_time_delivery_rate >= 95`
+- Auto-awarded: Yes
+
+---
+
+### SPECIAL BADGES (Manual)
+
+**Verified**
+- Color: `#009ae9` (Brand Blue)
+- Description: "Verified account"
+- Criteria: Manual verification by admin
+- Auto-awarded: No
+
+**Early Adopter**
+- Color: `#EC4899` (Pink)
+- Description: "Joined during beta/launch period"
+- Criteria: Manual assignment by admin
+- Auto-awarded: No
+
+**Community Champion**
+- Color: `#F59E0B` (Gold)
+- Description: "Active community contributor"
+- Criteria: Manual selection by admin
+- Auto-awarded: No
+
+**Curator's Choice**
+- Color: `#8B5CF6` (Purple)
+- Description: "Featured by platform curators"
+- Criteria: Product featured in News/Newsletter (manual)
+- Auto-awarded: No (assigned when curator selects product)
+
+**Platform Partner**
+- Color: `#009ae9` (Brand Blue)
+- Description: "Official platform partner"
+- Criteria: Manual assignment by admin
+- Auto-awarded: No
+
+---
+
+### EARNINGS BADGES (Automatic)
+
+**First $100**
+- Color: `#10B981` (Green)
+- Description: "Earned first $100"
+- Criteria: `total_earnings >= 100`
+- Auto-awarded: Yes
+
+**$1K Earner**
+- Color: `#3B82F6` (Blue)
+- Description: "Earned over $1,000"
+- Criteria: `total_earnings >= 1000`
+- Auto-awarded: Yes
+
+**$10K Club**
+- Color: `#8B5CF6` (Purple)
+- Description: "Earned over $10,000"
+- Criteria: `total_earnings >= 10000`
+- Auto-awarded: Yes
+
+**Six Figure Creator**
+- Color: `#F59E0B` (Gold)
+- Description: "Earned over $100,000"
+- Criteria: `total_earnings >= 100000`
+- Auto-awarded: Yes
+
+---
+
+## 6. IMPLEMENTATION NOTES
+
+### Badge Display
+- Show badge name with colored text or small colored pill
+- Icons: NULL for now (add later via icon library like Lucide)
+- Maximum 3-5 featured badges on profile
+- User can choose which badges to display prominently
+
+### Database Structure
+All badges stored in `badges` table with:
+- name (TEXT)
+- slug (TEXT, unique)
+- description (TEXT)
+- badge_type (ENUM: 'achievement', 'reputation', 'special', 'earnings')
+- color (TEXT, hex code)
+- icon (TEXT, nullable - for future use)
+- criteria (JSONB - stores conditions)
+- is_automatic (BOOLEAN)
+
+### Custom Field Auto-Approval
+- Skills: Auto-approve after 3+ user requests
+- Genres: Auto-approve after 5+ user requests
+- Categories/Roles: Manual approval only
+
+---
+
+**Total Badges:** 19
+- Achievement: 7 (automatic)
+- Reputation: 3 (automatic)
+- Special: 5 (manual)
+- Earnings: 4 (automatic)
+
+**Total Plans:** 4 (Basic, Standard, Premium, Ultimate)
+
+**Total Member Roles:** 5 main roles with nested skills
+
+**Total Marketplace Categories:** 3 main (Products, Services, Webinars) with subcategories
+
+---
+
+**Document Version:** 2.0 Final  
+**Last Updated:** November 6, 2025  
+**Status:** ✅ Ready for SQL Generation
+
+**Next Step:** Generate complete SQL file with all tables, seed data, triggers, and RLS policies.

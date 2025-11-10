@@ -1,0 +1,1020 @@
+# PRODUCERS AVENUE - UI/UX DESIGN
+
+## Design Philosophy
+
+Producers Avenue aims for a **clean, modern, and professional** aesthetic that appeals to music industry professionals. The design should be:
+- **Intuitive:** Users find what they need without confusion
+- **Fast:** Minimal loading times, snappy interactions
+- **Accessible:** WCAG 2.1 AA compliant
+- **Consistent:** Reusable components, predictable patterns
+- **Responsive:** Works beautifully on mobile, tablet, and desktop
+
+---
+
+## Design System
+
+### Color Palette
+
+**Primary Color:**
+- **Main Blue:** `#009ae9`
+  - Used for: Primary buttons, links, active states, highlights
+  - Hover: `#0088d1`
+  - Active: `#0076b9`
+
+**Neutral Colors (Light Theme):**
+- Background: `#ffffff`
+- Surface: `#f5f5f5` (cards, panels)
+- Border: `#e0e0e0`
+- Text Primary: `#1a1a1a`
+- Text Secondary: `#666666`
+- Text Disabled: `#9e9e9e`
+
+**Neutral Colors (Dark Theme):**
+- Background: `#0a0a0a`
+- Surface: `#1a1a1a` (cards, panels)
+- Border: `#2a2a2a`
+- Text Primary: `#f5f5f5`
+- Text Secondary: `#b3b3b3`
+- Text Disabled: `#666666`
+
+**Semantic Colors:**
+- Success: `#10b981` (green)
+- Warning: `#f59e0b` (amber)
+- Error: `#ef4444` (red)
+- Info: `#3b82f6` (blue)
+
+**Accent Colors:**
+- Featured Badge: `#fbbf24` (gold)
+- Premium Badge: `#8b5cf6` (purple)
+- New Badge: `#10b981` (green)
+
+**Gradients (Optional Use):**
+- Hero Gradient: `linear-gradient(135deg, #009ae9 0%, #0076b9 100%)`
+- Card Hover: `linear-gradient(135deg, rgba(0,154,233,0.1) 0%, rgba(0,118,185,0.1) 100%)`
+
+---
+
+### Typography
+
+**Font Families:**
+**Font Families:**
+- **Primary Font:** 'Montserrat'
+  - Used for: Body text, paragraphs, UI elements, buttons, navigation
+  - Weights: 400 (Regular), Variable (Italic & Variable)
+  - Files: Montserrat-VariableFont.woff2, Montserrat-Italic-VariableFont.woff2
+  
+- **Heading Font:** 'Bebas Neue'
+  - Used for: Page titles, section headings, hero text, card titles, large displays
+  - Weight: 400 (Regular) - naturally bold appearance
+  - File: BebasNeue-Regular.woff2
+  - Alternative: 'Oswald' for more refined look
+    - Files: Oswald-VariableFont_wght.woff2
+
+- **Numbers & Stats Font:** 'Space Mono'
+  - Used for: Prices, follower counts, statistics, timestamps, analytics, technical data
+  - Weights: 400 (Regular), 700 (Bold), with Italic variants
+  - Files: SpaceMono-Regular.woff2, SpaceMono-Bold.woff2, SpaceMono-BoldItalic.woff2, SpaceMono-Italic.woff2
+  
+- **Accent Font (Optional):** 'Nathalia Condensed'
+  - Used for: Special callouts, badges, featured labels (use sparingly)
+  - Weight: 400 (Regular)
+  - File: Nathalia-Condensed.woff2
+
+
+**Font Sizes (Desktop):**
+```css
+--text-xs: 0.75rem;    /* 12px - captions, labels */
+--text-sm: 0.875rem;   /* 14px - small text */
+--text-base: 1rem;     /* 16px - body text */
+--text-lg: 1.125rem;   /* 18px - large body */
+--text-xl: 1.25rem;    /* 20px - subheadings */
+--text-2xl: 1.5rem;    /* 24px - headings */
+--text-3xl: 1.875rem;  /* 30px - page titles */
+--text-4xl: 2.25rem;   /* 36px - hero titles */
+--text-5xl: 3rem;      /* 48px - large hero */
+```
+
+**Line Heights:**
+- Headings: 1.2
+- Body text: 1.6
+- Tight (labels): 1.4
+
+**Font Smoothing:**
+```css
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+```
+
+---
+
+### Spacing System
+
+**Base unit:** 4px
+
+```css
+--space-1: 0.25rem;   /* 4px */
+--space-2: 0.5rem;    /* 8px */
+--space-3: 0.75rem;   /* 12px */
+--space-4: 1rem;      /* 16px */
+--space-5: 1.25rem;   /* 20px */
+--space-6: 1.5rem;    /* 24px */
+--space-8: 2rem;      /* 32px */
+--space-10: 2.5rem;   /* 40px */
+--space-12: 3rem;     /* 48px */
+--space-16: 4rem;     /* 64px */
+--space-20: 5rem;     /* 80px */
+```
+
+**Common Spacing:**
+- Component padding: `space-4` or `space-6`
+- Section padding: `space-12` to `space-20`
+- Card gap in grids: `space-4` to `space-6`
+- Form field spacing: `space-4`
+
+---
+
+### Border Radius
+
+```css
+--radius-sm: 0.25rem;  /* 4px - small elements */
+--radius-md: 0.5rem;   /* 8px - buttons, inputs */
+--radius-lg: 0.75rem;  /* 12px - cards */
+--radius-xl: 1rem;     /* 16px - large cards */
+--radius-2xl: 1.5rem;  /* 24px - modals */
+--radius-full: 9999px; /* Fully rounded - avatars, pills */
+```
+
+---
+
+### Shadows
+
+```css
+--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+--shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+--shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+--shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+--shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+
+/* Dark theme shadows (lighter) */
+--shadow-sm-dark: 0 1px 2px rgba(255, 255, 255, 0.05);
+--shadow-md-dark: 0 4px 6px rgba(255, 255, 255, 0.07);
+```
+
+---
+
+### Animations & Transitions
+
+**Timing Functions:**
+```css
+--ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+--ease-out: cubic-bezier(0, 0, 0.2, 1);
+--ease-in: cubic-bezier(0.4, 0, 1, 1);
+--ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+```
+
+**Durations:**
+```css
+--duration-fast: 150ms;
+--duration-base: 300ms;
+--duration-slow: 500ms;
+```
+
+**Common Transitions:**
+```css
+transition: all var(--duration-base) var(--ease-in-out);
+```
+
+**Hover Effects:**
+- Buttons: Scale up slightly (1.02) + shadow increase
+- Cards: Shadow increase + subtle border color change
+- Links: Color change + underline animation
+- Images: Slight zoom (1.05) within container
+
+---
+
+## Layout Structure
+
+### Container Widths
+
+```css
+--container-sm: 640px;
+--container-md: 768px;
+--container-lg: 1024px;
+--container-xl: 1280px;
+--container-2xl: 1536px;
+```
+
+**Usage:**
+- Full-width: Homepage hero, some landing sections
+- Container XL (1280px): Main content areas
+- Container LG (1024px): Forms, article content
+
+---
+
+### Grid System
+
+**Grid Columns:**
+- Desktop: 12 columns
+- Tablet: 8 columns
+- Mobile: 4 columns
+
+**Gap:**
+- Desktop: `space-6` (24px)
+- Tablet: `space-4` (16px)
+- Mobile: `space-3` (12px)
+
+**Breakpoints:**
+```css
+--breakpoint-sm: 640px;
+--breakpoint-md: 768px;
+--breakpoint-lg: 1024px;
+--breakpoint-xl: 1280px;
+--breakpoint-2xl: 1536px;
+```
+
+---
+
+## Header (Global)
+
+**Structure:**
+```
+[Logo] [Community â–¼] [Marketplace â–¼] [Tools â–¼] [Search Bar] [Avatar â–¼]
+```
+
+**Desktop Layout:**
+- Height: 64px
+- Background: White (light) / Dark surface (dark)
+- Border bottom: 1px solid border color
+- Sticky on scroll (stays at top)
+- Shadow on scroll: `shadow-md`
+
+**Mobile Layout:**
+- Height: 56px
+- Hamburger menu (left side)
+- Logo (center)
+- Avatar (right side)
+- Search icon (opens full-screen search)
+
+**Navigation Dropdowns:**
+- Appear on hover (desktop) or click (mobile)
+- Smooth fade-in animation
+- Background: Surface color
+- Border: 1px solid border color
+- Shadow: `shadow-lg`
+- Border radius: `radius-lg`
+- Max width: 250px
+- Padding: `space-2` vertical, `space-0` horizontal
+
+**Dropdown Items:**
+- Padding: `space-3` horizontal, `space-2` vertical
+- Hover: Background changes to primary with 10% opacity
+- Active: Bold text + primary color
+
+**Search Bar (Desktop):**
+- Width: 300px (default), expands to 400px on focus
+- Height: 40px
+- Border radius: `radius-full`
+- Background: Light gray (light theme), lighter dark (dark theme)
+- Placeholder: "Search members, products, services..."
+- Icon: Search icon (left side)
+- Clear button (right side, appears when typing)
+
+**Avatar Dropdown:**
+- Profile picture (circular, 40px)
+- Green dot indicator (online status - future)
+- Dropdown aligned to right edge
+- Items:
+  - Profile (with username and email preview)
+  - Store
+  - Messages (with unread count badge)
+  - Wallet (with balance preview)
+  - Notifications (with unread count badge)
+  - My Groups
+  - Followers
+  - Following
+  - Divider
+  - Settings
+  - Logout
+
+**When Logged Out:**
+- Avatar shows placeholder icon
+- Dropdown only shows:
+  - Login
+  - Sign Up
+
+---
+
+## Footer (Global)
+
+**Structure:** Four columns
+
+**Desktop Layout:**
+```
+[Column 1: Logo + Social]  [Column 2: Links]  [Column 3: Legal]  [Column 4: Newsletter]
+```
+
+**Column 1: Logo + Social**
+- Producers Avenue logo (grayscale or white in dark mode)
+- Social icons (Instagram, Twitter, Facebook, YouTube, Discord)
+- Icons: 24px, with hover effect (scale + color change)
+
+**Column 2: Quick Links**
+- Community
+- Marketplace
+- Tools
+- News
+- About
+- Contact
+
+**Column 3: Legal**
+- Terms of Service
+- Privacy Policy
+- Cookie Policy
+- DMCA / Copyright
+- Help Center
+
+**Column 4: Newsletter**
+- Heading: "Stay Updated"
+- Email input field
+- Subscribe button
+- Small text: "Get news, updates, and exclusive offers"
+
+**Mobile Layout:**
+- Stacked single column
+- Collapsible sections (accordion style)
+- Social icons at bottom
+
+**Footer Styling:**
+- Background: Dark surface (light theme) / Darker than main (dark theme)
+- Text color: Light gray
+- Padding: `space-12` vertical, responsive horizontal
+- Border top: 1px solid border color
+
+**Copyright:**
+- Small text at very bottom
+- Center-aligned
+- "Â© 2025 Producers Avenue. All rights reserved."
+
+---
+
+## Homepage Layout
+
+### Hero Section
+
+**Desktop:**
+- Full viewport height (100vh) or fixed height (600px)
+- Background: Animated music-related visual (waveform, vinyl spinning, etc.)
+
+**Random Video Selection:** Pick one video randomly from multiple options on each page load
+
+**Random Video Implementation:**
+```javascript
+// Array of hero background videos
+const heroVideos = [
+  '/videos/hero-1.mp4',
+  '/videos/hero-2.mp4',
+  '/videos/hero-3.mp4',
+  '/videos/hero-4.mp4',
+  '/videos/hero-5.mp4',
+  '/videos/hero-6.mp4',
+  '/videos/hero-7.mp4',
+  '/videos/hero-8.mp4'
+];
+
+// Select random video on component mount
+const randomVideo = heroVideos[Math.floor(Math.random() * heroVideos.length)];
+```
+
+**Video Specifications:**
+- Resolution: 1920x1080 (or 1280x720 for smaller file size)
+- Duration: 15-30 seconds max
+- File size: Target 2-3MB per video (compressed)
+- Format: MP4 (H.264 codec)
+- Autoplay: Yes (muted)
+- Loop: Yes
+- Controls: No
+
+**Performance Notes:**
+- Only ONE video loads per page visit (the randomly selected one)
+- Other videos in the array are never downloaded
+- No performance difference between having 1 video vs. 8 videos
+- Random selection happens before video loading starts
+
+- Animation fades to 50% opacity
+- Text content fades in after animation
+- Content centered vertically and horizontally
+
+**Content:**
+- Main heading (text-4xl or text-5xl, bold)
+  - Example: "Where Music Creators Connect, Collaborate & Thrive"
+- Subheading (text-lg or text-xl, lighter weight)
+  - Example: "Join the ultimate platform for producers, musicians, and music professionals"
+- Search bar (large, prominent, 500px width)
+  - Placeholder: "Find members, products, or services..."
+- CTA buttons:
+  - Primary: "Get Started" (large, primary color)
+  - Secondary: "Learn More" (outline style)
+
+**Mobile:**
+- Height: 70vh
+- Smaller text sizes
+- Search bar: Full width minus padding
+- Buttons: Stack vertically
+
+---
+
+### Feature Cards Section
+
+**Layout:**
+- Three cards in a row (desktop)
+- Each card: 33% width with gap
+- Single column on mobile (stacked)
+
+**Card Design:**
+- Background image at 50% opacity
+- Overlay gradient (dark to transparent)
+- Text content over image
+- Border radius: `radius-xl`
+- Hover: Scale up slightly (1.02), shadow increases
+- Height: 300px (desktop), 200px (mobile)
+
+**Card Content:**
+- Icon (48px, top or center)
+- Title (text-2xl, bold, white or high contrast)
+- Description (text-base, 2-3 lines)
+- Link: "Explore â†’"
+
+**Cards:**
+1. **Community** - Background: People collaborating image
+2. **Marketplace** - Background: Music gear/studio image
+3. **Tools** - Background: Tech/software interface image
+
+---
+
+### Users Carousel (Optional)
+
+**Layout:**
+- Horizontal scrollable carousel
+- Shows 4-5 user cards at once (desktop)
+- 1-2 cards on mobile
+- Scroll buttons (left/right arrows)
+- Dots indicator (bottom center)
+
+**User Card:**
+- Profile picture (circular, 80px)
+- Username (text-base, bold)
+- Role/category (text-sm, secondary color)
+- Follow button (small)
+- Size: 200px width, auto height
+
+**Heading:**
+- "Find Your Next Collaborator" or "Connect With Creators"
+- text-3xl, bold, centered
+
+---
+
+### Featured Carousels
+
+**Three separate carousels:**
+1. Featured Products
+2. Featured Services
+3. Featured Webinars
+
+**Layout (each carousel):**
+- Heading (text-2xl, bold): "Featured Products"
+- Horizontal scrollable
+- 4 cards visible (desktop), 2 visible (tablet), 1.5 visible (mobile)
+- Scroll buttons
+- "View All" link (top right)
+
+**Product/Service Card:**
+- Image (thumbnail, 16:9 or 1:1 aspect ratio)
+- Title (text-base, bold, 2-line truncate)
+- Creator name (text-sm, secondary color)
+- Price (text-lg, bold, primary color)
+- Rating stars + review count (text-sm)
+- Featured badge (top left corner)
+- Hover: Shadow + border highlight
+
+**Webinar Card:**
+- Cover image
+- Title
+- Host name
+- Date/time
+- Price or "Free"
+- "Register" button
+
+---
+
+## Community Pages
+
+### Member Directory
+
+**Layout:**
+- Search/filter sidebar (left, 25% width on desktop)
+- Results grid (right, 75% width)
+- Mobile: Filters in collapsible drawer
+
+**Filters:**
+- Categories (checkboxes)
+- Skills (checkboxes with search)
+- Genres (checkboxes with search)
+- Location (text input with autocomplete)
+- Experience level (radio buttons)
+- Online status (toggle - future)
+
+**Results Grid:**
+- Desktop: 3 columns
+- Tablet: 2 columns
+- Mobile: 1 column
+- Gap: `space-6`
+
+**Member Card:**
+- Profile picture (circular, 100px)
+- Username (text-lg, bold)
+- Display name (text-sm, secondary)
+- Categories (pills/badges, primary color)
+- Location (text-sm with icon)
+- Follower count
+- "Follow" button (primary)
+- "Message" button (secondary)
+- Hover: Card shadow increases
+
+---
+
+### Group Page
+
+**Layout:**
+- Cover image (full width, 300px height)
+- Group info (overlay on cover or below)
+  - Group name (text-3xl, bold)
+  - Member count, category
+  - Description (text-base)
+  - Join/Joined button (large, prominent)
+- Tabs: Posts | Members | About
+
+**Posts Tab:**
+- Feed layout (similar to main feed)
+- Create post box at top (if member)
+
+**Members Tab:**
+- Grid of member cards (smaller than directory)
+- Owner/Admin/Mod badges visible
+
+**About Tab:**
+- Full description
+- Rules
+- Created date
+- Group admins list
+
+---
+
+## Marketplace Pages
+
+### Product Listing Page
+
+**Layout:**
+- Filter sidebar (left, 25%)
+- Results grid (right, 75%)
+
+**Filters:**
+- Category (select dropdown or pills)
+- Price range (slider)
+- Genre (checkboxes)
+- File type (checkboxes)
+- Free/Paid toggle
+- Rating filter
+- Sort by (dropdown)
+
+**Results Grid:**
+- Desktop: 4 columns
+- Tablet: 3 columns
+- Mobile: 2 columns
+
+**Product Card:**
+- Thumbnail image (1:1 or 16:9)
+- Title (text-base, 2-line truncate)
+- Seller name (text-sm, with avatar)
+- Price (text-lg, bold)
+- Rating + reviews
+- Featured badge (if applicable)
+- Like/Save icon (top right)
+- Hover: Shadow + scale
+
+---
+
+### Product Detail Page
+
+**Layout:**
+- Two-column layout (desktop)
+- Left: Product media (50%)
+- Right: Product info (50%)
+- Mobile: Stacked
+
+**Left Column:**
+- Main image/player (large, responsive)
+- Thumbnail gallery below (scrollable)
+- Audio player (if audio product)
+- Video player (if video product)
+
+**Right Column:**
+- Product title (text-3xl, bold)
+- Seller info (avatar, name, rating)
+- Price (text-4xl, bold, primary color)
+- Add to Cart button (large, primary)
+- Buy Now button (large, secondary)
+- Save/Wishlist button (icon only)
+- Short description (2-3 lines)
+- Expandable sections:
+  - Full description
+  - Technical details
+  - License information
+  - FAQ
+- Tags (clickable pills)
+
+**Below (Full Width):**
+- Tabs: Details | Reviews | Seller Info
+- Related products carousel
+- "You may also like" section
+
+---
+
+### Service Detail Page
+
+**Similar to Product, but:**
+- Package selector (Basic, Standard, Premium)
+- Each package shows:
+  - Price
+  - Delivery time
+  - What's included (bullet points)
+  - Revisions
+  - Add-ons available
+- Order button (leads to requirements form)
+
+**Seller Info:**
+- Response time
+- Completion rate
+- Number of orders
+- Portfolio samples
+
+---
+
+### Webinar Page
+
+**Layout:**
+- Hero image/video (full width, 400px height)
+- Title + host info overlay
+- Two columns below:
+  - Left (70%): Description, what you'll learn, requirements
+  - Right (30%): Sticky sidebar with:
+    - Date/time
+    - Duration
+    - Price
+    - Register/Buy button
+    - Attendees count
+    - Recording available? (if past webinar)
+
+**Upcoming Webinars (Browse Page):**
+- Calendar view option (month view with webinar cards on dates)
+- List view option (cards in chronological order)
+- Filters: Category, date range, free/paid
+
+---
+
+## User Profile Page
+
+**Layout:**
+- Banner image (full width, 200px height)
+- Profile picture (150px, overlaps banner)
+- Profile info (below banner):
+  - Username (text-3xl, bold)
+  - Display name (text-lg, secondary)
+  - Bio (text-base)
+  - Categories/skills (pills)
+  - Location, joined date
+  - Social links (icons)
+- Action buttons:
+  - Follow/Unfollow (primary)
+  - Message (secondary)
+  - More (dropdown: Share, Report)
+- Stats row:
+  - Products | Services | Followers | Following
+- Tabs: Products | Services | Webinars | About
+
+**Products/Services/Webinars Tabs:**
+- Grid layout (same as marketplace)
+- Filters specific to user's items
+
+**About Tab:**
+- Full bio
+- Skills and endorsements (future)
+- Portfolio links
+- Reviews received
+
+---
+
+## Messaging Interface
+
+**Layout:**
+- Sidebar (left, 30%): Conversation list
+- Main area (right, 70%): Active conversation
+
+**Conversation List:**
+- Search bar (top)
+- List of conversations (chronological)
+- Each conversation item:
+  - Avatar (circular, 48px)
+  - Name (text-base, bold)
+  - Last message preview (text-sm, gray, truncate)
+  - Timestamp (text-xs, gray)
+  - Unread badge (red dot or count)
+- Active conversation highlighted
+
+**Conversation Area:**
+- Header:
+  - Other user's avatar + name
+  - Online status dot
+  - More options (dropdown: Mute, Archive, Block)
+- Message thread (scrollable):
+  - Messages grouped by sender
+  - Timestamps shown periodically
+  - Own messages: Right-aligned, primary color background
+  - Other messages: Left-aligned, gray background
+  - Images/files shown inline
+- Input area (bottom):
+  - Text input (multi-line)
+  - Emoji button
+  - Attach file button
+  - Send button
+
+**Mobile:**
+- Conversation list is default view
+- Tapping conversation opens full-screen message view
+- Back button returns to list
+
+---
+
+## Forms & Inputs
+
+### Text Input
+- Height: 40px
+- Border: 1px solid border color
+- Border radius: `radius-md`
+- Padding: `space-3` horizontal
+- Focus: Border changes to primary color, `shadow-sm`
+- Error state: Border red, helper text below in red
+
+### Textarea
+- Min height: 120px
+- Resizable (vertical only)
+- Same styling as text input
+
+### Select Dropdown
+- Same as text input
+- Chevron icon (right side)
+- Dropdown: `shadow-lg`, max height with scroll
+
+### Checkbox
+- Size: 20px
+- Border radius: `radius-sm`
+- Checked: Primary color background, white checkmark
+- Label: text-base, clickable
+
+### Radio Button
+- Size: 20px
+- Circle shape
+- Checked: Primary color border (thick), primary dot in center
+
+### Button Styles
+**Primary:**
+- Background: Primary color
+- Text: White
+- Hover: Darker primary + shadow
+- Height: 40px (default), 48px (large), 32px (small)
+- Padding: `space-4` to `space-6`
+- Border radius: `radius-md`
+
+**Secondary:**
+- Background: Transparent
+- Border: 1px solid primary
+- Text: Primary color
+- Hover: Primary background, white text
+
+**Outline:**
+- Background: Transparent
+- Border: 1px solid border color
+- Text: Text primary
+- Hover: Background light gray
+
+**Ghost:**
+- No border, no background
+- Text: Primary or text color
+- Hover: Light background
+
+### Tags/Pills
+- Background: Primary color with 10% opacity
+- Text: Primary color
+- Border radius: `radius-full`
+- Padding: `space-1` vertical, `space-3` horizontal
+- Removable (with X icon)
+
+---
+
+## Cards & Panels
+
+### Standard Card
+- Background: Surface color
+- Border: 1px solid border color (optional)
+- Border radius: `radius-lg`
+- Padding: `space-6`
+- Shadow: `shadow-sm` default, `shadow-md` on hover
+
+### Product/Service Card
+- Image on top (aspect ratio locked)
+- Content below (padding `space-4`)
+- Title + description + price
+- Action button at bottom
+
+### User Card (Small)
+- Avatar + name + role
+- Compact, used in lists
+
+---
+
+## Modals & Dialogs
+
+**Modal Overlay:**
+- Background: Black with 50% opacity
+- Blur backdrop (if supported)
+
+**Modal Content:**
+- Background: Surface color
+- Border radius: `radius-2xl`
+- Shadow: `shadow-2xl`
+- Max width: 600px (default), varies by content
+- Padding: `space-6` to `space-8`
+- Close button (top right, icon only)
+
+**Modal Header:**
+- Title (text-2xl, bold)
+- Optional subtitle (text-sm, secondary)
+
+**Modal Body:**
+- Scrollable if content overflows
+- Max height: 70vh
+
+**Modal Footer:**
+- Action buttons (right-aligned)
+- Cancel (secondary) + Confirm (primary)
+
+---
+
+## Notifications & Toasts
+
+**Toast Notification:**
+- Fixed position (top right or bottom right)
+- Width: 320px
+- Background: White (light), dark surface (dark)
+- Border left: 4px solid (color depends on type)
+- Shadow: `shadow-lg`
+- Border radius: `radius-lg`
+- Padding: `space-4`
+- Auto-dismiss after 5 seconds
+- Close button (top right)
+
+**Types:**
+- Success: Green border + checkmark icon
+- Error: Red border + X icon
+- Warning: Amber border + warning icon
+- Info: Blue border + info icon
+
+---
+
+## Loading States
+
+**Skeleton Screens:**
+- Use for loading lists/grids
+- Animated gradient shimmer effect
+- Match layout of actual content
+
+**Spinners:**
+- Primary color
+- Size: 24px (default), 32px (large), 16px (small)
+- Used in buttons or center of page
+
+**Progress Bars:**
+- Full width or contained
+- Primary color
+- Animated indeterminate or determinate
+
+---
+
+## Accessibility
+
+**Focus States:**
+- Visible outline (2px solid primary color)
+- Offset: 2px
+
+**Keyboard Navigation:**
+- All interactive elements keyboard accessible
+- Skip to content link
+- Focus trap in modals
+- Escape closes modals/dropdowns
+
+**Screen Readers:**
+- Proper ARIA labels
+- Alt text for images
+- Semantic HTML
+
+**Color Contrast:**
+- WCAG AA minimum (4.5:1 for normal text, 3:1 for large text)
+- Ensure dark mode also meets contrast requirements
+
+---
+
+## Responsive Breakpoints
+
+**Mobile (< 640px):**
+- Single column layouts
+- Hamburger menu
+- Bottom navigation (optional)
+- Full-width cards
+- Stacked forms
+
+**Tablet (640px - 1024px):**
+- Two-column layouts where appropriate
+- Collapsible sidebars
+- Adaptive grids (2-3 columns)
+
+**Desktop (> 1024px):**
+- Multi-column layouts
+- Persistent sidebars
+- Hover interactions
+- Larger text/elements
+
+---
+
+## Animation Examples
+
+**Page Transitions:**
+- Fade in content on load (300ms)
+- Slide up modals (300ms, ease-out)
+
+**Hover Animations:**
+- Scale cards (1.02, 150ms)
+- Color transitions (200ms)
+
+**Loading:**
+- Skeleton shimmer (1.5s loop)
+- Spinner rotation (1s linear infinite)
+
+**Micro-interactions:**
+- Button press: Scale down (0.98) then bounce back
+- Like animation: Heart scale + color change
+- Success checkmark: Draw animation
+
+---
+
+## Icons
+
+**Icon Library:** Lucide React (recommended) or Heroicons
+- Size: 20px (default), 24px (medium), 32px (large)
+- Stroke width: 2px (default), 1.5px (thin)
+- Color: Inherit from parent or custom
+
+**Common Icons:**
+- Search: Magnifying glass
+- User: Person outline
+- Message: Chat bubble
+- Notification: Bell
+- Settings: Gear
+- Menu: Hamburger (3 lines)
+- Close: X
+- Chevron: For dropdowns/accordions
+
+---
+
+## Mobile App Considerations (Future)
+
+**Bottom Navigation (Mobile):**
+- 5 tabs: Home | Discover | Messages | Notifications | Profile
+- Icons + labels
+- Active tab: Primary color
+- Fixed at bottom
+
+**Swipe Gestures:**
+- Swipe right: Back
+- Swipe left on message: Archive
+- Pull to refresh: Reload feed
+
+**Native Feel:**
+- Native date/time pickers
+- Native share sheet
+- Haptic feedback on actions
+- Smooth 60fps animations
+
+---
+
+**Document Version:** 1.0  
+**Last Updated:** November 1, 2025  
+**Design Status:** System defined, pending final font/animation decisions

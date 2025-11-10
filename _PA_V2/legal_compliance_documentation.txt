@@ -1,0 +1,800 @@
+# PRODUCERS AVENUE V2 - LEGAL & COMPLIANCE DOCUMENTATION
+
+## Overview
+
+This document outlines all legal requirements, policies, and compliance measures for the platform.
+
+---
+
+## 1. TERMS OF SERVICE (ToS)
+
+### Key Sections Required:
+
+#### 1.1 Acceptance of Terms
+- Users must accept ToS before using platform
+- Checkbox during registration
+- Version tracking (update users when ToS changes)
+
+#### 1.2 Eligibility
+- **Age requirement:** 18+ years old (or 13+ with parental consent)
+- Must provide accurate information
+- One account per person
+- No banned users creating new accounts
+
+#### 1.3 Account Responsibilities
+- Users responsible for account security
+- Must keep login credentials confidential
+- Notify platform immediately of unauthorized access
+- Users liable for all activity under their account
+
+#### 1.4 Prohibited Activities
+- No illegal content or activities
+- No copyright infringement
+- No harassment, hate speech, or bullying
+- No spam or unsolicited advertising
+- No malware or malicious files
+- No price manipulation or fraud
+- No fake reviews or ratings
+- No circumventing platform fees
+
+#### 1.5 Content Ownership
+- **User Content:** Users retain ownership of their uploaded content
+- **License to Platform:** Users grant platform non-exclusive license to display, distribute, and promote content
+- **Platform Content:** Logo, design, code owned by platform
+- Users cannot claim platform's intellectual property
+
+#### 1.6 Marketplace Rules
+
+**For Sellers:**
+- Must deliver products/services as described
+- Prohibited from sharing contact info to avoid fees (Phase 2 enforcement)
+- Must respond to buyers within 48 hours
+- Cannot upload stolen/plagiarized content
+- Responsible for their own taxes and legal compliance
+
+**For Buyers:**
+- Cannot request refunds for delivered digital products
+- Must provide clear requirements for services
+- Cannot abuse dispute system
+
+#### 1.7 Commission Structure
+- **Basic (Free):** 40% platform commission
+- **Standard ($9.99/mo):** 30% commission
+- **Premium ($24.99/mo):** 20% commission
+- **Ultimate ($99.99/mo):** 10% commission
+- Commission rates subject to change with 30-day notice
+
+#### 1.8 Payment Terms
+- All payments processed via Stripe or PayPal
+- Platform not responsible for payment processor issues
+- Minimum payout: $50
+- Payout requests processed within 7-14 business days after approval
+- Sellers responsible for all transaction fees
+- No refunds on digital products (unless product not delivered)
+
+#### 1.9 Refund Policy
+- **Digital Products:** No refunds (instant delivery)
+- **Services:** Refunds only if seller fails to deliver
+- Disputes handled case-by-case by admin
+- Platform retains commission even if refund issued
+
+#### 1.10 Account Suspension/Termination
+- Platform reserves right to suspend/terminate accounts for ToS violations
+- No refunds for unused subscription time if terminated for violations
+- Users can delete their account anytime
+- Account data retained for 30 days after deletion (legal requirement)
+
+#### 1.11 Limitation of Liability
+- Platform provided "as is"
+- Not responsible for user-generated content
+- Not liable for disputes between users
+- Not liable for third-party service outages (Stripe, PayPal, etc.)
+- Maximum liability: Amount paid to platform in last 12 months
+
+#### 1.12 Dispute Resolution
+- Users agree to resolve disputes through arbitration (not court)
+- Arbitration location: [Your jurisdiction]
+- Users waive right to class-action lawsuits
+
+#### 1.13 Changes to Terms
+- Platform can update ToS anytime
+- Users notified via email 30 days before changes
+- Continued use = acceptance of new terms
+
+#### 1.14 Governing Law
+- Terms governed by laws of [Your jurisdiction]
+- Users submit to jurisdiction of [Your location] courts
+
+---
+
+## 2. PRIVACY POLICY
+
+### GDPR & Privacy Compliance:
+
+#### 2.1 Information We Collect
+
+**Account Information:**
+- Email address
+- Username
+- Password (encrypted)
+- Profile information (bio, links, location)
+- Profile picture and banner
+
+**Payment Information:**
+- Processed by Stripe/PayPal (we don't store card numbers)
+- Bank account info for payouts (encrypted via Stripe Connect)
+- Transaction history
+
+**Usage Data:**
+- IP address
+- Browser type and version
+- Pages visited
+- Time spent on platform
+- Device information
+- Analytics data (PostHog/Plausible)
+
+**Content Data:**
+- Posts, comments, messages
+- Uploaded files (products, images, audio)
+- Purchase history
+
+**Communication Data:**
+- Support tickets
+- Emails sent/received from platform
+
+#### 2.2 How We Use Information
+
+**To Provide Services:**
+- Account creation and management
+- Process payments and payouts
+- Deliver purchased products
+- Send transactional emails (order confirmations, payout notices)
+
+**To Improve Platform:**
+- Analytics and performance monitoring
+- Bug tracking and fixing
+- Feature development based on usage
+
+**To Ensure Safety:**
+- Detect and prevent fraud
+- Enforce Terms of Service
+- Virus scanning uploaded files
+- Trust score calculations
+
+**Marketing (Optional):**
+- Newsletter (opt-in only)
+- Product updates and announcements
+- Users can unsubscribe anytime
+
+#### 2.3 Information Sharing
+
+**We Share Data With:**
+- **Stripe/PayPal:** For payment processing
+- **Bunny.net:** For file storage and delivery
+- **Supabase:** For database hosting
+- **Resend:** For sending emails
+- **PostHog/Plausible:** For analytics
+- **OpenAI:** For chatbot (anonymized queries)
+
+**We Do NOT:**
+- Sell user data to third parties
+- Share data with advertisers
+- Use data for purposes not listed here
+
+**Legal Requirements:**
+- We may disclose data if required by law (court orders, subpoenas)
+- We may disclose to prevent harm or fraud
+
+#### 2.4 Data Retention
+
+- **Active accounts:** Data retained while account is active
+- **Deleted accounts:** Data deleted after 30 days
+- **Backups:** May exist in backups for up to 90 days
+- **Legal obligations:** Transaction records kept for 7 years (tax law)
+
+#### 2.5 User Rights (GDPR)
+
+**Right to Access:**
+- Users can request copy of their data
+- Provided within 30 days
+
+**Right to Rectification:**
+- Users can update inaccurate data in settings
+
+**Right to Erasure:**
+- Users can delete account
+- Some data retained for legal compliance (transaction records)
+
+**Right to Data Portability:**
+- Users can export their data (JSON format)
+
+**Right to Object:**
+- Users can opt-out of marketing emails
+- Cannot opt-out of transactional emails
+
+#### 2.6 Cookies
+
+**Essential Cookies:**
+- Authentication (keep you logged in)
+- Security (CSRF protection)
+- Cannot be disabled
+
+**Analytics Cookies:**
+- Track usage for improvements
+- Can be disabled in settings
+
+**No Advertising Cookies:**
+- We don't use third-party ad tracking
+
+#### 2.7 Children's Privacy
+- Platform not intended for users under 18
+- We don't knowingly collect data from minors
+- If discovered, accounts deleted immediately
+
+#### 2.8 International Transfers
+- Data stored in [Supabase region - e.g., US, EU]
+- Transfers comply with GDPR standard contractual clauses
+
+#### 2.9 Security Measures
+- Passwords encrypted (bcrypt)
+- HTTPS encryption for all traffic
+- Regular security audits
+- Access controls and logging
+- Virus scanning on uploads
+
+#### 2.10 Contact for Privacy Issues
+- Email: privacy@producersavenue.com
+- Response within 72 hours
+
+#### 2.11 Changes to Privacy Policy
+- Users notified 30 days before changes
+- Continued use = acceptance
+
+---
+
+## 3. DMCA POLICY (Copyright Compliance)
+
+### Digital Millennium Copyright Act Compliance:
+
+#### 3.1 Copyright Infringement Reporting
+
+**If you believe content infringes your copyright:**
+
+1. Send DMCA notice to: dmca@producersavenue.com
+2. Include:
+   - Your contact information
+   - Description of copyrighted work
+   - URL of infringing content on platform
+   - Statement of good faith belief
+   - Statement that information is accurate
+   - Your physical or electronic signature
+
+#### 3.2 Our Response Process
+
+**Upon receiving valid DMCA notice:**
+1. Remove or disable infringing content within 24 hours
+2. Notify uploader of takedown
+3. Terminate repeat infringers (3 strikes)
+
+#### 3.3 Counter-Notification
+
+**If you believe content was wrongly removed:**
+1. Send counter-notice to dmca@producersavenue.com
+2. Include:
+   - Your contact information
+   - Description of removed content
+   - Statement under penalty of perjury that removal was mistake
+   - Consent to jurisdiction
+   - Your signature
+
+3. We forward to copyright claimant
+4. Content restored in 10-14 days unless claimant files lawsuit
+
+#### 3.4 Designated DMCA Agent
+- Name: [Your name or designated agent]
+- Email: dmca@producersavenue.com
+- Address: [Your business address]
+
+#### 3.5 Repeat Infringer Policy
+- First violation: Warning + content removed
+- Second violation: 7-day suspension
+- Third violation: Permanent ban
+
+---
+
+## 4. CONTENT MODERATION POLICY
+
+### 4.1 Automated Moderation
+
+**Pre-Upload Checks:**
+- Virus scanning (ClamAV)
+- File hash checking (duplicate detection)
+- File size limits enforcement
+- Rate limiting (5 products/day)
+
+**Prohibited Keywords Filter:**
+- Scam-related terms
+- Explicit adult content terms
+- Hate speech keywords
+- Spam patterns
+
+#### 4.2 User-Driven Moderation
+
+**Report System:**
+- Users can report products, services, posts, profiles
+- Report reasons: Spam, copyright infringement, inappropriate content, scam, other
+- After 5 reports: Content auto-hidden, sent to review queue
+
+**Block/Hide Features:**
+- Users can block other users
+- Users can hide specific products/sellers from their view
+- Users can hide stores entirely
+
+#### 4.3 Manual Review Queue
+
+**Admin reviews:**
+- Flagged content (reported by users)
+- High-risk uploads (new accounts, suspicious patterns)
+- Appeals from users
+
+**Review within:**
+- Critical issues (malware, illegal): 2 hours
+- Reports: 24 hours
+- Appeals: 48 hours
+
+#### 4.4 Content Removal Criteria
+
+**Immediate Removal:**
+- Malware/viruses
+- Child exploitation material (reported to NCMEC)
+- Terrorist content
+- Illegal drugs/weapons
+- Extreme violence
+
+**After Review:**
+- Copyright infringement (DMCA)
+- Scams/fraud
+- Stolen content
+- Misleading descriptions
+- Harassment
+
+**Warning + Removal:**
+- Spam
+- Inappropriate content (not illegal but against ToS)
+- Duplicate content
+
+#### 4.5 Appeals Process
+- Users can appeal any moderation decision
+- Submit appeal via support ticket
+- Reviewed by different admin
+- Decision within 48 hours
+- Final decision (no further appeals)
+
+---
+
+## 5. SELLER VERIFICATION POLICY
+
+### 5.1 Pre-Upload Requirements
+
+**To upload first product:**
+- ✓ Email verified
+- ✓ Profile completed (bio, profile picture)
+- ✓ Account active for 0 hours (24-hour rule removed)
+
+### 5.2 Payout Verification
+
+**Before first payout:**
+- Must upload government ID
+- Must upload selfie holding ID
+- Admin manually reviews (2-3 minutes)
+- Approve or reject with reason
+
+**Acceptable IDs:**
+- Passport
+- Driver's license
+- National ID card
+- Must be government-issued
+- Must not be expired
+
+**Rejection Reasons:**
+- ID unclear or unreadable
+- ID expired
+- Face doesn't match
+- Signs of tampering
+- Name doesn't match profile
+
+**Re-verification:**
+- Not required unless flagged by admin
+- Admin can trigger re-verification if suspicious activity detected
+
+### 5.3 Verification Status
+
+**In Database:**
+- `verified: boolean`
+- `verified_at: timestamp`
+- `verification_notes: text` (admin notes)
+
+**Displayed to Users:**
+- Verified badge on profile
+- Shows in search results
+- Increases trust score (+15 points)
+
+---
+
+## 6. TRUST SCORE SYSTEM
+
+### 6.1 How Trust Score Works
+
+**Starting Score:** 50 (neutral)
+
+**Positive Factors:**
+- Email verified: +10
+- Phone verified: +10 (Phase 2)
+- ID verified: +15
+- 10+ sales: +10
+- Rating 4.5+: +10
+- Account 90+ days old: +5
+- Active community member: +5
+
+**Negative Factors:**
+- Dispute opened against seller: -20
+- 3+ user reports: -15
+- Refund rate >20%: -25
+- Failed payout verification: -30
+- DMCA strike: -40
+
+**Score Range:** 0-100
+
+### 6.2 Actions by Trust Score
+
+**90-100 (Excellent):**
+- All features unlocked
+- Instant payouts (Phase 2)
+- Featured placement eligible
+- Higher search ranking
+
+**70-89 (Good):**
+- Normal access
+- Standard payout processing
+
+**50-69 (Fair):**
+- Delayed payouts (7-day hold)
+- Upload limits enforced strictly
+- More frequent manual reviews
+
+**30-49 (Poor):**
+- All products require manual approval before going live
+- Payouts require admin approval
+- Cannot create new products until score improves
+
+**0-29 (Banned):**
+- Account restricted
+- Contact support required to regain access
+- All products hidden
+
+### 6.3 Improving Trust Score
+
+**Users can:**
+- Complete verification (ID, phone)
+- Make successful sales
+- Get positive reviews
+- Be active and helpful in community
+- Avoid disputes and reports
+
+**Score recalculated:**
+- After every transaction
+- After every review received
+- Daily (for time-based factors)
+
+---
+
+## 7. DISPUTE RESOLUTION PROCESS
+
+### 7.1 When Disputes Arise
+
+**Valid Dispute Reasons:**
+- Seller didn't deliver product/service
+- Product/service doesn't match description
+- Product file is corrupted/broken
+- Seller not responding to messages
+
+**Invalid Dispute Reasons:**
+- Buyer changed their mind (no refunds on delivered digital products)
+- Buyer doesn't like the product (subjective)
+- Buyer asking for additional free work
+
+### 7.2 Dispute Process
+
+**Step 1 - Direct Resolution (48 hours):**
+- Buyer and seller try to resolve via messages
+- Seller can: Re-upload file, provide additional delivery, offer partial refund
+
+**Step 2 - Platform Mediation (72 hours):**
+- If unresolved, buyer opens formal dispute
+- Both parties submit evidence
+- Admin reviews and makes decision
+
+**Step 3 - Final Decision:**
+- Admin decides: Full refund, partial refund, or no refund
+- Decision is final
+- Platform keeps commission either way (to prevent abuse)
+
+### 7.3 Evidence Required
+
+**Buyer must provide:**
+- Order number
+- Description of issue
+- Screenshots/proof of problem
+- Communication attempts with seller
+
+**Seller must provide:**
+- Proof of delivery
+- Screenshots of communications
+- Explanation of issue
+
+### 7.4 Outcomes
+
+**Refund Issued:**
+- Money returned to buyer
+- Seller's trust score: -20
+- If 3+ disputes, account review
+
+**No Refund:**
+- Buyer receives nothing
+- Marked as completed
+- If buyer abuses disputes (3+), account review
+
+---
+
+## 8. TAX COMPLIANCE
+
+### 8.1 Current Tax Policy (MVP)
+
+**Sellers Responsible:**
+- Platform does NOT collect sales tax (yet)
+- Sellers responsible for their own tax obligations
+- Terms of Service clearly state this
+
+**Platform Tracks:**
+- Transaction amounts per state (for future nexus monitoring)
+- Seller earnings (for potential 1099 reporting)
+
+### 8.2 Phase 2 Tax Collection
+
+**When Required:**
+- If platform hits $100k+ sales in any state
+- Enable Stripe Tax (automatic calculation, collection, filing)
+
+**Implementation:**
+- Toggle Stripe Tax on (15 minutes)
+- Costs: 0.5% + $0.05 per taxed transaction
+- Platform handles all tax reporting
+
+### 8.3 Seller Tax Forms (Future)
+
+**1099-K Reporting:**
+- Required if seller earns $600+ per year (US IRS rule)
+- Stripe handles this automatically via Connect
+- Platform sends copy to seller and IRS
+
+---
+
+## 9. DATA BREACH RESPONSE PLAN
+
+### 9.1 If Breach Detected
+
+**Immediate Actions (Within 1 hour):**
+1. Isolate affected systems
+2. Assess scope of breach
+3. Notify security team (you + Supabase support)
+
+**Within 24 hours:**
+1. Identify what data was accessed
+2. Patch vulnerability
+3. Begin user notification
+
+**Within 72 hours (GDPR requirement):**
+1. Notify all affected users via email
+2. Report to data protection authority
+3. Publish public statement
+
+### 9.2 User Notification
+
+**Email must include:**
+- What happened
+- What data was affected
+- What we're doing about it
+- What users should do (change password, monitor accounts)
+- Contact for questions
+
+### 9.3 Prevention Measures
+
+**Ongoing:**
+- Regular security audits
+- Dependency updates
+- Penetration testing (quarterly)
+- Employee security training
+- Incident response drills
+
+---
+
+## 10. LEGAL JURISDICTIONS & COMPLIANCE
+
+### 10.1 Business Entity Details
+
+**Required Information:**
+- Business name: Producers Avenue (or LLC name)
+- Business address: [Your registered address]
+- Registration number: [If applicable]
+- Tax ID: [If applicable]
+
+### 10.2 Jurisdiction
+
+**Governing Law:**
+- [Your country/state] laws apply
+- Users agree to [Your] jurisdiction for disputes
+
+### 10.3 International Considerations
+
+**GDPR (EU users):**
+- Data processing agreement with Supabase
+- Right to be forgotten
+- Data portability
+- Cookie consent
+
+**CCPA (California users):**
+- Right to know what data collected
+- Right to delete data
+- Right to opt-out of sale (we don't sell data)
+
+**Other Jurisdictions:**
+- Comply with local laws where possible
+- May restrict access in countries with conflicting laws
+
+---
+
+## 11. SUBSCRIPTION & BILLING TERMS
+
+### 11.1 Subscription Plans
+
+**Billing:**
+- Monthly or annual billing
+- Charged automatically via Stripe
+- Annual plans: Billed upfront, no refunds
+
+**Cancellation:**
+- Users can cancel anytime
+- Access continues until end of billing period
+- No refunds for partial months
+
+**Failed Payments:**
+- 3 retry attempts over 7 days
+- Account downgraded to Basic if payment fails
+- Products remain live but commission increases to 40%
+
+### 11.2 Refund Policy
+
+**No Refunds For:**
+- Unused subscription time (monthly or annual)
+- Change of mind
+- Account suspension due to ToS violation
+
+**Refunds Issued For:**
+- Duplicate charges (technical error)
+- Charged after cancellation (technical error)
+
+### 11.3 Price Changes
+
+**Platform may:**
+- Change subscription prices with 30-day notice
+- Existing subscribers keep current rate until renewal
+- Annual subscribers locked in for full year
+
+---
+
+## 12. COMMUNITY GUIDELINES
+
+### 12.1 Acceptable Behavior
+
+**Users should:**
+- Be respectful and professional
+- Provide constructive feedback
+- Help others when possible
+- Report violations to admin
+
+### 12.2 Prohibited Behavior
+
+**Zero tolerance for:**
+- Harassment, bullying, threats
+- Hate speech, racism, discrimination
+- Doxxing (sharing personal info)
+- Impersonation
+- Sexual harassment
+- Spam
+
+**Consequences:**
+- First offense: Warning
+- Second offense: 7-day suspension
+- Third offense: Permanent ban
+
+### 12.3 Content Standards
+
+**Allowed:**
+- Music-related content (all genres)
+- Professional networking
+- Self-promotion (within reason)
+- Educational content
+
+**Not Allowed:**
+- Political campaigning
+- Adult/NSFW content
+- Violence or gore
+- Illegal activities
+- MLM/pyramid schemes
+
+---
+
+## 13. API TERMS OF USE (Phase 3)
+
+### 13.1 API Access
+
+**When Available:**
+- Phase 3 feature
+- Requires separate API key
+- Rate limits apply
+
+**Allowed Uses:**
+- Integration with other services
+- Automation of workflows
+- Third-party app development
+
+**Prohibited:**
+- Scraping user data
+- Circumventing rate limits
+- Reselling API access
+- Competitive products
+
+### 13.2 Rate Limits
+- TBD based on plan
+- Higher plans = higher limits
+
+---
+
+## IMPLEMENTATION CHECKLIST
+
+### Before Launch:
+
+✅ Draft Terms of Service (get lawyer review recommended)
+✅ Draft Privacy Policy (GDPR compliant)
+✅ Draft DMCA Policy (designate DMCA agent)
+✅ Create content moderation guidelines
+✅ Set up verification procedures
+✅ Implement trust score system
+✅ Create dispute resolution process
+✅ Add ToS acceptance checkbox to registration
+✅ Add cookie consent banner
+✅ Add "Report" buttons throughout platform
+✅ Create admin review queue
+✅ Set up DMCA email address
+✅ Set up privacy email address
+✅ Create legal pages (terms, privacy, dmca)
+
+### Within First 30 Days:
+
+✅ Monitor for any legal issues
+✅ Adjust policies based on real-world usage
+✅ Document all moderation decisions
+✅ Review first disputes
+
+### Ongoing:
+
+✅ Update policies annually or as needed
+✅ Keep GDPR compliance documentation
+✅ Maintain records of moderation actions
+✅ Regular legal compliance review
+
+---
+
+**Last Updated:** November 5, 2025
+**Version:** 1.0
+**Legal Review:** Recommended before launch

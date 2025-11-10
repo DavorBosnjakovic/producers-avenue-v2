@@ -1,0 +1,759 @@
+# PRODUCERS AVENUE V2 - DEVELOPMENT ROADMAP
+
+**Version:** 2.0  
+**Last Updated:** November 5, 2025  
+**Status:** ✅ Ready for Development
+
+---
+
+## Overview
+
+This document outlines the phased development approach for Producers Avenue. The strategy prioritizes launching a functional MVP quickly, gathering user feedback, and iteratively adding features based on real usage data and user requests.
+
+---
+
+## Development Principles
+
+1. **Ship Fast, Iterate Faster**
+   - Launch MVP within 3-4 months
+   - Get real users ASAP
+   - Learn from actual usage
+
+2. **Build for Scale, Start Simple**
+   - Architecture supports growth
+   - Features start minimal, expand based on need
+
+3. **User Feedback Driven**
+   - Regular user surveys
+   - Monitor feature usage
+   - Prioritize requested features
+
+4. **Quality Over Quantity**
+   - Fewer features done well > many features done poorly
+   - Thorough testing before launch
+   - Fix critical bugs immediately
+
+---
+
+## Phase 1: MVP (Minimum Viable Product)
+**Timeline:** Months 0-4  
+**Goal:** Launch core platform with essential features
+
+### Core Features
+
+#### 1. Authentication & User Management
+**Priority:** CRITICAL
+**Timeline:** Week 1-2
+
+- [ ] User registration (email/password)
+- [ ] Email verification
+- [ ] Login/logout
+- [ ] Password reset
+- [ ] Basic profile creation
+- [ ] Profile editing
+- [ ] Social login (Google, GitHub) - Optional but recommended
+
+**Technical:**
+- Supabase Auth integration
+- RLS policies for user data
+- JWT token handling
+
+---
+
+#### 2. User Profiles
+**Priority:** CRITICAL
+**Timeline:** Week 2-3
+
+- [ ] Profile page layout
+- [ ] Profile picture upload (Supabase Storage)
+- [ ] Banner image upload
+- [ ] Bio/description field
+- [ ] **Smart Link field (rolink.me only) with validation**
+- [ ] Category selection (multiple)
+- [ ] Skill selection (checkboxes under categories)
+- [ ] Genre preferences
+- [ ] Experience level
+- [ ] Location field (IP-based auto-detection)
+- [ ] View other user profiles
+- [ ] Follow/unfollow users
+
+**Technical:**
+- `profiles` table with `smart_link` TEXT field
+- `user_categories`, `user_skills`, `user_genres` junction tables
+- File upload to Supabase Storage
+- Image resizing/optimization
+- Smart Link validation (regex pattern for rolink.me URLs)
+
+**Smart Link Validation:**
+```javascript
+// Pattern: ^https?://(www\.)?rolink\.me/.*$
+const validateSmartLink = (url) => {
+  const pattern = /^https?:\/\/(www\.)?rolink\.me\/.+$/i;
+  return pattern.test(url);
+};
+```
+
+---
+
+#### 3. Social Feed
+**Priority:** HIGH
+**Timeline:** Week 3-4
+
+- [ ] Create post (text, image, link)
+- [ ] View feed (following + discover)
+- [ ] Like posts
+- [ ] Comment on posts
+- [ ] Delete own posts/comments
+- [ ] Basic feed algorithm (chronological + trending)
+- [ ] @mentions (basic)
+- [ ] #hashtags (basic)
+
+**Technical:**
+- `posts`, `comments`, `likes` tables
+- Real-time subscriptions for new posts (Supabase Realtime)
+- Pagination (infinite scroll)
+
+**Deferred to Phase 2:**
+- Post editing
+- Rich text formatting
+- Polls
+- Sharing/reposting
+- Advanced algorithm
+
+---
+
+#### 4. Marketplace - Products
+**Priority:** CRITICAL
+**Timeline:** Week 4-6
+
+- [ ] Create product listing
+- [ ] Product detail page
+- [ ] Product browsing (grid view)
+- [ ] Basic search (keyword)
+- [ ] Basic filters (category, price, genre)
+- [ ] Product image upload (Supabase Storage small, Bunny.net for large files)
+- [ ] File upload for product delivery (Bunny.net)
+- [ ] Pricing setup
+- [ ] Free products (download without payment)
+- [ ] Purchase flow (Stripe Checkout)
+- [ ] Download product after purchase
+- [ ] Seller dashboard (view products, sales)
+- [ ] Product limits by subscription tier
+
+**Technical:**
+- `products` table
+- File upload to Bunny.net
+- Stripe integration (checkout session)
+- Webhook handling (purchase confirmation)
+- Download link generation (signed URLs)
+
+**Deferred to Phase 2:**
+- Featured products
+- Reviews/ratings
+- Wishlist
+- Name-your-price
+- Discount codes
+
+---
+
+#### 5. Marketplace - Services
+**Priority:** HIGH
+**Timeline:** Week 6-7
+
+- [ ] Create service listing
+- [ ] Service detail page
+- [ ] Service browsing
+- [ ] Package tiers (Basic, Standard, Premium)
+- [ ] Order service flow
+- [ ] Requirements form (buyer fills out after purchase)
+- [ ] Delivery system (seller uploads deliverables)
+- [ ] Order status (pending, in progress, delivered, completed)
+- [ ] Basic messaging between buyer/seller within order
+
+**Technical:**
+- `services` table with `is_mentoring` boolean flag
+- `orders` table
+- `order_messages` table
+- File delivery via Bunny.net
+- Order state machine
+
+**Deferred to Phase 2:**
+- Revisions system
+- Milestones
+- Escrow/refunds
+
+---
+
+#### 6. Messaging
+**Priority:** HIGH
+**Timeline:** Week 7-8
+
+- [ ] One-on-one direct messaging
+- [ ] Send text messages
+- [ ] Send image attachments
+- [ ] Conversation list (inbox)
+- [ ] Real-time message delivery (Supabase Realtime)
+- [ ] Unread message count
+- [ ] Mark as read
+- [ ] Basic notification (new message)
+
+**Technical:**
+- `conversations`, `messages` tables
+- Realtime subscriptions for new messages
+- File attachments to Supabase Storage
+
+**Deferred to Phase 2:**
+- Group chats
+- Voice messages
+- Read receipts
+- Typing indicators
+- Message reactions
+- Search within conversation
+
+---
+
+#### 7. Subscription Plans
+**Priority:** CRITICAL
+**Timeline:** Week 8-9
+
+- [ ] Subscription plan display (pricing page)
+- [ ] Stripe subscription integration
+- [ ] Upgrade/downgrade flow
+- [ ] Subscription status in profile
+- [ ] Enforce product upload limits
+- [ ] Enforce commission rates
+- [ ] Basic member vs paid member UI differences
+
+**Technical:**
+- Stripe subscription products
+- Webhooks for subscription events
+- `subscriptions` table
+- Check subscription tier in backend functions
+
+**Deferred to Phase 2:**
+- Featured product allocation
+- Advanced analytics
+- Trial periods
+- Prorated billing display
+
+---
+
+#### 8. Wallet & Payouts
+**Priority:** CRITICAL
+**Timeline:** Week 9-10
+
+- [ ] Wallet page (view balance)
+- [ ] Transaction history
+- [ ] Payout request form
+- [ ] Stripe Connect onboarding
+- [ ] Commission calculation (automatic)
+- [ ] 7-day hold on earnings (escrow)
+- [ ] Minimum payout ($50)
+- [ ] Payout approval (admin)
+
+**Technical:**
+- `wallets`, `transactions`, `payouts` tables
+- Stripe Connect integration
+- Commission calculation Edge Function
+- Webhook handling for payouts
+
+**Deferred to Phase 2:**
+- Automatic payouts
+- PayPal payouts
+- Wallet balance spending
+
+---
+
+#### 9. Groups
+**Priority:** MEDIUM
+**Timeline:** Week 10-11
+
+- [ ] Create group
+- [ ] Group detail page
+- [ ] Join/leave group
+- [ ] Group posts (same as feed)
+- [ ] Group members list
+- [ ] Basic moderation (owner can remove members)
+
+**Technical:**
+- `groups`, `group_members`, `group_posts` tables
+- RLS policies for group content
+
+**Deferred to Phase 2:**
+- Private/secret groups
+- Advanced roles (admin, moderator)
+- Post approval
+- Group analytics
+
+---
+
+#### 10. Search
+**Priority:** MEDIUM
+**Timeline:** Week 11-12
+
+- [ ] Global search (users, products, services)
+- [ ] Basic filters (category, price range)
+- [ ] Search results page
+- [ ] Sort options (relevance, recent, popular)
+
+**Technical:**
+- Full-text search in PostgreSQL
+- Search indexes on title, description
+- Filter by category, price, etc.
+
+**Deferred to Phase 2:**
+- Advanced filters
+- Saved searches
+- Search analytics
+
+---
+
+#### 11. Notifications
+**Priority:** MEDIUM
+**Timeline:** Week 12-13
+
+- [ ] Notification bell icon
+- [ ] Notification list
+- [ ] Mark as read
+- [ ] Basic notification types (like, comment, follow, message, order)
+- [ ] Real-time notification delivery
+
+**Technical:**
+- `notifications` table
+- Real-time subscriptions
+- Badge count on bell icon
+
+**Deferred to Phase 2:**
+- Email notifications
+- Push notifications (mobile)
+- Notification preferences
+
+---
+
+#### 12. Basic Admin Panel
+**Priority:** MEDIUM
+**Timeline:** Week 13-14
+
+- [ ] Super Admin login
+- [ ] View all users
+- [ ] Suspend/ban user
+- [ ] View all products/services
+- [ ] Approve/reject products (if moderation enabled)
+- [ ] View transactions
+- [ ] Basic platform stats (users, sales, revenue)
+
+**Technical:**
+- Admin-only pages (protected routes)
+- Admin role check in Supabase RLS
+
+**Deferred to Phase 2:**
+- Full admin dashboard
+- Advanced moderation tools
+- Role management (Admins, Authors)
+- Detailed analytics
+
+---
+
+#### 13. Homepage & Landing Pages
+**Priority:** MEDIUM
+**Timeline:** Week 14-15
+
+- [ ] Homepage layout (hero, features, carousels)
+- [ ] Animated hero section
+- [ ] Feature cards (Community, Marketplace, Tools)
+- [ ] About page
+- [ ] Pricing page
+- [ ] Terms of Service
+- [ ] Privacy Policy
+
+**Technical:**
+- Static content pages
+- Animations (CSS/Framer Motion)
+
+**Deferred to Phase 2:**
+- User carousel
+- Featured carousels
+- Dynamic content
+
+---
+
+### MVP Feature Summary
+
+**By End of Phase 1, Users Can:**
+1. Register and create profile with categories/skills
+2. Add Smart Link (rolink.me only)
+3. Follow other users and view feed
+4. Post to social feed (text, images)
+5. Create and sell products (digital goods)
+6. Create and sell services
+7. Message other users
+8. Subscribe to paid plans (Standard, Premium, Ultimate)
+9. Earn money and request payouts
+10. Search for members, products, services
+11. Join and post in groups
+12. Receive notifications
+
+**What's NOT in MVP:**
+- Webinars
+- Mentoring (dedicated section - it's just a service type flag)
+- Collab Matcher
+- Reviews/ratings
+- Featured products
+- Analytics
+- News/articles
+- Advanced moderation
+- Mobile app
+
+---
+
+## Phase 2: Enhanced Features
+**Timeline:** Months 5-12  
+**Goal:** Add high-value features based on user feedback
+
+### Features to Add
+
+#### 1. Reviews & Ratings
+**Priority:** HIGH
+**Timeline:** Month 5
+
+- Star ratings (1-5)
+- Written reviews
+- Verified purchase badge
+- Seller response to reviews
+- Review moderation
+
+**Why:** Critical for marketplace trust
+
+---
+
+#### 2. Webinars (100ms Integration)
+**Priority:** HIGH
+**Timeline:** Month 5-6
+
+- Live video sessions
+- Screen sharing
+- Recording
+- Q&A chat
+- Polls
+- Up to 100 participants (standard), 1000+ (ultimate)
+- Co-hosts (Premium+)
+
+**Technical:**
+- 100ms SDK integration
+- `webinars` table
+- Recording storage (Bunny.net)
+- Webinar to product conversion
+
+**Why:** High-value feature for educators
+
+---
+
+#### 3. Mentoring Section
+**Priority:** MEDIUM
+**Timeline:** Month 6-7
+
+- Dedicated "Find a Mentor" section
+- Filter services with `is_mentoring: true`
+- Special UI for mentor profiles
+- Session booking calendar
+- Progress tracking
+
+**Technical:**
+- Uses existing `services` table
+- Frontend filtering and dedicated pages
+- Google Calendar integration (optional)
+
+**Why:** Requested feature, good for creators
+
+---
+
+#### 4. Collab Matcher
+**Priority:** MEDIUM
+**Timeline:** Month 7-8
+
+- Matching algorithm (complementary skills)
+- Genre overlap
+- Location proximity (GPS for paid users)
+- Send collab requests
+- Accept/decline requests
+
+**Technical:**
+- Matching algorithm Edge Function
+- `collab_requests` table
+- Location-based search (PostGIS)
+
+**Why:** Unique selling point, community building
+
+---
+
+#### 5. Featured Products
+**Priority:** MEDIUM
+**Timeline:** Month 8
+
+- Featured product slots by tier
+- Homepage carousel
+- Category page highlights
+- Featured badge on products
+
+**Technical:**
+- `is_featured` boolean on products
+- Featured expiration dates
+- Admin interface for manual featuring
+
+**Why:** Monetization opportunity, seller value
+
+---
+
+#### 6. Advanced Analytics
+**Priority:** MEDIUM
+**Timeline:** Month 8-9
+
+- Revenue trends
+- Audience demographics
+- Traffic sources
+- Conversion funnels
+- Custom reports
+- Data export
+
+**Technical:**
+- Custom analytics dashboard
+- Pre-calculated metrics (cron jobs)
+- Charts and visualizations (Recharts)
+
+**Why:** Requested by sellers, valuable feature
+
+---
+
+#### 7. News/Articles (Author Role)
+**Priority:** LOW
+**Timeline:** Month 9-10
+
+- Article creation (CMS)
+- Rich text editor
+- Article categories
+- Comments on articles
+- Author role management
+
+**Technical:**
+- `articles` table
+- Rich text editor (TipTap or similar)
+- Author role checks
+
+**Why:** Content marketing, community engagement
+
+---
+
+#### 8. Email Marketing Integration
+**Priority:** LOW
+**Timeline:** Month 12
+
+- Newsletter signup
+- Email campaigns
+- Automated emails (welcome, tips, updates)
+
+**Technical:**
+- Resend integration
+- Email templates
+- Subscriber management
+
+**Why:** Marketing and retention
+
+---
+
+#### 9. Mobile App (Capacitor)
+**Priority:** MEDIUM
+**Timeline:** Month 9-12
+
+- iOS app
+- Android app
+- Same codebase as web (Capacitor)
+- Push notifications
+- Offline mode (basic)
+
+**Technical:**
+- Capacitor setup
+- App store deployment
+- Push notification setup (Firebase)
+
+**Why:** User request, mobile-first audience
+
+---
+
+## Risk Mitigation
+
+### Technical Risks
+- **Risk:** Technical debt from rapid development
+- **Mitigation:** Start with proven technologies (Supabase, Stripe, Bunny.net)
+- **Mitigation:** Gradual feature rollout, extensive testing
+- **Mitigation:** Regular code reviews and refactoring
+
+### Market Risks
+- **Risk:** Low user adoption
+- **Mitigation:** Unique value proposition focused on music industry
+- **Mitigation:** Community building and network effects
+- **Mitigation:** Multiple revenue streams
+
+### Financial Risks
+- **Risk:** Costs exceed revenue
+- **Mitigation:** Low initial costs (Vercel free tier, usage-based services)
+- **Mitigation:** Commission-based model aligns revenue with usage
+- **Mitigation:** Flexible scaling based on growth
+
+### Legal Risks
+- **Risk:** Copyright issues, terms violations
+- **Mitigation:** Clear terms of service and content policies
+- **Mitigation:** DMCA compliance and copyright protection
+- **Mitigation:** Stripe handles payment compliance (PCI DSS)
+- **Mitigation:** User agreements and dispute resolution processes
+
+---
+
+## Budget & Resources
+
+### Development Team (MVP)
+**Option A (Solo Developer):**
+- Timeline: 4-6 months
+- Cost: Your time (sweat equity)
+
+**Option B (Small Team):**
+- 1 Full-stack Developer (you or hired)
+- 1 Designer (part-time or contract)
+- Timeline: 3-4 months
+- Cost: $10,000-$20,000 (if hiring)
+
+### Ongoing Costs (Monthly)
+- Infrastructure: $30-50 (Supabase + Bunny.net)
+- Tools/Services: $50-$100 (email, monitoring)
+- Marketing: $500-$2,000 (post-launch)
+- Support: Your time initially
+
+### Break-Even Analysis
+**Assumptions:**
+- Monthly costs: $200 (infrastructure + tools)
+- Average subscription: $25/month
+- Average commission per transaction: $10
+
+**Break-even:**
+- 8 paid subscribers + 20 transactions/month = ~$200 revenue
+- **Goal:** Achieve within 3 months of launch
+
+---
+
+## Decision Points
+
+### Key Decisions to Make
+
+**Before Development Starts:**
+1. ✅ Hosting: Vercel (confirmed)
+2. ✅ Profile links: Smart Link only (confirmed)
+3. Final font choices
+4. Exact animation style for hero
+5. Custom field approval auto-threshold (confirmed: 3 for skills, 5 for genres)
+
+**During MVP Development:**
+1. Beta tester recruitment strategy
+2. Launch marketing plan
+3. Initial pricing (confirm or adjust)
+4. Payment processor backup (PayPal timing)
+
+**After MVP Launch:**
+1. Which Phase 2 features to prioritize (based on feedback)
+2. Mobile app timing
+3. Hiring decisions
+4. Scaling infrastructure
+
+---
+
+## Communication & Updates
+
+### Internal (Team)
+- Daily standups (if team)
+- Weekly sprint planning
+- Monthly roadmap review
+
+### External (Users)
+- Monthly newsletter (platform updates)
+- Release notes (for major updates)
+- Roadmap visibility (public board - future)
+- Feature voting (let users vote on next features - future)
+
+---
+
+## Deployment Strategy
+
+### Development Environment
+```bash
+# Local development
+git clone repo
+pnpm install
+supabase start
+pnpm dev
+# App: http://localhost:3000
+# Supabase Studio: http://localhost:54323
+```
+
+### Staging Environment (Vercel Preview)
+- Automatic preview deployments for PRs
+- Test on preview URL before merging
+- Full feature parity with production
+
+### Production Environment (Vercel)
+```bash
+# Automatic deployment on merge to main
+git push origin main
+# Vercel automatically:
+# 1. Detects push
+# 2. Builds project
+# 3. Runs tests (if configured)
+# 4. Deploys to production
+# 5. Sends notifications
+```
+
+### CI/CD Pipeline (GitHub Actions)
+```yaml
+# .github/workflows/ci.yml
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: pnpm install
+      - run: pnpm lint
+      - run: pnpm test # Phase 2
+      - run: pnpm build
+```
+
+---
+
+## Success Metrics
+
+### MVP Launch Goals (Month 1-3)
+- 100 registered users
+- 50 active creators (uploaded product/service)
+- 10 paid subscribers
+- 25 marketplace transactions
+- $500 total revenue
+
+### Phase 2 Goals (Month 6-12)
+- 1,000 registered users
+- 250 active creators
+- 100 paid subscribers
+- 200 marketplace transactions/month
+- $5,000 monthly revenue
+- Break-even on costs
+
+### Long-term Vision (Year 2+)
+- 10,000+ registered users
+- 2,000+ active creators
+- 1,000+ paid subscribers
+- 1,000+ marketplace transactions/month
+- $50,000+ monthly revenue
+- Profitable and sustainable
+
+---
+
+**Document Version:** 2.0  
+**Last Updated:** November 5, 2025  
+**Status:** ✅ Roadmap Defined - Ready for Development with Vercel Deployment

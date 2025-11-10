@@ -1,0 +1,896 @@
+# PRODUCERS AVENUE - COMPLETE PAGES & MODALS MAP
+**Version:** 1.0 | **Date:** November 2, 2025 | **Status:** ✅ Ready for Development
+
+## 📋 DOCUMENT OVERVIEW
+
+This is the COMPLETE architectural blueprint for all pages and modals in Producers Avenue.
+
+**What's Included:**
+✅ 24+ pages fully defined
+✅ 9+ modals fully specified  
+✅ Navigation flows mapped
+✅ Mobile adaptations detailed
+✅ URL structure complete
+✅ Implementation roadmap
+
+---
+
+## 🎯 KEY ARCHITECTURAL DECISIONS
+
+### **Homepage Structure**
+- Hero section: Video background (fades 0-4s) + Heading (fades 1s-3s) + Typewriter paragraph (2s-5s)
+- Three animated cards: Community (left, 0s), Marketplace (bottom, 0.5s delay), Tools (right, 1s delay)
+- Cards fade to 50% opacity after slide, text fades in
+- Featured sections: Trending, Creators, New Releases, Top Services, Upcoming Webinars
+
+### **Navigation System**
+- **Header** (global): Logo, Search icon, Theme toggle, Notifications bell (auth), Avatar dropdown
+- **Sidebar** (auth only): Slides out on hover (desktop), hamburger menu (mobile)
+  - Items: Feed, Profile, Messages, Notifications, Groups, My Store, Wallet, Settings
+- **Bottom Nav** (mobile auth): Feed, Explore, +Post, Notifications, Profile
+- **Guest avatar**: Single "Sign Up/Log In" dropdown item
+- **Logged avatar**: Duplicates sidebar items in dropdown
+
+### **Search Strategy**
+- Search icon opens modal (blur background, live results)
+- Press Enter or "View All" → `/search?q=[query]&tab=[tab]`
+- One universal search results page with tabs
+- Tabs use same templates as browse pages
+- Default tab based on where user searched from
+
+### **Profile System**
+- Single Smart Link field (rolink.me only) - validated
+- Profile tabs: About | Posts | Products | Services
+- "View All My Links" button opens rolink.me in new tab
+- Hybrid following: One-way = "Following/Followers", Mutual = "Connected" badge
+
+### **Marketplace Structure**
+- Unified marketplace with tabs: Products | Services | Webinars
+- Same card templates used in search results, profiles, everywhere
+- List/Grid toggle on all browse pages
+- Advanced filters per category
+
+### **Creation Flows**
+- Posts = Modal (quick, stays on page)
+- Products/Services = Dedicated page (multi-step, complex)
+- Auto-save drafts every 30 seconds
+
+### **Orders & Payments**
+- Single `/orders` page with Purchases/Sales toggle
+- Real-time status updates (Supabase Realtime)
+- Stripe Checkout modal for payments
+- Commission snapshot at purchase time
+
+### **Registration Flow (Multi-Step)**
+1. Account basics (email, password, username, location)
+2. Roles & skills (checkboxes with expansion like image uploaded)
+3. Genres & experience level
+All in modal, progress bar at top
+
+### **Theme System**
+- Sun/Moon toggle in header
+- User choice (not auto-detect)
+- Saves to preferences
+- Smooth 0.3s transition
+
+### **Mobile Strategy**
+- Bottom nav for primary actions
+- Hamburger menu for secondary
+- Sidebar becomes full-screen overlay
+- Stack vertically, 2-column grids
+- Touch targets 44px minimum
+
+---
+
+## 📄 ALL PAGES DEFINED
+
+### PUBLIC PAGES (25 Total)
+1. `/` - Homepage (hero + 3 cards + featured sections)
+2. `/community` - Browse members (grid/list)
+3. `/marketplace` - Browse products/services/webinars (tabs)
+4. `/tools` - Platform tools (Collab Matcher, Release Organizer, Virtual Studio)
+5. `/products/[slug]` - Product details
+6. `/services/[slug]` - Service details  
+7. `/u/[username]` - User profile
+8. `/groups/[slug]` - Group details
+9. `/search` - Universal search results (tabs)
+10. `/about` - About page
+11. `/pricing` - Pricing tiers
+12. `/contact` - Contact form
+13. `/terms` - Terms of Service
+14. `/privacy` - Privacy Policy
+
+### AUTHENTICATED PAGES (35+ Total)
+15. `/welcome` - Welcome choice screen (after login)
+16. `/feed` - Social feed (Following/Discover/Latest tabs)
+17. `/notifications` - All notifications
+18. `/messages` - Messages inbox
+19. `/messages/[id]` - Conversation
+20. `/groups` - Browse/manage groups
+21. `/store` - My store (products/services/webinars tabs)
+22. `/create/product` - Create product (4 steps)
+23. `/create/service` - Create service (4 steps)
+24. `/edit/product/[id]` - Edit product
+25. `/edit/service/[id]` - Edit service
+26. `/orders` - Purchases & Sales toggle
+27. `/orders/[id]` - Order details
+28. `/wallet` - Earnings & payouts
+29. `/settings` - Settings hub
+30. `/settings/profile` - Profile settings
+31. `/settings/account` - Account settings
+32. `/settings/privacy` - Privacy settings
+33. `/settings/notifications` - Notification preferences
+34. `/settings/billing` - Subscription & billing
+
+### ADMIN PAGES (Phase 2: Subdomain)
+35. `/admin` or `bogibatina.producersavenue.com` - Dashboard
+36. `/admin/reports` - Moderation queue
+37. `/admin/users` - User management
+38. `/admin/custom-fields` - Approve skill/genre requests
+39. `/admin/analytics` - Platform analytics (Phase 2)
+
+### PHASE 2 PAGES
+40. `/webinars` - Browse webinars
+41. `/webinars/[slug]` - Webinar details
+42. `/webinars/[slug]/live` - Live webinar room (100ms)
+43. `/create/webinar` - Create webinar
+44. `/tools/collab-matcher` - Collab Matcher tool
+45. `/news` - Platform news/articles
+46. `/news/[slug]` - Article details
+
+---
+
+## 🔲 ALL MODALS DEFINED
+
+### GLOBAL MODALS (Available Everywhere)
+1. **Search Modal**
+   - Trigger: Click search icon in header
+   - Features: Live results, filters, Enter to see full results
+   - Closes: Outside click, X button, ESC key
+
+2. **Login/Register Modal (Multi-Step)**
+   - Trigger: Guest clicks "Sign Up/Log In" or protected action
+   - Login view: Email, password, "Forgot password?", Google OAuth
+   - Register Step 1: Full name, username (check availability), email, password, location
+   - Register Step 2: Roles (checkboxes with sub-options like image), Skills
+   - Register Step 3: Genres (checkboxes), Experience level (radio)
+   - Progress bar at top for registration
+   - Closes: After successful login/registration
+
+3. **Theme Toggle** (Not a modal, but header element)
+   - Sun/Moon icon in header
+   - Click to switch instantly
+
+### PAGE-SPECIFIC MODALS
+
+4. **Create Post Modal**
+   - Trigger: Click "Create Post", "+What's on your mind?", or mobile + button
+   - Features: Multi-line text, media upload, emoji, link preview, poll
+   - Destination: Feed or Group dropdown
+   - Auto-save draft
+   - Closes: After posting or cancel
+
+5. **Checkout Modal (Stripe)**
+   - Trigger: Click "Buy Now" on product
+   - Shows: Product info, price breakdown, commission
+   - Stripe Payment Element embedded
+   - Closes: After successful payment or cancel
+
+6. **Share Modal**
+   - Trigger: Click "Share" on post, product, profile, etc.
+   - Options: Twitter, Facebook, WhatsApp, LinkedIn, Email
+   - Copy link button
+   - Closes: After action or outside click
+
+7. **Report Modal**
+   - Trigger: Click "Report" on any content
+   - Reasons: Spam, Harassment, Inappropriate, Copyright, Scam, Other
+   - Optional details textarea
+   - Closes: After submission
+
+8. **Confirmation Modal**
+   - Trigger: Destructive actions (delete, leave, ban, etc.)
+   - Shows: Warning message, "Are you sure?"
+   - Actions: Cancel, Confirm (red button)
+   - Closes: After action
+
+9. **Message Modal (Quick)**
+   - Trigger: Click "Message" on profile or product
+   - Features: Text input, emoji, attach file
+   - Pre-filled context (optional)
+   - Option: "Go to Full Conversation"
+   - Closes: After sending or cancel
+
+10. **Image/Video Viewer Modal**
+    - Trigger: Click image in post or product gallery
+    - Features: Full-screen overlay, navigation arrows (if gallery)
+    - Closes: Outside click, X button, ESC key
+
+11. **Cart Modal** (Future)
+    - Trigger: Click "Add to Cart"
+    - Shows: Cart items, total, checkout button
+    - Closes: Outside click or checkout
+
+---
+
+## 🧭 COMPLETE USER FLOWS
+
+### FLOW 1: Guest Registration → First Post
+```
+1. Guest visits homepage (/)
+2. Clicks "Sign Up/Log In" in avatar dropdown
+3. Login modal opens
+4. Clicks "Sign Up"
+5. Registration Step 1:
+   - Enters: John Doe, username: johndoe (✓ Available), email, password
+   - Location auto-detected: Miami, FL
+   - Checks "I agree to Terms"
+   - Clicks "Continue →"
+6. Registration Step 2:
+   - Checks "Musician" → Instruments appear
+   - Checks: Guitar, Piano
+   - Checks "Music Producer"
+   - Clicks "Continue →"
+7. Registration Step 3:
+   - Checks genres: Hip-Hop, R&B, Trap
+   - Selects experience: Intermediate (2-5 years)
+   - Clicks "Complete Registration"
+8. Account created, modal closes
+9. Redirected to Welcome Screen (/welcome)
+10. Sees 4 cards: Community, Marketplace, Tools, Profile
+11. Clicks "Community"
+12. Redirected to /feed
+13. Sidebar now visible (slides out on hover)
+14. Clicks "What's on your mind?"
+15. Create Post modal opens
+16. Types: "Hey everyone! Excited to be here! 🎵"
+17. Clicks "Post"
+18. Post appears in feed
+19. First social interaction complete!
+```
+
+### FLOW 2: Seller Uploads Product → Gets Sale
+```
+1. Logged in user on /feed
+2. Hovers left edge → Sidebar slides out
+3. Clicks "My Store"
+4. Redirected to /store
+5. Sees empty store (no products yet)
+6. Clicks "+ Add Product"
+7. Redirected to /create/product
+8. Step 1: Basic Info
+   - Title: "Trap Beat Pack Vol. 1"
+   - Description: "10 hard-hitting trap beats..."
+   - Category: Beats
+   - Genres: Trap, Hip-Hop
+   - Clicks "Continue →"
+9. Step 2: Media
+   - Uploads thumbnail image
+   - Uploads preview audio (30-second clip)
+   - Clicks "Continue →"
+10. Step 3: Files & Pricing
+    - Uploads product files (.zip with 10 WAV files)
+    - File size: 250 MB (auto-calculated)
+    - Price: $45.00
+    - Clicks "Continue →"
+11. Step 4: License & Publish
+    - License: Non-exclusive
+    - Previews product (looks good!)
+    - Clicks "Publish Product"
+12. Product created, redirected to /store
+13. Sees new product in grid
+14. Product now visible in /marketplace
+
+[3 days later...]
+
+15. User receives notification: "New order!"
+16. Clicks notification
+17. Redirected to /orders/[id]
+18. Order status: Delivered (automatic for digital products)
+19. Earning: $27.00 (after 40% commission - Basic tier)
+20. Wallet balance: $27.00
+21. First sale complete!
+```
+
+### FLOW 3: Buyer Purchases → Downloads
+```
+1. Logged in user browsing /marketplace
+2. Products tab active
+3. Sees "Trap Beat Pack Vol. 1" card
+4. Clicks card
+5. Redirected to /products/trap-beat-pack-vol-1
+6. Plays preview audio (sounds great!)
+7. Reads description
+8. Clicks "Buy Now"
+9. Checkout modal opens (Stripe)
+10. Shows: Product $45.00, Seller @johndoe
+11. Enters card details
+12. Clicks "Complete Purchase"
+13. Payment processes (2-3 seconds)
+14. Modal closes
+15. Redirected to /orders/[id]
+16. Order status: Delivered ✅
+17. Clicks "Download Files"
+18. .zip file downloads (250 MB)
+19. Unzips on computer
+20. Has 10 high-quality trap beats!
+21. Leaves 5-star review (Phase 2)
+```
+
+### FLOW 4: Social Interaction
+```
+1. User on /feed
+2. Scrolling through Following tab
+3. Sees post from @producer123:
+   "Just dropped a new beat! Check it out 🔥"
+   [Audio player embedded]
+4. Clicks play icon
+5. Beat plays (sounds fire!)
+6. Clicks heart icon → Liked
+7. Clicks comment icon → Comment section expands
+8. Types: "This is 🔥🔥🔥 Can I use this for a project?"
+9. Clicks "Post Comment"
+10. Comment appears
+11. Clicks @producer123 username
+12. Redirected to /u/producer123
+13. Sees profile: 500 followers, 15 products
+14. Clicks "Follow" button
+15. Button changes to "Following" (now connected!)
+16. Clicks "Message"
+17. Message modal opens
+18. Types: "Hey! Love your beats. Let's collab?"
+19. Clicks "Send Message"
+20. Modal closes, confirmation shown
+21. @producer123 receives real-time notification
+22. They respond within minutes
+23. Conversation begins in /messages
+```
+
+### FLOW 5: Admin Moderation
+```
+1. Admin user logged in
+2. Receives notification: "New report"
+3. Clicks notification
+4. Redirected to /admin/reports
+5. Sees report queue:
+   - Report #045: Type: Spam
+   - Content: Post promoting sketchy link
+   - Reported by: @user123
+   - Date: 2 minutes ago
+6. Clicks "View Full"
+7. Sees complete post (definitely spam)
+8. Clicks "Remove Content"
+9. Confirmation modal: "Remove this post?"
+10. Clicks "Yes, Remove"
+11. Post hidden from platform
+12. User who posted gets warning email
+13. Reporter (@user123) gets notification: "Thank you for reporting"
+14. Clicks "Warn User" (additional action)
+15. Warning sent to spammer's account
+16. Report marked as Resolved
+17. Next report appears in queue
+18. Continues moderating...
+```
+
+### FLOW 6: Withdrawal Process
+```
+1. User has $523.45 in wallet (Available)
+2. Navigates to /wallet
+3. Sees balance breakdown:
+   - Available: $523.45
+   - Pending: $127.00
+   - Total Earned: $1,234.50
+4. Clicks "Withdraw Funds"
+5. Modal opens:
+   - Amount: $523.45 (pre-filled, editable)
+   - Payout method: Bank •••• 1234
+   - Processing: 2-7 business days
+6. Clicks "Confirm Withdrawal"
+7. Modal closes
+8. Payout created (Status: Pending)
+9. Email notification sent
+10. Wallet balance: $0.00 Available
+
+[5 days later...]
+
+11. Receives email: "Payout completed!"
+12. Checks bank account
+13. $523.45 deposited ✅
+14. Wallet shows in Payouts tab:
+    - Date, Amount, Status: Completed
+```
+
+---
+
+## 📱 MOBILE ADAPTATIONS
+
+### Header (Mobile)
+```
+┌─────────────────────────────────┐
+│ [☰] Logo    [🔍] [Avatar▼]     │
+└─────────────────────────────────┘
+```
+
+### Bottom Navigation (Logged In)
+```
+┌─────────────────────────────────┐
+│ [🏠]  [🔍]  [+]  [🔔]  [👤]    │
+│ Feed Explore Post Notif Profile │
+└─────────────────────────────────┘
+```
+- Sticks to bottom always visible
+- Active tab highlighted
+- + button opens Create Post modal
+
+### Hamburger Menu
+Opens full-screen overlay with sidebar items:
+```
+┌─────────────────────────────────┐
+│ [X] Close                       │
+│                                 │
+│ 👤 Profile                      │
+│ 💬 Messages                     │
+│ 👥 Groups                       │
+│ 🏪 My Store                     │
+│ 💰 Wallet                       │
+│ ⚙️ Settings                     │
+│ ───────────────────────────     │
+│ 🚪 Logout                       │
+└─────────────────────────────────┘
+```
+
+### Page Adaptations
+- **Homepage cards**: Stack vertically, full width
+- **Marketplace**: 2-column grid (instead of 4)
+- **Product details**: Image carousel (swipe), sticky CTA
+- **Messages**: List full screen, tap → slide to thread
+- **Forms**: One input per screen, large targets
+- **Modals**: Full screen on mobile
+- **Filters**: Slide-up bottom sheet
+
+---
+
+## 🎨 ANIMATIONS SPEC
+
+### Homepage Hero
+```
+Timeline:
+0s ────────────────────────► 5s
+
+Video:   [████████ fade out ████████]
+         0s → 4s (linear opacity 100% → 0%)
+
+Heading:      [fade in]
+              1s → 3s (opacity 0% → 100%)
+
+Paragraph:         [typewriter]
+                   2s → 5s (char by char)
+```
+
+### Three Cards
+```
+Community Card:
+- Slide from LEFT
+- Start: 0s, Duration: 0.8s
+- Ease: ease-out
+- Then fade to 50% opacity (0.3s)
+- Text fades in after slide (0.5s delay)
+
+Marketplace Card:
+- Slide from BOTTOM  
+- Start: 0.5s delay, Duration: 0.8s
+- Ease: ease-out
+- Then fade to 50% opacity (0.3s)
+- Text fades in after slide (0.5s delay)
+
+Tools Card:
+- Slide from RIGHT
+- Start: 1s delay, Duration: 0.8s
+- Ease: ease-out
+- Then fade to 50% opacity (0.3s)
+- Text fades in after slide (0.5s delay)
+
+All cards have:
+- Background images (50% opacity when complete)
+- Heading + Paragraph text overlay
+- Clickable (cursor: pointer)
+- Hover: Slight scale (1.02) + shadow
+```
+
+### Sidebar (Desktop)
+```
+Collapsed: Only icon visible (50px width)
+Hover on left edge → Slides out
+- Width animates: 50px → 250px
+- Duration: 0.3s
+- Ease: ease-out
+- Labels fade in
+```
+
+### Modal Animations
+```
+Open:
+- Background blur: 0 → blur(8px) (0.2s)
+- Modal scale: 0.95 → 1.0 (0.2s)
+- Modal opacity: 0 → 1 (0.2s)
+
+Close:
+- Reverse of open
+- Duration: 0.15s (faster)
+```
+
+---
+
+## 💾 DATA REQUIREMENTS PER PAGE
+
+### Homepage
+- Featured products (top 10 this week)
+- Featured creators (Premium+ or algorithm)
+- New releases (last 7 days, sorted by date)
+- Top services (highest rated, min 10 reviews)
+- Upcoming webinars (Phase 2, next 30 days)
+
+### Community
+- All users (pagination: 20 per page)
+- Filters: role, skills, genres, location, experience
+- Sort: followers desc, joined desc, active desc, name asc
+- User cards: avatar, name, username, bio (100 chars), roles, follow status
+
+### Marketplace
+- All products/services/webinars (pagination: 20 per page)
+- Filters: category, genres, price range, license type, delivery time
+- Sort: popular desc, sales desc, recent desc, price asc/desc, rating desc
+- Cards: thumbnail, title, price, seller info, quick actions
+
+### Product Details
+- Product (all fields)
+- Seller profile (name, avatar, rating, follower count)
+- Related products (same genre, limit 6)
+- User status: is_favorited, is_in_cart
+- Reviews (Phase 2)
+
+### Feed
+- Posts from followed users (pagination: 20 per page)
+- Discover: Algorithm-based (trending, suggestions)
+- Latest: All posts chronological
+- User's interaction status: liked, saved
+
+### Messages
+- Conversations (pagination: 50 per page)
+- Messages for active conversation (pagination: 50 per page, reverse)
+- Real-time updates: new messages, read status, typing indicators
+- User online status
+
+### Wallet
+- Wallet balance (available, pending, total earned)
+- Transactions (pagination: 50 per page, filters: type, date range)
+- Payouts (pagination: 50 per page, filters: status, date range)
+- Stripe Connect status
+
+### Orders
+- Purchases: Orders where user is buyer (pagination: 20 per page)
+- Sales: Orders where user is seller (pagination: 20 per page)
+- Filters: status, type, date range
+- Real-time updates: status changes
+
+### Admin Reports
+- All reports (pagination: 20 per page)
+- Filters: status, content type, date range
+- Report details: content, reporter, reported user, reason
+- False report tracking
+
+---
+
+## 🔗 URL STRUCTURE (Complete)
+
+### Public Routes
+```
+/                                Homepage
+/community                       Browse members
+/marketplace                     Marketplace hub
+/tools                          Tools page
+/products                       Browse products (redirects to marketplace)
+/services                       Browse services (redirects to marketplace)
+/webinars                       Browse webinars (Phase 2)
+/products/[slug]                Product details
+/services/[slug]                Service details
+/webinars/[slug]                Webinar details (Phase 2)
+/u/[username]                   User profile
+/groups/[slug]                  Group details
+/search?q=[query]&tab=[tab]     Search results
+/about                          About page
+/pricing                        Pricing tiers
+/contact                        Contact form
+/terms                          Terms of Service
+/privacy                        Privacy Policy
+```
+
+### Authenticated Routes
+```
+/welcome                        Welcome choice screen
+/feed                           Social feed
+/notifications                  Notifications list
+/messages                       Messages inbox
+/messages/[id]                  Conversation
+/messages/new?user=[username]   New conversation
+/groups                         Browse/manage groups
+/store                          My store
+/store/me                       My store (alias)
+/create/product                 Create product
+/create/service                 Create service
+/create/webinar                 Create webinar (Phase 2)
+/edit/product/[id]              Edit product
+/edit/service/[id]              Edit service
+/orders                         Purchases & sales
+/orders/[id]                    Order details
+/wallet                         Wallet & earnings
+/settings                       Settings hub
+/settings/profile               Profile settings
+/settings/account               Account settings
+/settings/privacy               Privacy settings
+/settings/notifications         Notification settings
+/settings/billing               Billing settings
+```
+
+### Admin Routes (MVP in main app, Phase 2 subdomain)
+```
+/admin                          Admin dashboard
+/admin/reports                  Moderation queue
+/admin/users                    User management
+/admin/users/[id]               User details
+/admin/custom-fields            Custom field approval
+/admin/analytics                Platform analytics (Phase 2)
+/admin/settings                 Platform settings (Phase 2)
+
+Phase 2 Subdomain:
+bogibatina.producersavenue.com/              Dashboard
+bogibatina.producersavenue.com/reports       Moderation
+bogibatina.producersavenue.com/users         Users
+bogibatina.producersavenue.com/analytics     Analytics
+bogibatina.producersavenue.com/settings      Settings
+```
+
+### Phase 2 Routes
+```
+/tools/collab-matcher           Collab Matcher
+/webinars/[slug]/live           Live webinar room
+/news                           Platform news
+/news/[slug]                    Article details
+```
+
+---
+
+## ⚙️ TECHNICAL SPECIFICATIONS
+
+### Real-Time Features (Supabase Realtime)
+✅ Direct messages (instant delivery)
+✅ Notifications (bell icon updates)
+✅ Order status updates (buyer + seller)
+✅ Typing indicators (messages)
+✅ Read receipts (messages)
+✅ Online status (user presence)
+
+❌ Feed posts (manual refresh - better UX)
+❌ Marketplace listings (manual refresh)
+
+### Data Loading
+- **SSR**: SEO pages (homepage, product details, profiles)
+- **CSR**: Authenticated pages (feed, messages, wallet)
+- **Infinite Scroll**: Feed, marketplace, community, search
+- **Pagination**: Orders, transactions, admin pages
+- **Lazy Load**: Images, modals, tabs
+
+### Caching Strategy
+- User profile: 1 hour
+- Product details: 5 minutes
+- Search results: 1 minute
+- Static content: 24 hours
+- Invalidate on mutation
+
+### Performance Targets
+- First Contentful Paint: <1.5s
+- Time to Interactive: <3s
+- Largest Contentful Paint: <2.5s
+- Cumulative Layout Shift: <0.1
+- Lighthouse Score: >90
+
+### SEO Requirements
+- Meta tags (title, description, keywords) on all pages
+- Open Graph tags for social sharing
+- Structured data (Schema.org): Person, Product, Event
+- XML sitemap (auto-generated)
+- Robots.txt
+- Canonical URLs
+- Clean slugs (no IDs in URLs)
+
+### Accessibility
+- ARIA labels on all interactive elements
+- Keyboard navigation (Tab, Enter, Esc, Arrow keys)
+- Screen reader friendly
+- Color contrast WCAG AA minimum
+- Focus indicators visible
+- Skip to main content link
+- Alt text on all images
+
+---
+
+## 🚀 IMPLEMENTATION ROADMAP
+
+### Phase 0: Setup (Week 0)
+- [ ] Create Next.js project
+- [ ] Deploy to Vercel
+- [ ] Connect GitHub repo
+- [ ] Set up Supabase project
+- [ ] Configure environment variables
+- [ ] Set up Sentry
+- [ ] Create favicon set
+- [ ] Set up Resend (email)
+
+### Phase 1: Foundation (Weeks 1-2)
+- [ ] Install dependencies (Tailwind, shadcn/ui, etc.)
+- [ ] Set up theme system (light/dark)
+- [ ] Create layout components (Header, Sidebar, Footer)
+- [ ] Implement authentication (Supabase Auth)
+- [ ] Build login/register modals (multi-step)
+- [ ] Create homepage (static version)
+- [ ] Implement navigation (header, sidebar, mobile)
+
+### Phase 2: Core Pages (Weeks 3-4)
+- [ ] User profiles (view only)
+- [ ] Feed page (view posts)
+- [ ] Marketplace browse pages
+- [ ] Product details page
+- [ ] Service details page
+- [ ] Search functionality (modal + results page)
+- [ ] Community page (browse members)
+
+### Phase 3: Creation (Weeks 5-6)
+- [ ] Create product page (multi-step)
+- [ ] Create service page (multi-step)
+- [ ] Create post modal
+- [ ] Edit product/service
+- [ ] Profile edit (settings)
+- [ ] Image upload (Supabase Storage)
+- [ ] File upload (products)
+
+### Phase 4: Transactions (Weeks 7-8)
+- [ ] Stripe integration (Checkout)
+- [ ] Stripe Connect (payouts)
+- [ ] Checkout modal
+- [ ] Orders page (purchases/sales)
+- [ ] Order details page
+- [ ] Wallet page
+- [ ] Payout system
+- [ ] Commission calculation
+
+### Phase 5: Social (Weeks 9-10)
+- [ ] Follow system
+- [ ] Messages (real-time)
+- [ ] Notifications (real-time)
+- [ ] Groups (basic CRUD)
+- [ ] Group posts
+- [ ] Create post modal (complete)
+- [ ] Comments system
+
+### Phase 6: Admin & Polish (Weeks 11-12)
+- [ ] Admin dashboard
+- [ ] Moderation queue
+- [ ] Custom field requests
+- [ ] User management (suspend/ban)
+- [ ] UI/UX polish
+- [ ] Bug fixes
+- [ ] Performance optimization
+- [ ] Mobile testing
+
+### Phase 7: Testing (Weeks 13-14)
+- [ ] Unit tests (critical functions)
+- [ ] Integration tests
+- [ ] E2E tests (Playwright)
+- [ ] User acceptance testing
+- [ ] Bug fixes
+- [ ] Security audit
+- [ ] Accessibility audit
+
+### Phase 8: Launch Prep (Weeks 15-16)
+- [ ] SEO optimization
+- [ ] Load testing
+- [ ] Analytics setup
+- [ ] Error monitoring (Sentry)
+- [ ] Documentation
+- [ ] Marketing assets
+- [ ] Beta launch
+- [ ] Collect feedback
+- [ ] Final fixes
+
+### Phase 9: Public Launch (Week 17)
+- [ ] Production deployment
+- [ ] DNS configuration
+- [ ] SSL certificates
+- [ ] Marketing push
+- [ ] Monitor metrics
+- [ ] Support users
+- [ ] Hot fixes as needed
+
+### Phase 10: Post-Launch (Weeks 18-20)
+- [ ] Iterate based on feedback
+- [ ] Fix critical bugs
+- [ ] Optimize performance
+- [ ] Add quick wins
+- [ ] Prepare for Phase 2
+
+---
+
+## 📋 FINAL CHECKLIST
+
+### Pages ✅
+- [x] All 24+ pages defined
+- [x] Layouts specified
+- [x] Data requirements listed
+- [x] Actions documented
+- [x] Mobile adaptations
+
+### Modals ✅
+- [x] All 9+ modals defined
+- [x] Triggers specified
+- [x] Layouts detailed
+- [x] Close behaviors
+- [x] Validations
+
+### Navigation ✅
+- [x] Header structure
+- [x] Sidebar structure
+- [x] Mobile bottom nav
+- [x] Dropdown menus
+- [x] URL structure
+- [x] User flows (6 complete)
+
+### Technical ✅
+- [x] Real-time features
+- [x] Data loading strategies
+- [x] Caching approach
+- [x] Performance targets
+- [x] SEO requirements
+- [x] Accessibility standards
+
+### Implementation ✅
+- [x] Phase breakdown (0-10)
+- [x] Task lists per phase
+- [x] Timeline (20 weeks)
+- [x] Critical path identified
+
+---
+
+## ✅ READY FOR DEVELOPMENT
+
+**This document contains everything needed to start building.**
+
+All architectural decisions made.
+All pages and modals mapped.
+All user flows defined.
+Technical specifications complete.
+Implementation roadmap ready.
+
+**Next Steps:**
+1. ✅ Review this document
+2. ✅ Set up development environment
+3. ✅ Begin Phase 0 (Setup)
+4. ✅ Follow implementation roadmap
+5. ✅ Ship MVP in 16 weeks!
+
+**Or continue planning:**
+- User Flows (even more detailed step-by-step)
+- Component Architecture (React component breakdown)
+- Database Schema SQL (actual CREATE TABLE statements)
+
+---
+
+**Document Version:** 1.0 COMPLETE
+**Last Updated:** November 2, 2025  
+**Status:** ✅ Ready for Production Development
+
+**Total Pages Mapped:** 24+
+**Total Modals Defined:** 9+
+**Total User Flows:** 6 complete
+**Implementation Timeline:** 20 weeks
+
+🚀 **LET'S BUILD THIS!** 🚀

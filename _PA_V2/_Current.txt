@@ -1,0 +1,751 @@
+FILES CREATED - SESSION 6
+Last Updated: November 10, 2025
+Purpose: Track all files created across all sessions
+
+===========================================
+⚠️ IMPORTANT WORKFLOW NOTE ⚠️
+===========================================
+ALWAYS give me ONE file at a time with:
+1. Path and filename clearly shown
+2. Reference comment on top of file (e.g., // File: route.ts // Path: /src/app/api/stripe/checkout/route.ts)
+3. Wait for my confirmation before proceeding to next file
+
+This prevents confusion and ensures correct file placement in the project structure.
+===========================================
+
+===========================================
+⚠️ CRITICAL DESIGN SYSTEM REQUIREMENT ⚠️
+===========================================
+ALL COMPONENTS MUST SUPPORT LIGHT/DARK THEME TOGGLE
+
+**Correct Color Scheme:**
+Primary Color: #009ae9 (blue)
+- Hover: #0088d1
+- Active: #0076b9
+
+Light Theme:
+- Background: #ffffff
+- Surface: #f5f5f5
+- Border: #e0e0e0
+- Text Primary: #1a1a1a
+- Text Secondary: #666666
+
+Dark Theme:
+- Background: #0a0a0a
+- Surface: #1a1a1a
+- Border: #2a2a2a
+- Text Primary: #f5f5f5
+- Text Secondary: #b3b3b3
+
+⚠️ DO NOT use #00E5BE (teal) - this is WRONG!
+⚠️ ALL new components need theme context/provider
+===========================================
+
+===========================================
+SESSION 5 - NEW FILES CREATED
+===========================================
+
+API Routes (in /src/app/api/)
+1. paypal/webhook/route.ts - PayPal webhook handler for payment events
+2. products/download/[productId]/route.ts - Secure file download system with tracking
+
+TOTAL NEW FILES IN SESSION 5: 2 files
+
+===========================================
+SESSION 6 - NEW FILES CREATED
+===========================================
+
+API Routes (in /src/app/api/)
+1. messages/route.ts - Messages API (GET conversations/messages, POST send message)
+2. notifications/route.ts - Notifications API (GET, PATCH mark read, DELETE)
+3. orders/route.ts - Orders API (GET purchases/sales, PATCH update status)
+4. users/route.ts - Users API (GET profile/search, PATCH update, POST follow/unfollow)
+5. wallet/route.ts - Wallet API (GET balance/transactions, POST payout, PATCH cancel)
+6. posts/route.ts - Posts/Feed API (GET feed, POST create/like/comment, DELETE)
+7. services/route.ts - Services API (GET/search, POST create, PATCH update, DELETE)
+
+Components (in /src/components/)
+8. messaging/MessageThread.tsx - Real-time message thread ⚠️ NEEDS THEME FIX
+9. messaging/ConversationList.tsx - Conversation list with search ⚠️ NEEDS THEME FIX
+10. marketplace/filters/MarketplaceFilters.tsx - Marketplace filters ⚠️ NEEDS THEME FIX
+
+TOTAL NEW FILES IN SESSION 6: 10 files
+
+⚠️ FILES THAT NEED THEME UPDATES:
+- MessageThread.tsx (uses #0A0A0A, #00E5BE - WRONG colors, no theme toggle)
+- ConversationList.tsx (uses #0A0A0A, #00E5BE - WRONG colors, no theme toggle)
+- MarketplaceFilters.tsx (uses #111111 only - needs light theme support)
+
+===========================================
+CUMULATIVE FILE COUNT
+===========================================
+Session 1: 32 files
+Session 2: 13 files
+Session 3: 8 files
+Session 4: 14 files
+Session 5: 2 files
+Session 6: 10 files
+TOTAL FILES: 79
+
+===========================================
+WHAT'S COMPLETED (CUMULATIVE)
+===========================================
+✅ Project configuration
+✅ Design system (Tailwind, fonts, colors)
+✅ Homepage with hero and carousels
+✅ Header and Footer
+✅ Authentication pages (Login, Register, Verify Email, Forgot Password, Reset Password)
+✅ Auth callback handler
+✅ Community and Marketplace pages
+✅ About and Pricing pages
+✅ Contact, Terms, and Privacy pages
+✅ Supabase setup
+✅ Validation utilities
+✅ Constants file
+✅ Product and Service card components
+✅ Protected layout with sidebar
+✅ Feed page
+✅ Messages page
+✅ Orders page
+✅ Wallet page
+✅ Settings page (with all tabs)
+✅ User profile page (view)
+✅ Create product page
+✅ Create service page
+✅ Product detail page
+✅ Service detail page
+✅ Search page with filters
+✅ My listings management page
+✅ Notification bell component
+✅ Edit product page
+✅ Edit service page
+✅ Delete confirmation modal
+✅ Contact form API route
+✅ Newsletter API route
+✅ File upload utilities
+✅ Notifications page (full list)
+✅ Help/FAQ page
+✅ User dashboard with analytics
+✅ Review/rating system component
+✅ Stripe checkout session creation
+✅ Stripe webhook handler
+✅ PayPal checkout creation
+✅ PayPal capture route
+✅ PayPal webhook handler (Session 5)
+✅ Product download system with security (Session 5)
+✅ Cart page
+✅ Checkout success page
+✅ Wishlist page
+✅ Email service utilities
+✅ Email templates
+✅ Report modal component
+✅ Wishlist button component
+✅ Messages API route (NEW - Session 6)
+✅ Notifications API route (NEW - Session 6)
+✅ Orders API route (NEW - Session 6)
+✅ Users API route (NEW - Session 6)
+✅ Wallet API route (NEW - Session 6)
+✅ Posts/Feed API route (NEW - Session 6)
+✅ Services API route (NEW - Session 6)
+✅ Message thread component (NEW - Session 6) ⚠️ NEEDS THEME FIX
+✅ Conversation list component (NEW - Session 6) ⚠️ NEEDS THEME FIX
+✅ Marketplace filters component (NEW - Session 6) ⚠️ NEEDS THEME FIX
+
+===========================================
+ACTUAL PROJECT STRUCTURE
+===========================================
+
+/src/app/
+├── (auth)/
+│   ├── callback/route.tsx
+│   ├── forgot-password/page.tsx
+│   ├── login/page.tsx
+│   ├── register/page.tsx
+│   ├── reset-password/page.tsx
+│   └── verify-email/page.tsx
+│
+├── (protected)/
+│   ├── layout.tsx
+│   ├── cart/page.tsx
+│   ├── checkout/
+│   │   └── success/page.tsx
+│   ├── dashboard/page.tsx
+│   ├── feed/page.tsx
+│   ├── messages/page.tsx
+│   ├── my-listings/page.tsx
+│   ├── notifications/page.tsx
+│   ├── orders/
+│   │   ├── page.tsx
+│   │   └── [id]/page.tsx
+│   ├── products/
+│   │   ├── new/page.tsx
+│   │   └── [id]/edit/page.tsx
+│   ├── profile/[username]/page.tsx
+│   ├── search/page.tsx
+│   ├── services/
+│   │   ├── new/page.tsx
+│   │   └── [id]/edit/page.tsx
+│   ├── settings/page.tsx
+│   ├── wallet/
+│   │   ├── page.tsx
+│   │   ├── payout/page.tsx
+│   │   └── transactions/page.tsx
+│   ├── wishlist/page.tsx
+│   └── [username]/edit/page.tsx
+│
+├── about/page.tsx
+├── admin/ (empty - for future separate app)
+│
+├── api/
+│   ├── admin/ (empty)
+│   ├── auth/ (empty)
+│   ├── contact/route.tsx
+│   ├── messages/route.ts ✅ NEW
+│   ├── newsletter/route.ts
+│   ├── notifications/route.ts ✅ NEW
+│   ├── orders/route.ts ✅ NEW
+│   ├── paypal/
+│   │   ├── capture/route.ts
+│   │   ├── checkout/route.ts
+│   │   └── webhook/route.ts
+│   ├── posts/route.ts ✅ NEW
+│   ├── products/
+│   │   └── download/[productId]/route.ts
+│   ├── services/route.ts ✅ NEW
+│   ├── stripe/
+│   │   ├── checkout/route.ts
+│   │   └── webhook/route.ts
+│   ├── users/route.ts ✅ NEW
+│   └── wallet/route.ts ✅ NEW
+│
+├── collab-matcher/matches/ (empty)
+├── community/page.tsx
+├── contact/page.tsx
+├── groups/
+│   ├── create/ (empty)
+│   └── [id]/ (empty)
+├── help/page.tsx
+│
+├── marketplace/
+│   ├── page.tsx
+│   ├── products/
+│   │   ├── create/ (empty)
+│   │   └── [id]/page.tsx
+│   └── services/
+│       ├── create/ (empty)
+│       └── [id]/page.tsx
+│
+├── orders/[id]/ (empty)
+├── pricing/page.tsx
+├── privacy/page.tsx
+├── search/page.tsx
+├── terms/page.tsx
+├── wallet/
+│   ├── payout/ (empty)
+│   └── transactions/ (empty)
+├── [username]/edit/ (empty)
+└── page.tsx (homepage)
+
+/src/components/
+├── admin/ (empty)
+├── auth/ (empty)
+├── common/
+│   ├── Carousel.tsx
+│   ├── DeleteConfirmModal.tsx
+│   ├── NotificationBell.tsx
+│   ├── ReportModal.tsx
+│   ├── ReviewSystem.tsx
+│   └── WishlistButton.tsx
+├── feed/ (empty)
+├── groups/ (empty)
+├── home/
+│   ├── AboutSection.tsx
+│   ├── FeatureCards.tsx
+│   └── Hero.tsx
+├── layout/
+│   ├── Footer.tsx
+│   └── Header.tsx
+├── marketplace/
+│   ├── filters/
+│   │   └── MarketplaceFilters.tsx ✅ NEW ⚠️ NEEDS THEME FIX
+│   ├── products/ProductCard.tsx
+│   └── services/ServiceCard.tsx
+├── messaging/
+│   ├── MessageThread.tsx ✅ NEW ⚠️ NEEDS THEME FIX
+│   └── ConversationList.tsx ✅ NEW ⚠️ NEEDS THEME FIX
+├── notifications/ (empty)
+├── orders/ (empty)
+├── profile/ (empty)
+├── search/ (empty)
+├── ui/ (empty)
+└── wallet/ (empty)
+
+/src/contexts/
+└── CartContext.tsx
+
+/src/hooks/ (empty)
+
+/src/lib/
+├── constants.ts
+├── hooks/ (empty)
+├── stripe/ (empty)
+├── supabase/
+│   ├── client.ts
+│   └── server.ts
+├── utils/
+│   ├── emailService.ts
+│   ├── emailTemplates.ts
+│   ├── fileUpload.ts
+│   └── validation.ts
+└── validations/ (empty)
+
+/src/styles/ (empty)
+
+/src/types/
+└── database.types.ts
+
+/src/
+├── layout.tsx
+└── middleware.ts
+
+/public/
+├── audio/ (empty)
+├── fonts/
+│   ├── BebasNeue-Regular.woff2
+│   ├── Migha-Condensed.woff2
+│   ├── Montserrat-Italic-VariableFont.woff2
+│   ├── Montserrat-VariableFont.woff2
+│   ├── Oswald-VariableFont_wght.woff2
+│   ├── SpaceMono-Bold.woff2
+│   ├── SpaceMono-BoldItalic.woff2
+│   ├── SpaceMono-Italic.woff2
+│   └── SpaceMono-Regular.woff2
+├── icons/ (empty)
+├── images/ (empty)
+└── videos/
+    ├── hero-1-mobile.mp4
+    ├── hero-1.mp4
+    ├── hero-2-mobile.mp4
+    ├── hero-2.mp4
+    ├── hero-3-mobile.mp4
+    ├── hero-3.mp4
+    ├── hero-4-mobile.mp4
+    ├── hero-4.mp4
+    ├── hero-5-mobile.mp4
+    ├── hero-5.mp4
+    ├── hero-6.mp4
+    ├── hero-7.mp4
+    ├── hero-8.mp4
+    ├── hero-9.mp4
+    ├── hero-10.mp4
+    ├── hero-11.mp4
+    ├── hero-12.mp4
+    ├── hero-13.mp4
+    ├── hero-14.mp4
+    ├── hero-15.mp4
+    ├── hero-16.mp4
+    └── hero-17.mp4
+
+/supabase/
+├── functions/
+│   ├── calculate-commission/ (empty)
+│   ├── check-trust-score/ (empty)
+│   ├── generate-preview/ (empty)
+│   ├── process-payment/ (empty)
+│   ├── process-payout/ (empty)
+│   ├── scan-upload/ (empty)
+│   └── send-notification/ (empty)
+└── migrations/ (empty)
+
+/.github/
+├── .github/workflows/ (empty)
+└── workflows/ (empty)
+
+/docs/ (empty)
+
+/scripts/ (empty)
+
+/tests/
+├── e2e/ (empty)
+├── integration/ (empty)
+└── unit/ (empty)
+
+/_PA_V2/ (Project documentation)
+├── categories_skills.txt
+├── database_schema.txt
+├── development_roadmap.txt
+├── features_user_roles.txt
+├── launch_checklist.txt
+├── legal_compliance_documentation.txt
+├── master_combined.txt
+├── payment_system_docs.txt
+├── PA_V2_pages_modals.txt
+├── plans_badges_etc.txt
+├── ProducersAvenueV2-overview.txt
+├── project_folder_structure.txt
+├── quick_reference.txt
+├── README.txt
+├── technical_specs.txt
+├── tech_stack.txt
+├── third_party_services.txt
+├── UI_UX.txt
+├── video_solution_comparison.txt
+└── _Current.txt
+
+Root files:
+├── .env
+├── .gitignore
+├── globals.css
+├── package.json
+├── postcss.config.js
+├── project_structure.txt
+├── README.md
+├── RUN FOR PROJECT STRUCTURE.txt
+├── tailwind.config.ts
+└── tsconfig.json
+
+===========================================
+EMPTY FOLDERS (TO BE FILLED)
+===========================================
+These folders exist but have no files yet:
+
+Root Level:
+- /.github/.github/workflows/
+- /.github/workflows/
+- /docs/
+- /scripts/
+
+API Routes (need implementation):
+- /api/admin/
+- /api/auth/
+
+Pages (need implementation):
+- /collab-matcher/matches/
+- /groups/create/
+- /groups/[id]/
+- /marketplace/products/create/
+- /marketplace/services/create/
+- /orders/[id]/ (duplicate location exists)
+- /wallet/payout/ (duplicate location exists)
+- /wallet/transactions/ (duplicate location exists)
+- /[username]/edit/ (duplicate location exists)
+
+Components (need implementation):
+- /components/admin/
+- /components/auth/
+- /components/feed/
+- /components/groups/
+- /components/notifications/
+- /components/orders/
+- /components/profile/
+- /components/search/
+- /components/ui/
+- /components/wallet/
+
+Lib/Hooks/Styles:
+- /src/hooks/
+- /src/styles/
+- /lib/hooks/
+- /lib/stripe/
+- /lib/validations/
+
+Supabase:
+- /supabase/functions/* (all edge functions empty)
+- /supabase/migrations/ (empty)
+
+Public:
+- /public/audio/
+- /public/icons/
+- /public/images/
+
+Tests:
+- /tests/e2e/
+- /tests/integration/
+- /tests/unit/
+
+===========================================
+STRUCTURE OBSERVATIONS
+===========================================
+CONFIRMED: The following pages/folders NOW EXIST based on project_structure.txt:
+✅ /src/app/(protected)/checkout/success/page.tsx
+✅ /src/app/(protected)/orders/[id]/page.tsx
+✅ /src/app/(protected)/wallet/payout/page.tsx
+✅ /src/app/(protected)/wallet/transactions/page.tsx
+✅ /src/app/(protected)/[username]/edit/page.tsx
+✅ /src/app/search/page.tsx
+
+DUPLICATE ROUTE STRUCTURE IDENTIFIED:
+⚠️ There are duplicate folder structures in the project:
+1. /src/app/(protected)/wallet/ - has page.tsx, payout/page.tsx, transactions/page.tsx
+2. /src/app/wallet/ - has payout/ and transactions/ folders (empty)
+
+3. /src/app/(protected)/orders/ - has page.tsx and [id]/page.tsx
+4. /src/app/orders/[id]/ - exists but empty
+
+5. /src/app/(protected)/[username]/edit/ - has page.tsx
+6. /src/app/[username]/edit/ - exists but empty
+
+7. /src/app/(protected)/search/ - has page.tsx
+8. /src/app/search/ - has page.tsx (duplicate!)
+
+RECOMMENDATION: Remove the duplicate routes outside (protected) group or clarify which ones should be used.
+
+===========================================
+WHAT'S NEXT TO BUILD
+===========================================
+IMMEDIATE PRIORITY:
+1. **CREATE THEME CONTEXT/PROVIDER** - Light/Dark theme toggle system (CRITICAL)
+2. **FIX THEME IN SESSION 6 COMPONENTS** - Update MessageThread, ConversationList, MarketplaceFilters
+3. Profile components (followers/following, stats)
+4. Feed components (post card, create post form)
+5. Order components (order card, status badge)
+6. Wallet components (balance card, transaction list)
+7. Search components (advanced filters, results grid)
+8. Group features (/groups/create and /groups/[id])
+9. Collaboration matcher (/collab-matcher/matches)
+10. Supabase Edge Functions implementation
+
+THEN:
+* Sales analytics charts with visualizations
+* Dispute resolution system
+* Seller verification badges
+* Multi-currency support
+* Refund management system
+* UI components library (shadcn/ui)
+* Resolve duplicate route structure
+
+NOTE: Admin panel will be separate app on subdomain (not part of main app)
+
+===========================================
+NOTES
+===========================================
+* All videos are in /public/videos/ (hero-1.mp4 through hero-17.mp4, with -mobile versions)
+* Fonts are in /public/fonts/ (9 font files total)
+* Using Next.js 14 App Router
+* Supabase for database and auth
+* Tailwind CSS for styling with dark mode class strategy
+* TypeScript throughout
+* Protected routes use (protected) route group
+* Auth routes use (auth) route group
+* OAuth redirects to /callback (not /auth/callback)
+* File uploads go to Supabase Storage buckets:
+  - product-images
+  - product-files
+  - product-demos
+  - service-images
+  - service-portfolios
+  - post-media (for feed posts)
+  - user-avatars (for profile pictures)
+  - user-banners (for profile banners)
+* Real-time notifications via Supabase subscriptions
+* Stripe for card payments (API version: 2024-11-20.acacia)
+* PayPal for PayPal payments
+* Shopping cart stored in localStorage via CartContext
+* Download system uses Supabase signed URLs (1 hour expiry)
+* Download limits: 5 downloads, 30-day expiration
+* Admin panel is SEPARATE app on subdomain (not included in main app)
+* Project documentation stored in /_PA_V2/ folder at root level
+* **PRIMARY COLOR IS #009ae9 (blue) NOT #00E5BE (teal)**
+
+===========================================
+ENVIRONMENT VARIABLES NEEDED
+===========================================
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+
+# App
+NEXT_PUBLIC_APP_URL=http://localhost:3000 (or production URL)
+
+# Stripe
+STRIPE_SECRET_KEY=sk_test_... or sk_live_...
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_... or pk_live_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+
+# PayPal
+PAYPAL_CLIENT_ID=your_paypal_client_id
+PAYPAL_CLIENT_SECRET=your_paypal_client_secret
+PAYPAL_MODE=sandbox or live
+PAYPAL_WEBHOOK_ID=your_webhook_id_from_paypal_dashboard
+
+===========================================
+KEY FEATURES IMPLEMENTED
+===========================================
+✅ User authentication (email/password + OAuth)
+✅ User profiles with customization
+✅ Product listings (create, view, manage, edit, delete)
+✅ Service listings (create, view, manage, edit, delete)
+✅ Search with filters and sorting
+✅ Image upload for products/services
+✅ File upload for products (main file + demo)
+✅ Portfolio upload for services
+✅ Real-time notifications
+✅ Notification bell with dropdown
+✅ Full notifications page
+✅ Listing management dashboard
+✅ Protected routes with middleware
+✅ Responsive design throughout
+✅ Delete confirmation modals
+✅ Review and rating system
+✅ Contact form with API
+✅ Newsletter subscription with API
+✅ File upload utilities (size/type validation, dimension checking)
+✅ Help/FAQ page with search and categories
+✅ User dashboard with analytics
+✅ Sales statistics and charts
+✅ Recent orders tracking
+✅ Stripe payment integration (checkout + webhook)
+✅ PayPal payment integration (checkout + capture + webhook)
+✅ Shopping cart system (CartContext)
+✅ Checkout page with success page
+✅ Secure file download system (signed URLs, tracking, limits)
+✅ Wishlist system with button component
+✅ Email service and templates
+✅ Report modal for content moderation
+✅ Real-time messaging system (API + components)
+✅ Notifications management (API)
+✅ Orders management (API)
+✅ User profiles and following (API)
+✅ Wallet and payouts (API)
+✅ Social feed/posts (API)
+✅ Services marketplace (API)
+✅ Marketplace filtering component
+
+⚠️ PENDING: Light/Dark theme system implementation
+
+===========================================
+STORAGE BUCKETS NEEDED IN SUPABASE
+===========================================
+1. product-images (public)
+2. product-files (private - authenticated only)
+3. product-demos (public)
+4. service-images (public)
+5. service-portfolios (public)
+6. post-media (public) - for feed posts
+7. user-avatars (public) - for profile pictures
+8. user-banners (public) - for profile banners
+
+===========================================
+DATABASE TABLES USED
+===========================================
+1. user_profiles - User information and settings
+2. products - Product listings
+3. services - Service listings
+4. orders - Purchase orders
+5. order_items - Individual items in orders
+6. transactions - Financial transactions
+7. messages - User messages
+8. conversations - Message conversations
+9. notifications - User notifications
+10. reviews - Product/service reviews
+11. contact_submissions - Contact form submissions
+12. newsletter_subscribers - Newsletter email list
+13. product_downloads - Download tracking and limits
+14. download_logs - Download activity logs
+15. posts - Social feed posts
+16. post_likes - Post likes
+17. post_comments - Post comments
+18. user_follows - User following relationships
+19. wallets - User wallet balances
+20. payouts - Payout requests
+
+===========================================
+PAYMENT FLOW
+===========================================
+
+STRIPE FLOW:
+1. User adds items to cart (CartContext)
+2. User goes to /cart, clicks checkout
+3. Frontend calls /api/stripe/checkout
+4. Stripe session created with metadata
+5. User redirected to Stripe checkout
+6. After payment, Stripe webhook triggers /api/stripe/webhook
+7. Webhook creates orders, transactions, notifications, download records
+8. User redirected to /checkout/success
+
+PAYPAL FLOW:
+1. User adds items to cart (CartContext)
+2. User goes to /cart, clicks checkout
+3. Frontend calls /api/paypal/checkout
+4. PayPal order created with custom_id
+5. User redirected to PayPal
+6. After approval, frontend calls /api/paypal/capture
+7. Capture creates orders, transactions, notifications, download records
+8. User redirected to /checkout/success
+9. PayPal webhook confirms payment asynchronously
+
+DOWNLOAD FLOW:
+1. User purchases product
+2. product_downloads record created (5 downloads, 30-day expiry)
+3. User clicks download from /orders page
+4. GET /api/products/download/[productId]
+5. System verifies purchase, checks limits, generates signed URL
+6. Downloads remaining decremented
+7. Download logged in download_logs table
+8. Signed URL expires after 1 hour
+
+===========================================
+FILES IN OUTPUT FOLDER (need to be moved)
+===========================================
+These files were created in /mnt/user-data/outputs/ and need to be placed in the correct locations in your project:
+
+SESSION 4 FILES:
+1. edit-product-page.tsx → /src/app/(protected)/products/[id]/edit/page.tsx
+2. edit-service-page.tsx → /src/app/(protected)/services/[id]/edit/page.tsx
+3. DeleteConfirmModal.tsx → /src/components/common/DeleteConfirmModal.tsx
+4. contact-route.ts → /src/app/api/contact/route.tsx
+5. newsletter-route.ts → /src/app/api/newsletter/route.ts
+6. fileUpload.ts → /src/lib/utils/fileUpload.ts
+7. notifications-page.tsx → /src/app/(protected)/notifications/page.tsx
+8. help-page.tsx → /src/app/help/page.tsx
+9. dashboard-page.tsx → /src/app/(protected)/dashboard/page.tsx
+10. ReviewSystem.tsx → /src/components/common/ReviewSystem.tsx
+11. stripe-checkout-route.ts → /src/app/api/stripe/checkout/route.ts
+12. stripe-webhook-handler.ts → /src/app/api/stripe/webhook/route.ts
+13. paypal-checkout-route.ts → /src/app/api/paypal/checkout/route.ts
+14. paypal-capture-route.ts → /src/app/api/paypal/capture/route.ts
+
+SESSION 5 FILES:
+15. paypal-webhook-route.ts → /src/app/api/paypal/webhook/route.ts
+16. product-download-route.ts → /src/app/api/products/download/[productId]/route.ts
+
+SESSION 6 FILES:
+17. messages-api-route.ts → /src/app/api/messages/route.ts
+18. notifications-api-route.ts → /src/app/api/notifications/route.ts
+19. orders-api-route.ts → /src/app/api/orders/route.ts
+20. users-api-route.ts → /src/app/api/users/route.ts
+21. wallet-api-route.ts → /src/app/api/wallet/route.ts
+22. posts-api-route.ts → /src/app/api/posts/route.ts
+23. services-api-route.ts → /src/app/api/services/route.ts
+24. MessageThread.tsx → /src/components/messaging/MessageThread.tsx ⚠️ NEEDS THEME FIX
+25. ConversationList.tsx → /src/components/messaging/ConversationList.tsx ⚠️ NEEDS THEME FIX
+26. MarketplaceFilters.tsx → /src/components/marketplace/filters/MarketplaceFilters.tsx ⚠️ NEEDS THEME FIX
+
+===========================================
+TODO - NEXT STEPS
+===========================================
+1. **CREATE THEME SYSTEM (CRITICAL)**
+   - Create ThemeContext and ThemeProvider
+   - Add theme toggle to settings/header
+   - Update Tailwind config for dark mode
+   
+2. **FIX SESSION 6 COMPONENTS FOR THEME**
+   - Update MessageThread.tsx colors
+   - Update ConversationList.tsx colors
+   - Update MarketplaceFilters.tsx colors
+   
+3. Feed components (post card, create post modal)
+4. Profile components (user card, stats, followers list)
+5. Order components (order status badge, tracking)
+6. Wallet components (balance display, transaction list)
+7. Search components (filters, result cards)
+8. Group features implementation
+9. Collaboration matcher
+10. Supabase Edge Functions
+11. UI component library setup
+12. Resolve duplicate route structure
+
+===========================================
+END OF SESSION 6 TRACKING
+===========================================

@@ -1,0 +1,1056 @@
+
+# PRODUCERS AVENUE V2 - PAYMENT SYSTEM DOCUMENTATION
+**Version:** 2.0 | **Date:** November 6, 2025 | **Status:** ✅ Final
+
+---
+
+## PAYMENT ARCHITECTURE OVERVIEW
+
+Producers Avenue uses a dual payment system:
+- **Stripe Connect (Destination Charges)** - For card payments
+- **PayPal Payouts** - For PayPal payments
+
+Both systems use escrow periods to protect buyers and sellers, with fully automated payouts after release.
+
+---
+
+## 1. STRIPE CONNECT (DESTINATION CHARGES)
+
+### How It Works
+
+**Seller Onboarding:**
+1. Seller clicks "Connect Stripe Account"
+2. Redirected to Stripe Connect onboarding
+3. Stripe verifies:
+   - Identity (government ID)
+   - Bank account
+   - Address
+   - Business details (if applicable)
+4. Once verified, seller can accept card payments
+5. We store their `stripe_account_id`
+
+**Payment Flow:**
+```
+Buyer pays $100 (credit card)
+↓
+Money goes to PLATFORM Stripe account
+↓
+Held in escrow (see escrow rules below)
+↓
+After escrow period ends
+↓
+Auto-transferred to seller's Stripe Connect account
+↓
+Seller withdraws to their bank account anytime
+```
+
+**Key Features:**
+- ✅ Stripe handles all KYC (Know Your Customer) verification
+- ✅ We don't manually verify sellers
+- ✅ Stripe Connect account = verified identity + bank account
+- ✅ Late chargebacks: Stripe reverses transfer from seller's account
+- ✅ If seller has insufficient funds, Stripe handles collection (not us)
+
+### Commission Structure
+
+**Commission deducted as "Application Fee":**
+```javascript
+// Buyer pays $100
+const paymentIntent = await stripe.paymentIntents.create({
+  amount: 10000, // $100.00
+  currency: 'usd',
+  
+  // Transfer to seller after escrow
+  transfer_data: {
+    destination: seller_stripe_account_id,
+  },
+  
+  // Our commission (30% example)
+  application_fee_amount: 3000, // $30.00
+});
+
+// Seller receives: $70.00 (after $30 commission)
+// Stripe processing fee (~2.9% + $0.30) paid by seller
+// Seller net: ~$67.50
+```
+
+**Commission Rates by Tier:**
+- Basic: 40%
+- Standard: 30%
+- Premium: 20%
+- Ultimate: 10%
+
+---
+
+## 2. PAYPAL SYSTEM
+
+### How It Works
+
+**Seller Setup:**
+1. Seller adds their PayPal email in Wallet Settings
+2. Optional: We send $0.01 test payment to verify
+3. Seller confirms email is correct
+4. Can now accept PayPal payments
+
+**Payment Flow:**
+```
+Buyer pays $100 (PayPal)
+↓
+Money goes to PLATFORM PayPal account
+↓
+Held in escrow (see escrow rules below)
+↓
+After escrow period ends
+↓
+Platform sends payout to seller's PayPal email
+↓
+Money arrives instantly in seller's PayPal account
+```
+
+**Commission:**
+- Deducted before payout
+- Same rates as Stripe (40%, 30%, 20%, 10%)
+- PayPal processing fee (~2.9% + $0.30) paid by seller
+
+---
+
+## 3. ESCROW RULES
+
+### Products (Digital Downloads)
+
+**Escrow Period: 7 DAYS (Fixed)**
+
+```
+Purchase Date → Day 1
+Download link sent automatically
+↓
+7 days pass (buyer can report issues)
+↓
+Day 8: Money auto-released to seller's available balance
+↓
+Seller can request payout immediately
+```
+
+**Why 7 Days:**
+- Buyer has time to download and test files
+- Buyer can report if files are corrupted/broken
+- Buyer can file DMCA if copyrighted content
+- Catches 95%+ of disputes before payout
+
+**Auto-Release:**
+- No action needed from buyer
+- No action needed from seller
+- Automatic after 7 days
+- Funds move from "Pending" to "Available"
+
+---
+
+### Services (Freelance Work)
+
+**Escrow Period: UNTIL BUYER CONFIRMS DELIVERY (Max 7 Days)**
+
+```
+Service Purchased (Order Created)
+↓
+Seller marks as "Delivered" + uploads files
+↓
+Buyer receives notification
+↓
+OPTION 1: Buyer clicks "Accept Delivery"
+  → Money released IMMEDIATELY to seller
+↓
+OPTION 2: Buyer does nothing
+  → After 7 days, money auto-released
+↓
+OPTION 3: Buyer clicks "Request Revision"
+  → Escrow continues, seller must revise
+  → Process repeats
+```
+
+**Revision Handling:**
+```
+1. Seller delivers work
+2. Buyer requests revision (if within included revisions)
+3. Escrow continues
+4. Seller submits revised work
+5. Buyer accepts OR 7 days pass → Release
+```
+
+**Maximum Escrow Time:**
+- **7 days from delivery** (not from purchase)
+- If buyer doesn't respond in 7 days = Auto-accept
+- Prevents buyers from holding money indefinitely
+
+**Example Timeline:**
+```
+Day 1: Service purchased
+Day 5: Seller delivers work
+Day 5: Escrow starts counting (7 days from delivery)
+Day 7: Buyer requests revision
+Day 10: Seller delivers revision
+Day 10: Escrow resets (7 days from new delivery)
+Day 17: Buyer accepts OR auto-accept
+Day 17: Money released to seller
+```
+
+---
+
+## 4. WALLET SYSTEM
+
+### Dual Balance Tracking
+
+**Each seller has TWO separate balances:**
+
+```
+STRIPE BALANCE:
+├─ Pending: $200.00 (from recent card payments)
+└─ Available: $450.00 (ready to withdraw)
+
+PAYPAL BALANCE:
+├─ Pending: $150.00 (from recent PayPal payments)
+└─ Available: $300.00 (ready to withdraw)
+
+TOTAL BALANCE: $1,100.00
+├─ Total Pending: $350.00
+└─ Total Available: $750.00
+```
+
+### Why Separate Balances?
+
+**Keeps money in original payment system:**
+- Card payment → Stripe balance → Bank via Stripe Connect
+- PayPal payment → PayPal balance → PayPal account
+
+**Benefits:**
+- No conversion fees
+- Faster payouts
+- Simpler accounting
+- Lower costs
+
+---
+
+## 5. PAYOUT SYSTEM
+
+### Automatic Payouts (NO Manual Approval)
+
+**Requirements to Request Payout:**
+1. ✅ Available balance ≥ $50 (per payment method)
+2. ✅ Payout account connected (Stripe or PayPal)
+3. ✅ No active disputes or DMCA claims
+4. ✅ Account not banned
+
+**Process:**
+```
+1. Seller clicks "Request Payout"
+2. Selects amount (min $50, max available balance)
+3. Confirms payment method (Stripe or PayPal)
+4. System validates requirements
+5. Payout IMMEDIATELY PROCESSED (no admin approval)
+6. Status: "Processing"
+7. Notification sent to seller
+```
+
+**NO ADMIN APPROVAL NEEDED!** Fully automated.
+
+---
+
+### Payout Processing Times
+
+**Stripe:**
+```
+Request payout
+↓
+Immediately processed by system
+↓
+Transfer created to seller's Stripe Connect account (instant)
+↓
+Seller's Stripe account → Bank account: 2-3 business days
+↓
+Total time: 2-3 business days
+```
+
+**PayPal:**
+```
+Request payout
+↓
+Immediately processed by system
+↓
+PayPal payout sent via PayPal Payouts API
+↓
+Arrives in seller's PayPal account: INSTANT
+↓
+Total time: Instant to few hours
+```
+
+---
+
+### Payout Fees
+
+**Stripe: FREE**
+- No payout fees
+- Transfer to Stripe Connect: FREE
+- Stripe Connect to bank: FREE
+
+**PayPal: FREE**
+- Platform → Seller's PayPal: FREE
+- Standard PayPal payout
+
+**Total Cost to Seller: $0**
+
+---
+
+### Minimum Payout
+
+**$50 per payment method**
+
+**Why?**
+- Reduces transaction overhead
+- Industry standard
+- Covers processing costs
+
+**Example:**
+- Stripe available: $45 → Can't withdraw yet
+- PayPal available: $75 → Can withdraw PayPal only
+- Stripe available: $60 → Can now withdraw Stripe too
+
+---
+
+## 6. COMMISSION CALCULATION
+
+### Deducted BEFORE Wallet
+
+**Commission is taken from gross sale, not from payout:**
+
+```
+Example: $100 Product Sale (Standard Plan - 30% commission)
+
+Buyer pays: $100.00
+↓
+Payment processing fee: $3.20 (2.9% + $0.30) - paid by seller
+Platform commission: $30.00 (30%) - paid by seller
+↓
+Amount to seller's wallet: $66.80
+
+After 7 days escrow:
+Moves to Available: $66.80
+
+Seller withdraws:
+Receives in bank/PayPal: $66.80
+```
+
+**Commission Stored in Transaction:**
+- Snapshot of seller's tier at time of sale
+- Cannot be changed retroactively
+- Upgrading plan only affects FUTURE sales
+
+---
+
+## 7. CHARGEBACK HANDLING
+
+### During Escrow Period (0-7 Days)
+
+**Easy handling:**
+```
+Chargeback filed within escrow
+↓
+Stripe/PayPal notifies platform
+↓
+Money still in platform account
+↓
+Refund processed, seller's pending balance reduced
+↓
+No loss to platform or seller
+```
+
+---
+
+### After Payout (8+ Days)
+
+**Stripe Connect:**
+```
+Chargeback filed after payout
+↓
+Stripe notifies platform
+↓
+Stripe REVERSES transfer from seller's Stripe account
+↓
+Seller's Stripe balance goes negative if insufficient
+↓
+Stripe handles collection from seller (not us!)
+↓
+Platform protected ✅
+```
+
+**PayPal:**
+```
+Chargeback filed after payout
+↓
+PayPal notifies platform
+↓
+Platform attempts to deduct from seller's wallet
+↓
+IF sufficient balance:
+  → Deducted, platform protected ✅
+↓
+IF insufficient balance:
+  → Create seller debt
+  → Freeze account until debt paid
+  → Future earnings pay debt first
+  → If seller never returns: Platform eats loss
+```
+
+---
+
+### Chargeback Rates & Risk
+
+**Industry Average:** 0.5% - 1% of transactions
+
+**Our Protections:**
+- 7-day escrow (prevents most chargebacks)
+- Preview required (no "not as described")
+- File upload required (no fake products)
+- Auto-download (no delivery disputes)
+- Stripe handles late chargebacks for card payments
+
+**Built into commission rates:**
+- 30-40% commission covers chargeback risk
+- Standard practice for all marketplaces
+
+---
+
+## 8. SELLER VERIFICATION
+
+### Stripe Connect KYC
+
+**Stripe Handles ALL Verification:**
+- ✅ Government ID verification
+- ✅ Bank account verification
+- ✅ Address verification
+- ✅ SSN/EIN verification (US)
+- ✅ Business verification (if applicable)
+
+**We Don't Verify:**
+- ❌ No manual ID checks
+- ❌ No selfie with ID
+- ❌ No manual approval
+- ❌ Trust Stripe's verification
+
+**Benefits:**
+- Fully automated
+- Bank-grade security
+- Legal compliance built-in
+- Fraud prevention by Stripe
+
+---
+
+### PayPal Verification
+
+**Simple Email Verification:**
+1. Seller enters PayPal email
+2. Optional: Send $0.01 test payment
+3. Seller confirms receipt
+4. Verified ✅
+
+**PayPal Already Verified:**
+- PayPal requires ID verification to receive money
+- We trust PayPal's verification process
+- No additional verification needed
+
+---
+
+## 9. FRAUD PREVENTION
+
+### Product Upload Requirements
+
+**Mandatory Before Publishing:**
+- ✅ Preview file (audio/video/image) required
+- ✅ Product files required (min 1 file)
+- ✅ Description required (min 50 characters)
+- ✅ Price required
+- ✅ Category/tags required
+
+**Automated Checks:**
+- File virus scanning (ClamAV)
+- Duplicate file hash detection
+- File size validation
+- File type validation
+
+**Preview Requirement = "Not as Described" Protection:**
+- Buyers hear/see sample before purchase
+- No surprises after download
+- Reduces disputes by 90%+
+
+---
+
+### Automatic Download Links
+
+**Immediate Delivery:**
+```
+Purchase complete
+↓
+System generates secure download link
+↓
+Email sent to buyer instantly
+↓
+Download page link in dashboard
+↓
+Links expire after 30 days (re-downloadable by request)
+```
+
+**No Manual Sending:**
+- Zero human intervention
+- No "seller forgot to send files" disputes
+- Instant gratification for buyers
+
+---
+
+### Terms of Service Protection
+
+**Sellers Agree:**
+- Own all rights to uploaded content
+- Responsible for copyright compliance
+- Liable for chargebacks on their products
+- No refunds after buyer downloads
+- Accurate descriptions required
+
+**Buyers Agree:**
+- All sales final (except technical issues)
+- Preview shows what you get
+- Digital products = no physical return
+- Report issues within 7 days
+
+---
+
+## 10. DISPUTE RESOLUTION
+
+### Buyer-Seller Disputes
+
+**Process:**
+1. Buyer contacts seller directly (via messages)
+2. Seller has 48 hours to respond
+3. If unresolved, buyer can open formal dispute
+4. Platform reviews:
+   - Messages between parties
+   - Product description vs actual files
+   - Preview vs delivered content
+5. Decision made within 3 business days
+6. If refund approved: Deducted from seller's balance
+
+**Dispute Categories:**
+- Files corrupted/don't work
+- Files significantly different from preview
+- Copyright infringement (DMCA)
+- Technical download issues
+
+---
+
+### DMCA Claims
+
+**Process:**
+1. Copyright holder files DMCA notice
+2. Product immediately taken down
+3. Seller notified
+4. Seller can file counter-notice
+5. If no counter-notice: Refund issued, seller charged
+6. If counter-notice: Legal process follows
+
+**Automatic Actions:**
+- Product delisted immediately
+- All pending transactions refunded
+- Seller's pending balance frozen
+- Future sales prevented until resolved
+
+---
+
+## 11. DATABASE STRUCTURE
+
+### Wallets Table
+
+```sql
+CREATE TABLE wallets (
+  id UUID PRIMARY KEY,
+  user_id UUID UNIQUE REFERENCES auth.users(id),
+  
+  -- Stripe balances (in cents)
+  balance_stripe_available INTEGER DEFAULT 0,
+  balance_stripe_pending INTEGER DEFAULT 0,
+  accepts_stripe BOOLEAN DEFAULT false,
+  stripe_account_id TEXT, -- Stripe Connect ID
+  stripe_account_status TEXT, -- 'pending', 'active', 'rejected'
+  stripe_onboarding_completed BOOLEAN DEFAULT false,
+  
+  -- PayPal balances (in cents)
+  balance_paypal_available INTEGER DEFAULT 0,
+  balance_paypal_pending INTEGER DEFAULT 0,
+  accepts_paypal BOOLEAN DEFAULT false,
+  paypal_email TEXT,
+  paypal_verified BOOLEAN DEFAULT false,
+  
+  -- Calculated totals (in cents)
+  balance_total INTEGER DEFAULT 0,
+  balance_available INTEGER DEFAULT 0,
+  balance_pending INTEGER DEFAULT 0,
+  
+  -- Lifetime stats (in cents)
+  lifetime_earnings_stripe INTEGER DEFAULT 0,
+  lifetime_earnings_paypal INTEGER DEFAULT 0,
+  lifetime_withdrawn_stripe INTEGER DEFAULT 0,
+  lifetime_withdrawn_paypal INTEGER DEFAULT 0,
+  
+  -- Payout settings
+  minimum_payout INTEGER DEFAULT 5000, -- $50.00
+  
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+---
+
+### Transactions Table
+
+```sql
+CREATE TABLE transactions (
+  id UUID PRIMARY KEY,
+  
+  -- Parties
+  buyer_id UUID REFERENCES auth.users(id),
+  seller_id UUID REFERENCES auth.users(id),
+  
+  -- Transaction type
+  transaction_type TEXT, -- 'product_purchase', 'service_purchase', etc.
+  related_id UUID, -- product_id or order_id
+  related_type TEXT, -- 'product' or 'service'
+  
+  -- Amounts (in cents)
+  amount_total INTEGER NOT NULL, -- What buyer paid
+  amount_fees INTEGER NOT NULL, -- Processing fees
+  amount_commission INTEGER NOT NULL, -- Platform commission
+  amount_seller INTEGER NOT NULL, -- What seller receives
+  
+  -- Commission snapshot
+  commission_rate DECIMAL(5,2), -- e.g., 0.30 for 30%
+  seller_tier TEXT, -- Subscription tier at time of sale
+  
+  -- Payment processor
+  payment_processor TEXT, -- 'stripe' or 'paypal'
+  payment_method TEXT, -- 'card', 'apple_pay', 'paypal', etc.
+  
+  -- Processor IDs
+  stripe_payment_intent_id TEXT,
+  stripe_transfer_id TEXT, -- ID of transfer to seller's Stripe Connect
+  paypal_transaction_id TEXT,
+  paypal_order_id TEXT,
+  
+  -- Status
+  status TEXT, -- 'pending', 'completed', 'refunded', 'disputed'
+  completed_at TIMESTAMPTZ,
+  
+  -- Escrow
+  escrow_release_date DATE, -- When funds released (7 days)
+  escrow_released BOOLEAN DEFAULT false,
+  escrow_released_at TIMESTAMPTZ,
+  
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+---
+
+### Payouts Table
+
+```sql
+CREATE TABLE payouts (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id),
+  wallet_id UUID REFERENCES wallets(id),
+  
+  -- Payout details
+  amount INTEGER NOT NULL, -- In cents
+  payout_method TEXT NOT NULL, -- 'stripe' or 'paypal'
+  payout_destination TEXT, -- stripe_account_id or paypal_email
+  
+  -- Status
+  status TEXT DEFAULT 'pending', -- 'pending', 'processing', 'paid', 'failed'
+  
+  -- Processing (all automatic, no admin)
+  processed_at TIMESTAMPTZ,
+  
+  -- Processor IDs
+  stripe_transfer_id TEXT,
+  stripe_payout_id TEXT,
+  paypal_payout_batch_id TEXT,
+  paypal_payout_item_id TEXT,
+  
+  -- Failure
+  failed_reason TEXT,
+  failed_at TIMESTAMPTZ,
+  
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+---
+
+### Orders Table (for Services)
+
+```sql
+CREATE TABLE orders (
+  id UUID PRIMARY KEY,
+  service_id UUID REFERENCES services(id),
+  buyer_id UUID REFERENCES auth.users(id),
+  seller_id UUID REFERENCES auth.users(id),
+  
+  -- Order details
+  package_name TEXT,
+  package_price DECIMAL(10,2),
+  delivery_days INTEGER,
+  revisions_included INTEGER,
+  
+  -- Delivery
+  delivery_files TEXT[], -- URLs to delivered files
+  delivery_notes TEXT,
+  delivered_at TIMESTAMPTZ,
+  
+  -- Buyer acceptance
+  buyer_accepted BOOLEAN DEFAULT false,
+  buyer_accepted_at TIMESTAMPTZ,
+  auto_accept_date DATE, -- 7 days from delivery
+  
+  -- Status
+  status TEXT, -- 'pending', 'in_progress', 'delivered', 'completed', 'cancelled'
+  
+  -- Revisions
+  revisions_used INTEGER DEFAULT 0,
+  
+  -- Escrow
+  escrow_released BOOLEAN DEFAULT false,
+  escrow_released_at TIMESTAMPTZ,
+  
+  -- Transaction link
+  transaction_id UUID REFERENCES transactions(id),
+  
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+---
+
+## 12. AUTOMATION WORKFLOWS
+
+### Product Purchase Flow
+
+```
+1. Buyer clicks "Buy Now"
+2. Stripe/PayPal checkout modal
+3. Payment processed
+4. Transaction created (status: 'pending')
+5. Amount added to seller's pending balance (Stripe or PayPal)
+6. Download link generated
+7. Email sent to buyer with download link
+8. Buyer downloads files
+9. After 7 days: Escrow auto-releases
+   - Transaction status: 'completed'
+   - Move from pending → available balance
+   - Notification sent to seller
+10. Seller requests payout
+11. Payout auto-processed (no approval)
+12. Money sent to seller's Stripe/PayPal account
+```
+
+**Zero manual intervention!** ✅
+
+---
+
+### Service Purchase Flow
+
+```
+1. Buyer selects package, clicks "Order Now"
+2. Stripe/PayPal checkout
+3. Payment processed
+4. Order created (status: 'pending')
+5. Amount added to seller's pending balance
+6. Notification sent to seller: "New order!"
+7. Seller marks "In Progress"
+8. Seller delivers work (uploads files)
+9. Order status: 'delivered'
+10. Notification sent to buyer: "Seller delivered!"
+11. Buyer has 7 days to:
+    a) Accept delivery → Escrow releases immediately
+    b) Request revision → Seller revises, repeat step 8-11
+    c) Do nothing → After 7 days, auto-accept
+12. Escrow released to available balance
+13. Seller requests payout
+14. Payout auto-processed
+```
+
+**Only manual step: Buyer can optionally accept early** ✅
+
+---
+
+### Daily Escrow Release Cron Job
+
+```javascript
+// Runs every day at midnight
+async function releaseEscrowedFunds() {
+  const today = new Date();
+  
+  // Products: 7 days from purchase
+  const productsToRelease = await db.transactions.findMany({
+    where: {
+      escrow_released: false,
+      escrow_release_date: { lte: today },
+      transaction_type: 'product_purchase'
+    }
+  });
+  
+  // Services: 7 days from delivery OR buyer accepted
+  const servicesToRelease = await db.orders.findMany({
+    where: {
+      escrow_released: false,
+      OR: [
+        { buyer_accepted: true },
+        { auto_accept_date: { lte: today } }
+      ]
+    }
+  });
+  
+  // Release all
+  for (const transaction of productsToRelease) {
+    await releaseToAvailable(transaction);
+  }
+  
+  for (const order of servicesToRelease) {
+    await releaseToAvailable(order.transaction_id);
+  }
+}
+```
+
+---
+
+## 13. USER NOTIFICATIONS
+
+### Email Notifications
+
+**Buyer:**
+- ✅ Purchase confirmation + download link
+- ✅ Service order confirmation
+- ✅ Service delivered notification
+- ✅ Refund processed (if applicable)
+
+**Seller:**
+- ✅ New sale notification
+- ✅ New service order
+- ✅ Funds available for withdrawal (after escrow)
+- ✅ Payout processed
+- ✅ Payout completed
+
+**Admin:**
+- ✅ Dispute filed (requires attention)
+- ✅ DMCA claim filed
+- ✅ High-value payout processed (FYI only)
+
+---
+
+### In-App Notifications
+
+**Real-time notifications for:**
+- 💰 New sale
+- 📦 New order
+- ✅ Delivery accepted
+- 💸 Funds available
+- ✓ Payout completed
+- ⚠️ Dispute opened
+
+---
+
+## 14. ADMIN OVERSIGHT
+
+### What Admins Do
+
+**Dispute Resolution:**
+- Review buyer-seller disputes
+- Make refund decisions
+- Handle DMCA claims
+
+**Account Management:**
+- Ban/suspend accounts for TOS violations
+- Review reported content
+- Handle support tickets
+
+**What Admins DON'T Do:**
+- ❌ Approve payouts (fully automatic)
+- ❌ Verify seller identities (Stripe does this)
+- ❌ Manually send download links (automatic)
+- ❌ Manually release escrow (automatic)
+
+---
+
+### Admin Dashboard - Payouts View
+
+**Shows completed payouts (FYI only):**
+```
+RECENT AUTOMATIC PAYOUTS
+
+John Doe - $250 (Stripe) - Processed ✓
+Jane Smith - $150 (PayPal) - Processed ✓
+Bob Wilson - $500 (Stripe) - Processed ✓
+
+Total Today: $900 across 3 payouts
+```
+
+**No action needed - just monitoring!**
+
+---
+
+## 15. SECURITY & COMPLIANCE
+
+### PCI Compliance
+
+**We DON'T store:**
+- ❌ Credit card numbers
+- ❌ CVV codes
+- ❌ Card expiration dates
+
+**Stripe handles all card data:**
+- ✅ PCI DSS Level 1 certified
+- ✅ Tokenization
+- ✅ 3D Secure support
+
+---
+
+### Data Protection
+
+**We store (encrypted):**
+- Stripe Connect account IDs
+- PayPal email addresses
+- Transaction records
+- Payout history
+
+**We DON'T store:**
+- Bank account numbers (Stripe stores)
+- PayPal passwords
+- Full card details
+
+---
+
+### Tax Compliance
+
+**1099-K Forms (US):**
+- Issued by Stripe Connect for US sellers
+- Threshold: $600+ annual earnings
+- Automatically generated by Stripe
+- Sent by January 31st
+
+**International:**
+- Sellers responsible for their own taxes
+- Transaction history available for export
+- Ultimate plan: CSV/PDF exports included
+
+---
+
+## 16. EDGE CASES & SOLUTIONS
+
+### Seller Account Closed Before Payout
+
+**Scenario:** Seller closes account with pending balance
+
+**Solution:**
+```
+1. Account closure prevented if balance > $0
+2. Must withdraw all funds first
+3. OR wait for admin to manually refund buyers
+```
+
+---
+
+### Buyer Downloads Then Disputes
+
+**Scenario:** Buyer downloads product, then files chargeback
+
+**Solution:**
+```
+1. During escrow: Money still held, refund processed
+2. After escrow: Chargeback handled by Stripe/PayPal
+   - Stripe: Reversed from seller
+   - PayPal: Deducted from wallet or debt created
+3. Log download timestamp as evidence
+```
+
+---
+
+### Seller Never Delivers Service
+
+**Scenario:** Seller takes money, never delivers
+
+**Solution:**
+```
+1. Buyer waits delivery_days
+2. Buyer opens dispute: "Seller not delivering"
+3. Platform investigates
+4. If seller hasn't responded: Auto-refund
+5. Money still in escrow, easy refund
+6. Seller account suspended
+```
+
+---
+
+### Mass Chargeback Attack
+
+**Scenario:** Bad actor creates fake accounts, files many chargebacks
+
+**Solution:**
+```
+1. Stripe/PayPal detect fraud patterns
+2. Chargebacks reversed if fraudulent
+3. Platform monitor chargeback rates per seller
+4. Threshold: >2% = investigation
+5. Repeated offenders: Account termination
+```
+
+---
+
+## 17. FUTURE ENHANCEMENTS (Phase 2)
+
+- **Instant Payouts** (for fee, like Uber)
+- **Wallet-to-Wallet Transfers** (send money to other users)
+- **Crypto Payouts** (Bitcoin, USDC)
+- **Multi-Currency Support** (EUR, GBP, etc.)
+- **Scheduled Payouts** (auto-withdraw every Monday)
+- **Split Payments** (collaborations)
+- **Spending Balance** (use wallet to purchase on platform)
+
+---
+
+## SUMMARY
+
+### Key Points
+
+✅ **Fully Automated** - No manual approvals, no admin work
+✅ **Stripe Handles Verification** - No ID checks needed from us
+✅ **7-Day Escrow** - Protects buyers and platform
+✅ **Flexible Service Escrow** - Released on acceptance or 7 days max
+✅ **Dual Payment System** - Stripe + PayPal for maximum reach
+✅ **Separate Balances** - Keeps costs low, payouts fast
+✅ **Chargeback Protection** - Stripe reverses from sellers
+✅ **Preview Required** - Reduces "not as described" disputes
+✅ **Auto Downloads** - No delivery disputes
+✅ **Commission in Advance** - Covers platform costs and chargeback risk
+
+### Result
+
+A fully automated, secure payment system that:
+- Requires ZERO manual intervention for 99% of transactions
+- Protects buyers with escrow
+- Protects sellers with verified accounts
+- Protects platform with commission + Stripe's infrastructure
+- Scales infinitely without adding admin work
+
+---
+
+**Document Version:** 2.0 Final  
+**Last Updated:** November 6, 2025  
+**Status:** ✅ Ready for Implementation
