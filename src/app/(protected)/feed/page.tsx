@@ -1,6 +1,6 @@
 // File: page.tsx
 // Path: /src/app/(protected)/feed/page.tsx
-// Instagram-like feed with stories and suggestions
+// Instagram-like feed with complete functionality - UPDATED
 
 'use client'
 
@@ -9,24 +9,36 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { useTheme } from '@/lib/contexts/ThemeContext'
 import Image from 'next/image'
+import { Heart, MessageCircle, Share2, MoreVertical, Flag, EyeOff, Link as LinkIcon, Edit, MessageSquareOff, X, Trash } from 'lucide-react'
 import StoryRing from '@/components/feed/StoryRing'
 import StoryViewer from '@/components/feed/StoryViewer'
 import SuggestedUsers from '@/components/feed/SuggestedUsers'
 import CreatePostModal from '@/components/feed/CreatePostModal'
+import CommentModal from '@/components/feed/CommentModal'
+import ShareModal from '@/components/feed/ShareModal'
+import ReportModal from '@/components/feed/ReportModal'
+import EditPostModal from '@/components/feed/EditPostModal'
 
 interface Post {
   id: string
   user_id: string
   content: string
   media_urls: string[]
+  media_metadata?: Array<{
+    filter?: string
+    rotation?: number
+  }>
   created_at: string
+  likes_count: number
+  comments_count: number
+  shares_count: number
+  comments_enabled: boolean
   user_profiles: {
     username: string
     display_name: string
     avatar_url: string | null
   }
-  post_likes: { count: number }[]
-  post_comments: { count: number }[]
+  is_liked?: boolean
 }
 
 interface UserStories {
@@ -49,11 +61,22 @@ export default function FeedPage() {
   const [selectedStories, setSelectedStories] = useState<UserStories | null>(null)
   const [storyStartIndex, setStoryStartIndex] = useState(0)
   const [showCreatePostModal, setShowCreatePostModal] = useState(false)
+  const [showCommentModal, setShowCommentModal] = useState(false)
+  const [showShareModal, setShowShareModal] = useState(false)
+  const [showReportModal, setShowReportModal] = useState(false)
+  const [showEditPostModal, setShowEditPostModal] = useState(false)
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null)
+  const [openMenuPostId, setOpenMenuPostId] = useState<string | null>(null)
 
   useEffect(() => {
     checkUser()
-    loadFeed()
   }, [])
+
+  useEffect(() => {
+    if (user) {
+      loadFeed()
+    }
+  }, [user])
 
   const checkUser = async () => {
     const supabase = createClient()
@@ -71,28 +94,198 @@ export default function FeedPage() {
     try {
       const supabase = createClient()
       
-      const { data, error } = await supabase
+      // Fetch posts
+      const { data: postsData, error: postsError } = await supabase
         .from('posts')
-        .select(`
-          *,
-          user_profiles (
-            username,
-            display_name,
-            avatar_url
-          ),
-          post_likes (count),
-          post_comments (count)
-        `)
+        .select('*')
         .order('created_at', { ascending: false })
         .limit(20)
 
-      if (error) throw error
+      if (postsError) throw postsError
+      if (!postsData || postsData.length === 0) {
+        setPosts([])
+        return
+      }
+
+      // Get unique user IDs
+      const userIds = [...new Set(postsData.map(p => p.user_id).filter(Boolean))]
       
-      setPosts(data || [])
+      // Fetch user profiles
+      const { data: profilesData, error: profilesError } = await supabase
+        .from('user_profiles')
+        .select('user_id, username, display_name, avatar_url')
+        .in('user_id', userIds)
+
+      if (profilesError) throw profilesError
+
+      // Create a map of user profiles
+      const profilesMap = new Map(
+        (profilesData || []).map(p => [p.user_id, p])
+      )
+
+      // Check which posts the current user has liked
+      const postIds = postsData.map(p => p.id)
+      const { data: likesData } = await supabase
+        .from('post_likes')
+        .select('post_id')
+        .eq('user_id', user.id)
+        .in('post_id', postIds)
+
+      const likedPostIds = new Set((likesData || []).map(l => l.post_id))
+
+      // Combine posts with profiles and like status
+      const postsWithProfiles = postsData.map(post => ({
+        ...post,
+        user_profiles: profilesMap.get(post.user_id) || {
+          username: 'unknown',
+          display_name: 'Unknown User',
+          avatar_url: null
+        },
+        is_liked: likedPostIds.has(post.id),
+        comments_enabled: post.comments_enabled ?? true
+      }))
+      
+      setPosts(postsWithProfiles)
     } catch (error) {
       console.error('Error loading feed:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleLike = async (postId: string) => {
+    if (!user) return
+
+    const supabase = createClient()
+    const post = posts.find(p => p.id === postId)
+    if (!post) return
+
+    try {
+      if (post.is_liked) {
+        // Unlike
+        await supabase
+          .from('post_likes')
+          .delete()
+          .eq('post_id', postId)
+          .eq('user_id', user.id)
+
+        await supabase
+          .from('posts')
+          .update({ likes_count: Math.max(0, post.likes_count - 1) })
+          .eq('id', postId)
+
+        setPosts(posts.map(p => 
+          p.id === postId 
+            ? { ...p, is_liked: false, likes_count: Math.max(0, p.likes_count - 1) }
+            : p
+        ))
+      } else {
+        // Like
+        await supabase
+          .from('post_likes')
+          .insert({ post_id: postId, user_id: user.id })
+
+        await supabase
+          .from('posts')
+          .update({ likes_count: post.likes_count + 1 })
+          .eq('id', postId)
+
+        setPosts(posts.map(p => 
+          p.id === postId 
+            ? { ...p, is_liked: true, likes_count: p.likes_count + 1 }
+            : p
+        ))
+      }
+    } catch (error) {
+      console.error('Error toggling like:', error)
+    }
+  }
+
+  const handleComment = (post: Post) => {
+    setSelectedPost(post)
+    setShowCommentModal(true)
+  }
+
+  const handleShare = (post: Post) => {
+    setSelectedPost(post)
+    setShowShareModal(true)
+  }
+
+  const handleReport = (post: Post) => {
+    setSelectedPost(post)
+    setShowReportModal(true)
+    setOpenMenuPostId(null)
+  }
+
+  const handleNotInterested = async (postId: string) => {
+    // Hide post from feed
+    setPosts(posts.filter(p => p.id !== postId))
+    setOpenMenuPostId(null)
+    
+    // You can optionally save this preference to database
+    // For now, just removing from UI
+  }
+
+  const handleCopyLink = async (post: Post) => {
+    const url = `${window.location.origin}/post/${post.id}`
+    await navigator.clipboard.writeText(url)
+    alert('Link copied to clipboard!')
+    setOpenMenuPostId(null)
+  }
+
+  const handleEdit = (post: Post) => {
+    setSelectedPost(post)
+    setShowEditPostModal(true)
+    setOpenMenuPostId(null)
+  }
+
+  const handleToggleComments = async (postId: string) => {
+    const post = posts.find(p => p.id === postId)
+    if (!post) return
+
+    const supabase = createClient()
+    const newCommentsEnabled = !post.comments_enabled
+
+    try {
+      await supabase
+        .from('posts')
+        .update({ comments_enabled: newCommentsEnabled })
+        .eq('id', postId)
+
+      setPosts(posts.map(p => 
+        p.id === postId 
+          ? { ...p, comments_enabled: newCommentsEnabled }
+          : p
+      ))
+      
+      setOpenMenuPostId(null)
+    } catch (error) {
+      console.error('Error toggling comments:', error)
+    }
+  }
+
+  const handleDelete = async (postId: string) => {
+    if (!confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
+      return
+    }
+
+    const supabase = createClient()
+    
+    try {
+      // Delete the post from database
+      const { error } = await supabase
+        .from('posts')
+        .delete()
+        .eq('id', postId)
+
+      if (error) throw error
+
+      // Remove from UI
+      setPosts(posts.filter(p => p.id !== postId))
+      setOpenMenuPostId(null)
+    } catch (error) {
+      console.error('Error deleting post:', error)
+      alert('Failed to delete post. Please try again.')
     }
   }
 
@@ -102,253 +295,329 @@ export default function FeedPage() {
     setShowStoryViewer(true)
   }
 
-  const getTimeAgo = (timestamp: string) => {
-    const now = new Date()
-    const posted = new Date(timestamp)
-    const diffInMinutes = Math.floor((now.getTime() - posted.getTime()) / 60000)
-    
-    if (diffInMinutes < 1) return 'Just now'
-    if (diffInMinutes < 60) return `${diffInMinutes}m`
-    const diffInHours = Math.floor(diffInMinutes / 60)
-    if (diffInHours < 24) return `${diffInHours}h`
-    const diffInDays = Math.floor(diffInHours / 24)
-    if (diffInDays < 7) return `${diffInDays}d`
-    return new Date(timestamp).toLocaleDateString()
-  }
-
   if (loading) {
     return (
-      <div 
-        className="flex items-center justify-center min-h-screen"
-        style={{ backgroundColor: theme === 'dark' ? '#0a0a0a' : '#fafafa' }}
-      >
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#009ae9] mx-auto mb-4"></div>
-          <p style={{ color: theme === 'dark' ? '#b3b3b3' : '#666666' }}>
-            Loading feed...
-          </p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">Loading feed...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <>
-      <div 
-        className="min-h-screen pb-20"
-        style={{ backgroundColor: theme === 'dark' ? '#0a0a0a' : '#fafafa' }}
-      >
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
-            {/* Main Feed Column */}
-            <div className="lg:col-span-2 space-y-6">
-              
-              {/* Stories Section */}
-              <div 
-                className="rounded-xl border p-4"
-                style={{
-                  backgroundColor: theme === 'dark' 
-                    ? 'rgba(26, 26, 26, 0.6)' 
-                    : 'rgba(255, 255, 255, 0.6)',
-                  backdropFilter: 'blur(12px)',
-                  borderColor: theme === 'dark' ? '#2a2a2a' : '#e0e0e0',
-                }}
-              >
-                <StoryRing 
-                  currentUserId={user?.id || ''} 
-                  onStoryClick={handleStoryClick}
-                />
-              </div>
+    <div 
+      className="min-h-screen"
+      style={{ backgroundColor: theme === 'dark' ? '#0a0a0a' : '#fafafa' }}
+    >
+      <div className="max-w-4xl mx-auto px-2 py-4">
+        <div className="flex gap-6">
+          {/* Main Feed */}
+          <div className="flex-1 max-w-xl mx-auto">
+            {/* Story Ring */}
+            <div className="mb-4">
+              <StoryRing
+                currentUserId={user?.id || ''}
+                onStoryClick={handleStoryClick}
+              />
+            </div>
 
-              {/* Create Post Card */}
-              <div className="bg-white dark:bg-[#1a1a1a] rounded-xl shadow-[0_0_8px_0_rgba(0,154,233,0.5)] border border-[#009ae9] p-6">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
-                    {user?.user_metadata?.avatar_url ? (
-                      <Image
-                        src={user.user_metadata.avatar_url}
-                        alt="Your avatar"
-                        width={48}
-                        height={48}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-[#009ae9] to-[#0076b9] flex items-center justify-center text-white font-semibold">
-                        {user?.email?.[0].toUpperCase()}
+            {/* Posts Feed */}
+            <div className="space-y-3">
+              {posts.length === 0 ? (
+                <div 
+                  className="rounded-xl p-12 text-center border"
+                  style={{
+                    backgroundColor: theme === 'dark' ? '#0a0a0a' : '#fafafa',
+                    borderColor: '#009ae9',
+                    boxShadow: '0 0 8px 0 rgba(0, 154, 233, 0.5)'
+                  }}
+                >
+                  <p className="text-gray-600 dark:text-gray-400 text-lg">
+                    No posts yet. Be the first to share something!
+                  </p>
+                </div>
+              ) : (
+                posts.map((post) => (
+                  <div
+                    key={post.id}
+                    className="rounded-xl p-4 border relative"
+                    style={{
+                      backgroundColor: theme === 'dark' ? '#0a0a0a' : '#fafafa',
+                      borderColor: '#009ae9',
+                      borderWidth: '1px',
+                      boxShadow: '0 0 8px 0 rgba(0, 154, 233, 0.5)'
+                    }}
+                  >
+                    {/* Three-Dot Menu */}
+                    <div className="absolute top-3 right-3">
+                      <button
+                        onClick={() => setOpenMenuPostId(openMenuPostId === post.id ? null : post.id)}
+                        className="p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                      >
+                        <MoreVertical className="w-4 h-4" style={{ color: theme === 'dark' ? '#b3b3b3' : '#666666' }} />
+                      </button>
+
+                      {/* Dropdown Menu */}
+                      {openMenuPostId === post.id && (
+                        <>
+                          {/* Backdrop */}
+                          <div 
+                            className="fixed inset-0 z-40"
+                            onClick={() => setOpenMenuPostId(null)}
+                          />
+                          
+                          {/* Menu */}
+                          <div 
+                            className="absolute right-0 mt-2 w-56 rounded-lg border shadow-lg z-50"
+                            style={{
+                              backgroundColor: theme === 'dark' ? '#1a1a1a' : '#ffffff',
+                              borderColor: theme === 'dark' ? '#2a2a2a' : '#e0e0e0'
+                            }}
+                          >
+                            {post.user_id === user?.id ? (
+                              // Own post menu
+                              <>
+                                <button
+                                  onClick={() => handleEdit(post)}
+                                  className="w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                                  style={{ color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a' }}
+                                >
+                                  <Edit className="w-4 h-4" />
+                                  <span>Edit</span>
+                                </button>
+                                <button
+                                  onClick={() => handleToggleComments(post.id)}
+                                  className="w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                                  style={{ color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a' }}
+                                >
+                                  <MessageSquareOff className="w-4 h-4" />
+                                  <span>{post.comments_enabled ? 'Turn off commenting' : 'Turn on commenting'}</span>
+                                </button>
+                                <button
+                                  onClick={() => handleShare(post)}
+                                  className="w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                                  style={{ color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a' }}
+                                >
+                                  <Share2 className="w-4 h-4" />
+                                  <span>Share</span>
+                                </button>
+                                <button
+                                  onClick={() => handleCopyLink(post)}
+                                  className="w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                                  style={{ color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a' }}
+                                >
+                                  <LinkIcon className="w-4 h-4" />
+                                  <span>Copy Link</span>
+                                </button>
+                                <button
+                                  onClick={() => handleDelete(post.id)}
+                                  className="w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors border-t"
+                                  style={{ 
+                                    color: '#ef4444',
+                                    borderColor: theme === 'dark' ? '#2a2a2a' : '#e0e0e0'
+                                  }}
+                                >
+                                  <Trash className="w-4 h-4" />
+                                  <span>Delete</span>
+                                </button>
+                                <button
+                                  onClick={() => setOpenMenuPostId(null)}
+                                  className="w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                                  style={{ 
+                                    color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a'
+                                  }}
+                                >
+                                  <X className="w-4 h-4" />
+                                  <span>Cancel</span>
+                                </button>
+                              </>
+                            ) : (
+                              // Other user's post menu
+                              <>
+                                <button
+                                  onClick={() => handleReport(post)}
+                                  className="w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                                  style={{ color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a' }}
+                                >
+                                  <Flag className="w-4 h-4" />
+                                  <span>Report</span>
+                                </button>
+                                <button
+                                  onClick={() => handleNotInterested(post.id)}
+                                  className="w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                                  style={{ color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a' }}
+                                >
+                                  <EyeOff className="w-4 h-4" />
+                                  <span>Not Interested</span>
+                                </button>
+                                <button
+                                  onClick={() => handleShare(post)}
+                                  className="w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                                  style={{ color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a' }}
+                                >
+                                  <Share2 className="w-4 h-4" />
+                                  <span>Share to</span>
+                                </button>
+                                <button
+                                  onClick={() => handleCopyLink(post)}
+                                  className="w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                                  style={{ color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a' }}
+                                >
+                                  <LinkIcon className="w-4 h-4" />
+                                  <span>Copy Link</span>
+                                </button>
+                                <button
+                                  onClick={() => setOpenMenuPostId(null)}
+                                  className="w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors border-t"
+                                  style={{ 
+                                    color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a',
+                                    borderColor: theme === 'dark' ? '#2a2a2a' : '#e0e0e0'
+                                  }}
+                                >
+                                  <X className="w-4 h-4" />
+                                  <span>Cancel</span>
+                                </button>
+                              </>
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Post Header */}
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-[#009ae9] to-[#0076b9]">
+                        {post.user_profiles?.avatar_url ? (
+                          <Image
+                            src={post.user_profiles.avatar_url}
+                            alt={post.user_profiles.display_name || post.user_profiles.username}
+                            width={40}
+                            height={40}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-white font-semibold">
+                            {post.user_profiles?.username?.[0]?.toUpperCase() || '?'}
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        <p 
+                          className="font-semibold"
+                          style={{
+                            color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a',
+                            fontFamily: 'var(--font-body)'
+                          }}
+                        >
+                          {post.user_profiles?.display_name || post.user_profiles?.username || 'Unknown User'}
+                        </p>
+                        <p 
+                          className="text-sm"
+                          style={{
+                            color: theme === 'dark' ? '#b3b3b3' : '#666666',
+                            fontFamily: 'var(--font-body)'
+                          }}
+                        >
+                          {new Date(post.created_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Post Content */}
+                    <p 
+                      className="mb-4"
+                      style={{
+                        color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a',
+                        fontFamily: 'var(--font-body)'
+                      }}
+                    >
+                      {post.content}
+                    </p>
+
+                    {/* Post Media */}
+                    {post.media_urls && post.media_urls.length > 0 && (
+                      <div className={`mb-4 ${post.media_urls.length === 1 ? 'max-w-[420px] mx-auto' : 'grid grid-cols-2 gap-2'}`}>
+                        {post.media_urls.map((url, index) => (
+                          <div key={index} className="relative rounded-lg overflow-hidden" style={{
+                            aspectRatio: '2/3'
+                          }}>
+                            {url.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
+                              <Image
+                                src={url}
+                                alt={`Post media ${index + 1}`}
+                                fill
+                                className={`object-cover ${post.media_metadata?.[index]?.filter || ''}`}
+                                style={{
+                                  transform: `rotate(${post.media_metadata?.[index]?.rotation || 0}deg)`
+                                }}
+                              />
+                            ) : (
+                              <video
+                                src={url}
+                                className="w-full h-full object-cover"
+                                controls
+                              />
+                            )}
+                          </div>
+                        ))}
                       </div>
                     )}
-                  </div>
-                  <div className="flex-1">
-                    <button
-                      onClick={() => setShowCreatePostModal(true)}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg text-left text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
-                      style={{ fontFamily: 'var(--font-body)' }}
-                    >
-                      What's on your mind?
-                    </button>
-                    <div className="flex items-center justify-between mt-3">
-                      <div className="flex gap-2">
-                        <button 
-                          onClick={() => setShowCreatePostModal(true)}
-                          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-                          title="Add image"
-                        >
-                          <svg className="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
-                        </button>
-                        <button 
-                          onClick={() => setShowCreatePostModal(true)}
-                          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-                          title="Add video"
-                        >
-                          <svg className="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                          </svg>
-                        </button>
-                      </div>
+
+                    {/* Post Actions */}
+                    <div className="flex items-center gap-6 pt-4 border-t" style={{
+                      borderColor: theme === 'dark' ? '#2a2a2a' : '#e0e0e0'
+                    }}>
+                      {/* Like Button */}
                       <button 
-                        onClick={() => setShowCreatePostModal(true)}
-                        className="btn btn-primary px-6 py-2"
+                        onClick={() => handleLike(post.id)}
+                        className="flex items-center gap-2 transition-colors"
+                        style={{
+                          color: post.is_liked ? '#ef4444' : (theme === 'dark' ? '#b3b3b3' : '#666666')
+                        }}
                       >
-                        Post
+                        <Heart 
+                          className="w-6 h-6" 
+                          fill={post.is_liked ? '#ef4444' : 'none'}
+                        />
+                        <span>{post.likes_count || 0}</span>
+                      </button>
+
+                      {/* Comment Button */}
+                      <button 
+                        onClick={() => handleComment(post)}
+                        className="flex items-center gap-2 hover:text-[#009ae9] transition-colors"
+                        style={{
+                          color: theme === 'dark' ? '#b3b3b3' : '#666666'
+                        }}
+                      >
+                        <MessageCircle className="w-6 h-6" />
+                        <span>{post.comments_count || 0}</span>
+                      </button>
+
+                      {/* Share Button */}
+                      <button 
+                        onClick={() => handleShare(post)}
+                        className="flex items-center gap-2 hover:text-[#009ae9] transition-colors"
+                        style={{
+                          color: theme === 'dark' ? '#b3b3b3' : '#666666'
+                        }}
+                      >
+                        <Share2 className="w-6 h-6" />
+                        <span>{post.shares_count || 0}</span>
                       </button>
                     </div>
                   </div>
-                </div>
-              </div>
-
-              {/* Posts Feed */}
-              <div className="space-y-6">
-                {posts.length === 0 ? (
-                  <div className="bg-white dark:bg-[#1a1a1a] rounded-xl shadow-[0_0_8px_0_rgba(0,154,233,0.5)] border border-[#009ae9] p-12 text-center">
-                    <p className="text-gray-600 dark:text-gray-400 text-lg">
-                      No posts yet. Be the first to share something!
-                    </p>
-                  </div>
-                ) : (
-                  posts.map((post) => (
-                    <div
-                      key={post.id}
-                      className="bg-white dark:bg-[#1a1a1a] rounded-xl shadow-[0_0_8px_0_rgba(0,154,233,0.5)] border border-[#009ae9] p-6"
-                    >
-                      {/* Post Header */}
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
-                            {post.user_profiles.avatar_url ? (
-                              <Image
-                                src={post.user_profiles.avatar_url}
-                                alt={post.user_profiles.display_name}
-                                width={48}
-                                height={48}
-                                className="w-full h-full object-cover"
-                              />
-                            ) : (
-                              <div className="w-full h-full bg-gradient-to-br from-[#009ae9] to-[#0076b9] flex items-center justify-center text-white font-semibold">
-                                {post.user_profiles.display_name[0].toUpperCase()}
-                              </div>
-                            )}
-                          </div>
-                          <div>
-                            <h3 className="font-semibold text-gray-900 dark:text-white">
-                              {post.user_profiles.display_name}
-                            </h3>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">
-                              {getTimeAgo(post.created_at)}
-                            </p>
-                          </div>
-                        </div>
-                        <button className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                          </svg>
-                        </button>
-                      </div>
-
-                      {/* Post Content */}
-                      <p className="text-gray-900 dark:text-white mb-4 whitespace-pre-wrap" style={{ fontFamily: 'var(--font-body)' }}>
-                        {post.content}
-                      </p>
-
-                      {/* Post Media (if any) */}
-                      {post.media_urls && post.media_urls.length > 0 && (
-                        <div className="mb-4 rounded-lg overflow-hidden">
-                          <Image
-                            src={post.media_urls[0]}
-                            alt="Post media"
-                            width={800}
-                            height={600}
-                            className="w-full object-cover"
-                          />
-                        </div>
-                      )}
-
-                      {/* Post Actions */}
-                      <div className="flex items-center gap-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-                        <button className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-[#009ae9] transition-colors">
-                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                          </svg>
-                          <span className="text-sm font-semibold">0</span>
-                        </button>
-                        <button className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-[#009ae9] transition-colors">
-                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                          </svg>
-                          <span className="text-sm font-semibold">0</span>
-                        </button>
-                        <button className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-[#009ae9] transition-colors">
-                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                          </svg>
-                        </button>
-                        <button className="ml-auto text-gray-600 dark:text-gray-400 hover:text-[#009ae9] transition-colors">
-                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
+                ))
+              )}
             </div>
+          </div>
 
-            {/* Sidebar Column (Desktop only) */}
-            <div className="hidden lg:block space-y-6">
-              
-              {/* Suggested Users */}
-              <div 
-                className="rounded-xl border p-4"
-                style={{
-                  backgroundColor: theme === 'dark' 
-                    ? 'rgba(26, 26, 26, 0.6)' 
-                    : 'rgba(255, 255, 255, 0.6)',
-                  backdropFilter: 'blur(12px)',
-                  borderColor: theme === 'dark' ? '#2a2a2a' : '#e0e0e0',
-                }}
-              >
-                <SuggestedUsers currentUserId={user?.id || ''} limit={5} />
-              </div>
-
-              {/* Footer Links */}
-              <div 
-                className="text-xs space-y-2"
-                style={{ color: theme === 'dark' ? '#666666' : '#999999' }}
-              >
-                <div className="flex flex-wrap gap-2">
-                  <a href="/about" className="hover:text-[#009ae9] transition-colors">About</a>
-                  <span>·</span>
-                  <a href="/help" className="hover:text-[#009ae9] transition-colors">Help</a>
-                  <span>·</span>
-                  <a href="/terms" className="hover:text-[#009ae9] transition-colors">Terms</a>
-                  <span>·</span>
-                  <a href="/privacy" className="hover:text-[#009ae9] transition-colors">Privacy</a>
-                </div>
-                <p>© 2025 Producers Avenue</p>
-              </div>
+          {/* Suggested Users Sidebar */}
+          <div className="hidden lg:block w-80">
+            <div className="sticky top-20">
+              <SuggestedUsers currentUserId={user?.id || ''} />
             </div>
           </div>
         </div>
@@ -359,7 +628,10 @@ export default function FeedPage() {
         <StoryViewer
           userStories={selectedStories}
           startIndex={storyStartIndex}
-          onClose={() => setShowStoryViewer(false)}
+          onClose={() => {
+            setShowStoryViewer(false)
+            setSelectedStories(null)
+          }}
           currentUserId={user?.id || ''}
         />
       )}
@@ -370,21 +642,66 @@ export default function FeedPage() {
           onClose={() => setShowCreatePostModal(false)}
           onPostCreated={() => {
             setShowCreatePostModal(false)
-            loadFeed() // Reload feed after creating post
+            loadFeed()
           }}
         />
       )}
 
-      {/* Custom CSS */}
-      <style jsx global>{`
-        .hide-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
-    </>
+      {/* Comment Modal */}
+      {showCommentModal && selectedPost && (
+        <CommentModal
+          post={selectedPost}
+          onClose={() => {
+            setShowCommentModal(false)
+            setSelectedPost(null)
+          }}
+          onCommentAdded={() => {
+            loadFeed()
+          }}
+        />
+      )}
+
+      {/* Share Modal */}
+      {showShareModal && selectedPost && (
+        <ShareModal
+          post={selectedPost}
+          onClose={() => {
+            setShowShareModal(false)
+            setSelectedPost(null)
+          }}
+        />
+      )}
+
+      {/* Report Modal */}
+      {showReportModal && selectedPost && (
+        <ReportModal
+          post={selectedPost}
+          onClose={() => {
+            setShowReportModal(false)
+            setSelectedPost(null)
+          }}
+          onReported={() => {
+            setShowReportModal(false)
+            setSelectedPost(null)
+          }}
+        />
+      )}
+
+      {/* Edit Post Modal */}
+      {showEditPostModal && selectedPost && (
+        <EditPostModal
+          post={selectedPost}
+          onClose={() => {
+            setShowEditPostModal(false)
+            setSelectedPost(null)
+          }}
+          onPostUpdated={() => {
+            setShowEditPostModal(false)
+            setSelectedPost(null)
+            loadFeed()
+          }}
+        />
+      )}
+    </div>
   )
 }
