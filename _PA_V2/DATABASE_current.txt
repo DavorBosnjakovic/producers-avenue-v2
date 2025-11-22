@@ -1,0 +1,1518 @@
+================================================================================
+PRODUCERS AVENUE V2 - COMPLETE DATABASE STRUCTURE REFERENCE
+================================================================================
+Version: 2.1
+Date: November 15, 2025
+Database: PostgreSQL 15+ (Supabase)
+Status: âœ… DEPLOYED AND READY (Updated with Cart & Wishlist)
+
+================================================================================
+TABLE OF CONTENTS
+================================================================================
+1. Overview & Key Decisions
+2. Complete Table List (37 tables)
+3. Detailed Table Structures
+4. Relationships & Foreign Keys
+5. Indexes & Performance
+6. Triggers & Automation
+7. Row Level Security (RLS) Policies
+8. Sample Queries
+9. Seed Data Summary
+
+================================================================================
+1. OVERVIEW & KEY DECISIONS
+================================================================================
+
+CRITICAL NAMING CONVENTIONS (To Avoid Conflicts):
+--------------------------------------------------
+- User Roles (what users ARE):       user_role_categories
+- User Skills (what users can DO):   user_role_skills  
+- Music Genres:                       genres
+- Product Categories:                 marketplace_categories
+
+This naming prevents conflicts between user roles and product categories.
+
+SMART LINK FIELD:
+-----------------
+- Field: smart_link (TEXT in user_profiles table)
+- Validation: Only rolink.me URLs allowed
+- Pattern: ^https?://(www\.)?rolink\.me/.+$
+- Purpose: Partnership with Release Organizer platform
+
+COMMISSION STRUCTURE:
+---------------------
+- Basic: 40% platform fee
+- Standard: 30% platform fee
+- Premium: 20% platform fee
+- Ultimate: 10% platform fee
+- Ultimate (Friends): 10% (admin-assigned, free subscription)
+
+FOLLOWING SYSTEM:
+-----------------
+- Type: Hybrid (one-way with mutual detection)
+- Storage: Single 'followers' table
+- Display: "Following/Followers" OR "Connected" badge if mutual
+
+================================================================================
+2. COMPLETE TABLE LIST (35 TABLES)
+================================================================================
+
+USER ROLES & SKILLS (6 tables):
+-------------------------------
+1. user_role_categories     - Main role categories (Musician, Producer, etc.)
+2. user_role_skills         - Skills within each category
+3. genres                   - Music genres
+4. user_selected_categories - Many-to-many: users â†” role categories
+5. user_selected_skills     - Many-to-many: users â†” skills
+6. user_selected_genres     - Many-to-many: users â†” genres
+
+USER PROFILES & AUTH (3 tables):
+--------------------------------
+7. user_profiles            - Extended user information
+8. subscriptions            - User subscription tiers
+9. custom_field_requests    - Requests for new skills/genres
+
+SOCIAL FEATURES (4 tables):
+---------------------------
+10. followers               - Following relationships
+11. posts                   - Social feed posts
+12. post_likes              - Post likes
+13. comments                - Post comments
+
+GROUPS (2 tables):
+------------------
+14. groups                  - Community groups
+15. group_members           - Group membership
+
+MARKETPLACE (5 tables):
+-----------------------
+16. marketplace_categories  - Product/service categories
+17. products                - Digital products for sale
+18. services                - Services offered
+19. cart_items              - Shopping cart (NEW - v2.1)
+20. wishlist_items          - User favorites/wishlist (NEW - v2.1)
+
+ORDERS & REVIEWS (5 tables):
+-----------------------------
+21. product_orders          - Product purchases
+22. service_orders          - Service orders with delivery
+23. product_downloads       - Download tracking/limits
+24. download_logs           - Download activity logs
+25. reviews                 - Product/service reviews
+
+FINANCIAL (3 tables):
+---------------------
+26. wallets                 - User wallet balances
+27. transactions            - All financial transactions
+28. payouts                 - Payout requests
+
+MESSAGING (2 tables):
+---------------------
+29. conversations           - Message threads
+30. messages                - Individual messages
+
+NOTIFICATIONS (1 table):
+------------------------
+31. notifications           - All user notifications
+
+CONTENT (1 table):
+------------------
+32. articles                - Blog posts/news
+
+CONTACT (2 tables):
+-------------------
+33. contact_submissions     - Contact form submissions
+34. newsletter_subscribers  - Newsletter subscribers
+
+NOTE: auth.users table is managed by Supabase Auth (not created by us)
+
+================================================================================
+3. DETAILED TABLE STRUCTURES
+================================================================================
+
+--------------------------------------------------------------------------------
+USER_ROLE_CATEGORIES
+--------------------------------------------------------------------------------
+Purpose: Main categories defining what users ARE (Musician, Producer, etc.)
+
+Columns:
+  id                UUID PRIMARY KEY
+  name              TEXT NOT NULL
+  slug              TEXT UNIQUE NOT NULL
+  description       TEXT
+  sort_order        INTEGER
+  is_active         BOOLEAN DEFAULT true
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+  updated_at        TIMESTAMPTZ DEFAULT NOW()
+
+Seed Data: 8 categories
+  - Musician
+  - Producer/Engineer
+  - Vocalist
+  - Visual Artist
+  - Educator/Instructor
+  - Content Creator
+  - Industry Professional
+  - Music Tools Creator
+
+--------------------------------------------------------------------------------
+USER_ROLE_SKILLS
+--------------------------------------------------------------------------------
+Purpose: Skills within each role category (Guitar, Piano, Mixing, etc.)
+
+Columns:
+  id                UUID PRIMARY KEY
+  role_category_id  UUID â†’ user_role_categories(id)
+  name              TEXT NOT NULL
+  slug              TEXT UNIQUE NOT NULL
+  is_active         BOOLEAN DEFAULT true
+  is_admin_approved BOOLEAN DEFAULT true
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+  updated_at        TIMESTAMPTZ DEFAULT NOW()
+
+Seed Data: 100+ skills across all categories
+
+Examples:
+  Musician: Guitar - Acoustic, Piano, Drums, Violin, etc.
+  Producer: Mixing Engineer, Mastering Engineer, Beat Maker, etc.
+  Vocalist: Lead Vocalist, Background Vocalist, Rapper/MC, etc.
+
+--------------------------------------------------------------------------------
+GENRES
+--------------------------------------------------------------------------------
+Purpose: Music genres (Hip-Hop, R&B, Jazz, etc.)
+
+Columns:
+  id                UUID PRIMARY KEY
+  name              TEXT NOT NULL
+  slug              TEXT UNIQUE NOT NULL
+  parent_genre_id   UUID â†’ genres(id) [for sub-genres]
+  is_active         BOOLEAN DEFAULT true
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+  updated_at        TIMESTAMPTZ DEFAULT NOW()
+
+Seed Data: 50+ genres
+  Main: Hip-Hop, R&B, Pop, Rock, Electronic, Jazz, etc.
+  Sub-genres: Trap, Drill, House, Techno, etc.
+
+--------------------------------------------------------------------------------
+USER_PROFILES
+--------------------------------------------------------------------------------
+Purpose: Extended user information (linked to auth.users)
+
+Columns:
+  id                    UUID PRIMARY KEY
+  user_id               UUID â†’ auth.users(id) UNIQUE NOT NULL
+  username              TEXT UNIQUE NOT NULL
+  display_name          TEXT
+  bio                   TEXT
+  avatar_url            TEXT
+  banner_url            TEXT
+  
+  -- Smart Link (rolink.me only)
+  smart_link            TEXT CHECK (rolink.me pattern)
+  
+  -- Location
+  location_city         TEXT
+  location_country      TEXT
+  location_coords       GEOGRAPHY(POINT)
+  location_source       TEXT ('ip'|'gps'|'manual')
+  location_visibility   TEXT ('exact'|'city'|'country'|'hidden')
+  location_last_updated TIMESTAMPTZ
+  
+  -- Profile settings
+  experience_level      TEXT ('beginner'|'intermediate'|'professional'|'veteran')
+  website_url           TEXT
+  role                  TEXT ('member'|'author'|'admin'|'super_admin')
+  profile_visibility    TEXT ('public'|'members_only'|'private')
+  is_partner_account    BOOLEAN DEFAULT false
+  
+  -- Stats
+  followers_count       INTEGER DEFAULT 0
+  following_count       INTEGER DEFAULT 0
+  products_count        INTEGER DEFAULT 0
+  services_count        INTEGER DEFAULT 0
+  
+  -- Moderation
+  is_banned             BOOLEAN DEFAULT false
+  ban_reason            TEXT
+  banned_at             TIMESTAMPTZ
+  banned_by             UUID â†’ auth.users(id)
+  
+  created_at            TIMESTAMPTZ DEFAULT NOW()
+  updated_at            TIMESTAMPTZ DEFAULT NOW()
+
+Auto-Created: YES (trigger on auth.users INSERT)
+
+--------------------------------------------------------------------------------
+USER_SELECTED_CATEGORIES
+--------------------------------------------------------------------------------
+Purpose: Many-to-many relationship between users and role categories
+
+Columns:
+  id                UUID PRIMARY KEY
+  user_id           UUID â†’ auth.users(id)
+  role_category_id  UUID â†’ user_role_categories(id)
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+  
+  UNIQUE(user_id, role_category_id)
+
+Usage: User can select multiple categories (e.g., Musician + Producer)
+
+--------------------------------------------------------------------------------
+USER_SELECTED_SKILLS
+--------------------------------------------------------------------------------
+Purpose: Many-to-many relationship between users and skills
+
+Columns:
+  id                UUID PRIMARY KEY
+  user_id           UUID â†’ auth.users(id)
+  skill_id          UUID â†’ user_role_skills(id)
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+  
+  UNIQUE(user_id, skill_id)
+
+Usage: User can select multiple skills within their categories
+
+--------------------------------------------------------------------------------
+USER_SELECTED_GENRES
+--------------------------------------------------------------------------------
+Purpose: Many-to-many relationship between users and genres
+
+Columns:
+  id                UUID PRIMARY KEY
+  user_id           UUID â†’ auth.users(id)
+  genre_id          UUID â†’ genres(id)
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+  
+  UNIQUE(user_id, genre_id)
+
+Usage: User can select multiple genres they work with
+
+--------------------------------------------------------------------------------
+CUSTOM_FIELD_REQUESTS
+--------------------------------------------------------------------------------
+Purpose: Track user requests for custom skills/genres not in master list
+
+Columns:
+  id                UUID PRIMARY KEY
+  field_type        TEXT ('skill'|'genre'|'category')
+  field_value       TEXT NOT NULL
+  role_category_id  UUID â†’ user_role_categories(id) [for skills only]
+  requested_by      UUID[] - array of user IDs
+  request_count     INTEGER DEFAULT 1
+  status            TEXT ('pending'|'approved'|'rejected'|'auto_approved')
+  reviewed_by       UUID â†’ auth.users(id)
+  reviewed_at       TIMESTAMPTZ
+  rejection_reason  TEXT
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+  updated_at        TIMESTAMPTZ DEFAULT NOW()
+  
+  UNIQUE(field_type, field_value, role_category_id)
+
+Auto-Approval Logic:
+  - Skills: Auto-approve when request_count >= 3
+  - Genres: Auto-approve when request_count >= 5
+  - Categories: Always manual review
+
+--------------------------------------------------------------------------------
+SUBSCRIPTIONS
+--------------------------------------------------------------------------------
+Purpose: User subscription status and tier
+
+Columns:
+  id                      UUID PRIMARY KEY
+  user_id                 UUID â†’ auth.users(id) UNIQUE NOT NULL
+  tier                    TEXT ('basic'|'standard'|'premium'|'ultimate')
+  interval                TEXT ('monthly'|'annual')
+  status                  TEXT ('active'|'cancelled'|'past_due'|'unpaid')
+  stripe_subscription_id  TEXT UNIQUE
+  stripe_customer_id      TEXT
+  stripe_price_id         TEXT
+  current_period_start    TIMESTAMPTZ
+  current_period_end      TIMESTAMPTZ
+  cancel_at               TIMESTAMPTZ
+  cancelled_at            TIMESTAMPTZ
+  created_at              TIMESTAMPTZ DEFAULT NOW()
+  updated_at              TIMESTAMPTZ DEFAULT NOW()
+
+Auto-Created: YES (trigger on auth.users INSERT, tier='basic')
+
+Commission Rates by Tier:
+  - basic: 40%
+  - standard: 30%
+  - premium: 20%
+  - ultimate: 10%
+
+--------------------------------------------------------------------------------
+FOLLOWERS
+--------------------------------------------------------------------------------
+Purpose: Following relationships (hybrid: one-way with mutual detection)
+
+Columns:
+  id            UUID PRIMARY KEY
+  follower_id   UUID â†’ auth.users(id)
+  following_id  UUID â†’ auth.users(id)
+  created_at    TIMESTAMPTZ DEFAULT NOW()
+  
+  UNIQUE(follower_id, following_id)
+  CHECK (follower_id != following_id)
+
+Usage:
+  - Query in both directions to detect mutual follows
+  - Display "Connected" badge if mutual, else "Following/Followers"
+
+--------------------------------------------------------------------------------
+POSTS
+--------------------------------------------------------------------------------
+Purpose: Social feed posts
+
+Columns:
+  id              UUID PRIMARY KEY
+  user_id         UUID â†’ auth.users(id)
+  group_id        UUID â†’ groups(id) [optional]
+  content         TEXT NOT NULL
+  media_urls      TEXT[]
+  link_preview    JSONB
+  poll_data       JSONB
+  visibility      TEXT ('public'|'members_only'|'group_only'|'private')
+  likes_count     INTEGER DEFAULT 0
+  comments_count  INTEGER DEFAULT 0
+  shares_count    INTEGER DEFAULT 0
+  is_pinned       BOOLEAN DEFAULT false
+  created_at      TIMESTAMPTZ DEFAULT NOW()
+  updated_at      TIMESTAMPTZ DEFAULT NOW()
+
+--------------------------------------------------------------------------------
+POST_LIKES
+--------------------------------------------------------------------------------
+Purpose: Post likes
+
+Columns:
+  id          UUID PRIMARY KEY
+  post_id     UUID â†’ posts(id)
+  user_id     UUID â†’ auth.users(id)
+  created_at  TIMESTAMPTZ DEFAULT NOW()
+  
+  UNIQUE(post_id, user_id)
+
+--------------------------------------------------------------------------------
+COMMENTS
+--------------------------------------------------------------------------------
+Purpose: Post comments (supports nested comments)
+
+Columns:
+  id                  UUID PRIMARY KEY
+  post_id             UUID â†’ posts(id)
+  user_id             UUID â†’ auth.users(id)
+  parent_comment_id   UUID â†’ comments(id) [for nested]
+  content             TEXT NOT NULL
+  likes_count         INTEGER DEFAULT 0
+  created_at          TIMESTAMPTZ DEFAULT NOW()
+  updated_at          TIMESTAMPTZ DEFAULT NOW()
+
+--------------------------------------------------------------------------------
+GROUPS
+--------------------------------------------------------------------------------
+Purpose: Community groups
+
+Columns:
+  id                UUID PRIMARY KEY
+  name              TEXT NOT NULL
+  slug              TEXT UNIQUE NOT NULL
+  description       TEXT
+  cover_image_url   TEXT
+  owner_id          UUID â†’ auth.users(id)
+  role_category_id  UUID â†’ user_role_categories(id)
+  privacy           TEXT ('public'|'private')
+  join_approval     TEXT ('open'|'approval_required')
+  members_count     INTEGER DEFAULT 0
+  posts_count       INTEGER DEFAULT 0
+  rules             TEXT
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+  updated_at        TIMESTAMPTZ DEFAULT NOW()
+
+--------------------------------------------------------------------------------
+GROUP_MEMBERS
+--------------------------------------------------------------------------------
+Purpose: Group membership
+
+Columns:
+  id          UUID PRIMARY KEY
+  group_id    UUID â†’ groups(id)
+  user_id     UUID â†’ auth.users(id)
+  role        TEXT ('member'|'moderator'|'admin'|'owner')
+  joined_at   TIMESTAMPTZ DEFAULT NOW()
+  
+  UNIQUE(group_id, user_id)
+
+--------------------------------------------------------------------------------
+MARKETPLACE_CATEGORIES
+--------------------------------------------------------------------------------
+Purpose: Product/service categories (separate from user roles)
+
+Columns:
+  id                  UUID PRIMARY KEY
+  name                TEXT NOT NULL
+  slug                TEXT UNIQUE NOT NULL
+  description         TEXT
+  parent_category_id  UUID â†’ marketplace_categories(id)
+  sort_order          INTEGER
+  is_active           BOOLEAN DEFAULT true
+  created_at          TIMESTAMPTZ DEFAULT NOW()
+  updated_at          TIMESTAMPTZ DEFAULT NOW()
+
+Seed Data: 8 categories
+  - Beats & Instrumentals
+  - Sample Packs
+  - Presets & Sounds
+  - Plugins & Software
+  - Templates & Projects
+  - Courses & Tutorials
+  - Services
+  - Other
+
+--------------------------------------------------------------------------------
+PRODUCTS
+--------------------------------------------------------------------------------
+Purpose: Digital products for sale
+
+Columns:
+  id                      UUID PRIMARY KEY
+  seller_id               UUID â†’ auth.users(id)
+  title                   TEXT NOT NULL
+  slug                    TEXT UNIQUE NOT NULL
+  description             TEXT
+  short_description       TEXT
+  product_type            TEXT ('beat'|'sample_pack'|'preset'|'plugin'|'template'|'course'|'ebook'|'other')
+  
+  -- Media
+  thumbnail_url           TEXT
+  preview_urls            TEXT[]
+  demo_url                TEXT
+  
+  -- Files
+  file_urls               TEXT[] NOT NULL
+  file_size_mb            DECIMAL(10,2)
+  file_format             TEXT
+  download_limit          INTEGER DEFAULT 5
+  download_expiry_days    INTEGER DEFAULT 30
+  
+  -- Pricing
+  price                   DECIMAL(10,2) NOT NULL
+  compare_at_price        DECIMAL(10,2)
+  is_free                 BOOLEAN DEFAULT false
+  
+  -- Categorization
+  marketplace_category_id UUID â†’ marketplace_categories(id)
+  tags                    TEXT[]
+  genre_tags              TEXT[]
+  
+  -- License
+  license_type            TEXT ('personal'|'commercial'|'exclusive'|'royalty_free')
+  license_terms           TEXT
+  
+  -- Stats
+  views_count             INTEGER DEFAULT 0
+  downloads_count         INTEGER DEFAULT 0
+  favorites_count         INTEGER DEFAULT 0
+  rating_average          DECIMAL(3,2) DEFAULT 0.00
+  reviews_count           INTEGER DEFAULT 0
+  
+  -- Status
+  status                  TEXT ('draft'|'active'|'paused'|'deleted')
+  is_featured             BOOLEAN DEFAULT false
+  
+  created_at              TIMESTAMPTZ DEFAULT NOW()
+  updated_at              TIMESTAMPTZ DEFAULT NOW()
+
+--------------------------------------------------------------------------------
+SERVICES
+--------------------------------------------------------------------------------
+Purpose: Services offered (production, mixing, mentoring, etc.)
+
+Columns:
+  id                      UUID PRIMARY KEY
+  seller_id               UUID â†’ auth.users(id)
+  title                   TEXT NOT NULL
+  slug                    TEXT UNIQUE NOT NULL
+  description             TEXT
+  service_type            TEXT ('production'|'mixing'|'mastering'|'recording'|'vocals'|'design'|'video'|'consultation'|'other')
+  is_mentoring            BOOLEAN DEFAULT false
+  
+  -- Media
+  thumbnail_url           TEXT
+  portfolio_urls          TEXT[]
+  
+  -- Packages (JSONB)
+  packages                JSONB NOT NULL
+    -- [{name, price, delivery_days, revisions, features: []}]
+  buyer_requirements      TEXT
+  
+  -- Categorization
+  marketplace_category_id UUID â†’ marketplace_categories(id)
+  tags                    TEXT[]
+  genre_tags              TEXT[]
+  
+  -- Stats
+  views_count             INTEGER DEFAULT 0
+  orders_count            INTEGER DEFAULT 0
+  rating_average          DECIMAL(3,2) DEFAULT 0.00
+  reviews_count           INTEGER DEFAULT 0
+  response_time_hours     INTEGER
+  completion_rate         DECIMAL(5,2)
+  
+  -- Status
+  status                  TEXT ('draft'|'active'|'paused'|'deleted')
+  is_featured             BOOLEAN DEFAULT false
+  
+  created_at              TIMESTAMPTZ DEFAULT NOW()
+  updated_at              TIMESTAMPTZ DEFAULT NOW()
+
+--------------------------------------------------------------------------------
+CART_ITEMS (NEW - v2.1)
+--------------------------------------------------------------------------------
+Purpose: Shopping cart items (temporary storage before purchase)
+
+Columns:
+  id                UUID PRIMARY KEY
+  user_id           UUID → auth.users(id) ON DELETE CASCADE
+  product_id        UUID → products(id) ON DELETE CASCADE
+  added_price       DECIMAL(10,2) NOT NULL
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+  updated_at        TIMESTAMPTZ DEFAULT NOW()
+  
+  UNIQUE(user_id, product_id)
+
+Features:
+  - Price snapshot when added (in case product price changes)
+  - Unique constraint prevents duplicate entries
+  - Auto-cleanup on user/product deletion
+
+RLS Policies:
+  âœ… Users can view own cart items
+  âœ… Users can add to own cart
+  âœ… Users can update own cart items
+  âœ… Users can delete own cart items
+
+Indexes:
+  - idx_cart_items_user_id
+  - idx_cart_items_product_id
+  - idx_cart_items_created_at
+
+--------------------------------------------------------------------------------
+WISHLIST_ITEMS (NEW - v2.1)
+--------------------------------------------------------------------------------
+Purpose: User's saved/favorited products
+
+Columns:
+  id                UUID PRIMARY KEY
+  user_id           UUID → auth.users(id) ON DELETE CASCADE
+  product_id        UUID → products(id) ON DELETE CASCADE
+  notes             TEXT
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+  updated_at        TIMESTAMPTZ DEFAULT NOW()
+  
+  UNIQUE(user_id, product_id)
+
+Features:
+  - Optional user notes about why they saved the product
+  - Unique constraint prevents duplicate entries
+  - Auto-cleanup on user/product deletion
+
+RLS Policies:
+  âœ… Users can view own wishlist
+  âœ… Users can add to own wishlist
+  âœ… Users can update own wishlist (notes)
+  âœ… Users can delete own wishlist
+
+Indexes:
+  - idx_wishlist_items_user_id
+  - idx_wishlist_items_product_id
+  - idx_wishlist_items_created_at
+
+--------------------------------------------------------------------------------
+PRODUCT_ORDERS
+--------------------------------------------------------------------------------
+Purpose: Product purchase orders
+
+Columns:
+  id                UUID PRIMARY KEY
+  order_number      TEXT UNIQUE NOT NULL
+  product_id        UUID â†’ products(id)
+  buyer_id          UUID â†’ auth.users(id)
+  seller_id         UUID â†’ auth.users(id)
+  
+  -- Snapshot (in case product deleted)
+  product_snapshot  JSONB NOT NULL
+  
+  -- Pricing
+  product_price     DECIMAL(10,2) NOT NULL
+  platform_fee      DECIMAL(10,2) NOT NULL
+  commission_rate   DECIMAL(5,2) NOT NULL
+  seller_earnings   DECIMAL(10,2) NOT NULL
+  
+  -- Payment
+  payment_method    TEXT ('stripe'|'paypal')
+  payment_intent_id TEXT
+  transaction_id    TEXT
+  
+  -- Status
+  status            TEXT ('pending'|'completed'|'failed'|'refunded'|'disputed')
+  
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+  updated_at        TIMESTAMPTZ DEFAULT NOW()
+
+--------------------------------------------------------------------------------
+SERVICE_ORDERS
+--------------------------------------------------------------------------------
+Purpose: Service orders with delivery tracking
+
+Columns:
+  id                  UUID PRIMARY KEY
+  order_number        TEXT UNIQUE NOT NULL
+  service_id          UUID â†’ services(id)
+  buyer_id            UUID â†’ auth.users(id)
+  seller_id           UUID â†’ auth.users(id)
+  
+  -- Package snapshot
+  package_name        TEXT NOT NULL
+  package_price       DECIMAL(10,2) NOT NULL
+  delivery_days       INTEGER NOT NULL
+  revisions_included  INTEGER NOT NULL
+  
+  -- Pricing
+  platform_fee        DECIMAL(10,2) NOT NULL
+  commission_rate     DECIMAL(5,2) NOT NULL
+  seller_earnings     DECIMAL(10,2) NOT NULL
+  
+  -- Requirements & delivery
+  requirements        TEXT
+  requirement_files   TEXT[]
+  delivery_files      TEXT[]
+  delivery_notes      TEXT
+  delivered_at        TIMESTAMPTZ
+  
+  -- Status
+  status              TEXT ('pending'|'in_progress'|'delivered'|'revision_requested'|'completed'|'cancelled'|'refunded')
+  revisions_used      INTEGER DEFAULT 0
+  buyer_approved      BOOLEAN DEFAULT false
+  completed_at        TIMESTAMPTZ
+  cancelled_at        TIMESTAMPTZ
+  cancellation_reason TEXT
+  
+  created_at          TIMESTAMPTZ DEFAULT NOW()
+  updated_at          TIMESTAMPTZ DEFAULT NOW()
+
+--------------------------------------------------------------------------------
+PRODUCT_DOWNLOADS
+--------------------------------------------------------------------------------
+Purpose: Track download limits for purchased products
+
+Columns:
+  id                  UUID PRIMARY KEY
+  product_order_id    UUID â†’ product_orders(id)
+  product_id          UUID â†’ products(id)
+  user_id             UUID â†’ auth.users(id)
+  downloads_remaining INTEGER DEFAULT 5
+  expires_at          TIMESTAMPTZ
+  created_at          TIMESTAMPTZ DEFAULT NOW()
+  updated_at          TIMESTAMPTZ DEFAULT NOW()
+
+Default Limits:
+  - 5 downloads per purchase
+  - 30-day expiration
+
+--------------------------------------------------------------------------------
+DOWNLOAD_LOGS
+--------------------------------------------------------------------------------
+Purpose: Log every download for tracking/analytics
+
+Columns:
+  id                  UUID PRIMARY KEY
+  product_download_id UUID â†’ product_downloads(id)
+  user_id             UUID â†’ auth.users(id)
+  product_id          UUID â†’ products(id)
+  ip_address          INET
+  user_agent          TEXT
+  downloaded_at       TIMESTAMPTZ DEFAULT NOW()
+
+--------------------------------------------------------------------------------
+REVIEWS
+--------------------------------------------------------------------------------
+Purpose: Product/service reviews
+
+Columns:
+  id                   UUID PRIMARY KEY
+  reviewable_type      TEXT ('product'|'service')
+  reviewable_id        UUID
+  buyer_id             UUID â†’ auth.users(id)
+  seller_id            UUID â†’ auth.users(id)
+  order_id             UUID
+  rating               INTEGER (1-5) NOT NULL
+  comment              TEXT
+  seller_response      TEXT
+  seller_responded_at  TIMESTAMPTZ
+  is_verified_purchase BOOLEAN DEFAULT true
+  created_at           TIMESTAMPTZ DEFAULT NOW()
+  updated_at           TIMESTAMPTZ DEFAULT NOW()
+
+--------------------------------------------------------------------------------
+WALLETS
+--------------------------------------------------------------------------------
+Purpose: User wallet balances
+
+Columns:
+  id                            UUID PRIMARY KEY
+  user_id                       UUID â†’ auth.users(id) UNIQUE NOT NULL
+  balance_available             DECIMAL(10,2) DEFAULT 0.00
+  balance_pending               DECIMAL(10,2) DEFAULT 0.00
+  total_earned                  DECIMAL(12,2) DEFAULT 0.00
+  total_withdrawn               DECIMAL(12,2) DEFAULT 0.00
+  stripe_connect_account_id     TEXT
+  stripe_connect_onboarded      BOOLEAN DEFAULT false
+  stripe_connect_charges_enabled BOOLEAN DEFAULT false
+  stripe_connect_payouts_enabled BOOLEAN DEFAULT false
+  created_at                    TIMESTAMPTZ DEFAULT NOW()
+  updated_at                    TIMESTAMPTZ DEFAULT NOW()
+
+Auto-Created: YES (trigger on auth.users INSERT)
+
+--------------------------------------------------------------------------------
+TRANSACTIONS
+--------------------------------------------------------------------------------
+Purpose: All financial transactions
+
+Columns:
+  id                UUID PRIMARY KEY
+  user_id           UUID â†’ auth.users(id)
+  wallet_id         UUID â†’ wallets(id)
+  type              TEXT ('sale'|'refund'|'payout'|'fee'|'adjustment')
+  amount            DECIMAL(10,2) NOT NULL
+  balance_after     DECIMAL(10,2) NOT NULL
+  description       TEXT
+  related_order_id  UUID
+  related_payout_id UUID
+  metadata          JSONB
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+
+--------------------------------------------------------------------------------
+PAYOUTS
+--------------------------------------------------------------------------------
+Purpose: Payout requests
+
+Columns:
+  id                UUID PRIMARY KEY
+  user_id           UUID â†’ auth.users(id)
+  wallet_id         UUID â†’ wallets(id)
+  amount            DECIMAL(10,2) NOT NULL
+  method            TEXT ('stripe'|'paypal'|'bank')
+  status            TEXT ('pending'|'processing'|'completed'|'failed'|'cancelled')
+  stripe_payout_id  TEXT
+  failure_reason    TEXT
+  processed_at      TIMESTAMPTZ
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+  updated_at        TIMESTAMPTZ DEFAULT NOW()
+
+--------------------------------------------------------------------------------
+CONVERSATIONS
+--------------------------------------------------------------------------------
+Purpose: Message threads
+
+Columns:
+  id                    UUID PRIMARY KEY
+  participant_ids       UUID[] NOT NULL
+  last_message_at       TIMESTAMPTZ
+  last_message_preview  TEXT
+  created_at            TIMESTAMPTZ DEFAULT NOW()
+  updated_at            TIMESTAMPTZ DEFAULT NOW()
+
+--------------------------------------------------------------------------------
+MESSAGES
+--------------------------------------------------------------------------------
+Purpose: Individual messages
+
+Columns:
+  id              UUID PRIMARY KEY
+  conversation_id UUID â†’ conversations(id)
+  sender_id       UUID â†’ auth.users(id)
+  content         TEXT NOT NULL
+  attachments     TEXT[]
+  is_read         BOOLEAN DEFAULT false
+  read_at         TIMESTAMPTZ
+  created_at      TIMESTAMPTZ DEFAULT NOW()
+  updated_at      TIMESTAMPTZ DEFAULT NOW()
+
+--------------------------------------------------------------------------------
+NOTIFICATIONS
+--------------------------------------------------------------------------------
+Purpose: All user notifications
+
+Columns:
+  id          UUID PRIMARY KEY
+  user_id     UUID â†’ auth.users(id)
+  type        TEXT NOT NULL
+  title       TEXT NOT NULL
+  message     TEXT
+  link        TEXT
+  icon        TEXT
+  is_read     BOOLEAN DEFAULT false
+  read_at     TIMESTAMPTZ
+  metadata    JSONB
+  created_at  TIMESTAMPTZ DEFAULT NOW()
+
+--------------------------------------------------------------------------------
+ARTICLES
+--------------------------------------------------------------------------------
+Purpose: Blog posts/news
+
+Columns:
+  id              UUID PRIMARY KEY
+  author_id       UUID â†’ auth.users(id)
+  title           TEXT NOT NULL
+  slug            TEXT UNIQUE NOT NULL
+  content         TEXT NOT NULL
+  excerpt         TEXT
+  cover_image_url TEXT
+  status          TEXT ('draft'|'published'|'archived')
+  published_at    TIMESTAMPTZ
+  views_count     INTEGER DEFAULT 0
+  created_at      TIMESTAMPTZ DEFAULT NOW()
+  updated_at      TIMESTAMPTZ DEFAULT NOW()
+
+--------------------------------------------------------------------------------
+CONTACT_SUBMISSIONS
+--------------------------------------------------------------------------------
+Purpose: Contact form submissions
+
+Columns:
+  id            UUID PRIMARY KEY
+  name          TEXT NOT NULL
+  email         TEXT NOT NULL
+  subject       TEXT
+  message       TEXT NOT NULL
+  user_id       UUID â†’ auth.users(id)
+  status        TEXT ('new'|'in_progress'|'resolved'|'spam')
+  responded_at  TIMESTAMPTZ
+  responded_by  UUID â†’ auth.users(id)
+  created_at    TIMESTAMPTZ DEFAULT NOW()
+
+--------------------------------------------------------------------------------
+NEWSLETTER_SUBSCRIBERS
+--------------------------------------------------------------------------------
+Purpose: Newsletter subscribers
+
+Columns:
+  id              UUID PRIMARY KEY
+  email           TEXT UNIQUE NOT NULL
+  status          TEXT ('subscribed'|'unsubscribed')
+  subscribed_at   TIMESTAMPTZ DEFAULT NOW()
+  unsubscribed_at TIMESTAMPTZ
+
+================================================================================
+4. RELATIONSHIPS & FOREIGN KEYS
+================================================================================
+
+USER HIERARCHY:
+---------------
+auth.users (Supabase managed)
+  â””â”€> user_profiles (1:1, auto-created)
+      â”œâ”€> subscriptions (1:1, auto-created)
+      â”œâ”€> wallets (1:1, auto-created)
+      â”œâ”€> user_selected_categories (1:N)
+      â”œâ”€> user_selected_skills (1:N)
+      â””â”€> user_selected_genres (1:N)
+
+ROLE SYSTEM:
+------------
+user_role_categories (8 categories)
+  â””â”€> user_role_skills (100+ skills)
+      â””â”€> user_selected_skills
+          â””â”€> user (via user_id)
+
+GENRE SYSTEM:
+-------------
+genres (50+ genres, supports hierarchy)
+  â””â”€> user_selected_genres
+      â””â”€> user (via user_id)
+
+SOCIAL:
+-------
+posts
+  â”œâ”€> post_likes (many users can like one post)
+  â””â”€> comments (can be nested via parent_comment_id)
+
+followers (self-referential)
+  follower_id â†’ auth.users(id)
+  following_id â†’ auth.users(id)
+
+MARKETPLACE:
+------------
+marketplace_categories (8 categories)
+  â”œâ”€> products
+  â”‚   â””â”€> product_orders
+  â”‚       â””â”€> product_downloads
+  â”‚           â””â”€> download_logs
+  â””â”€> services
+      â””â”€> service_orders
+
+REVIEWS:
+--------
+reviews (polymorphic)
+  â”œâ”€> products (via reviewable_id when reviewable_type='product')
+  â””â”€> services (via reviewable_id when reviewable_type='service')
+
+FINANCIAL:
+----------
+wallets
+  â”œâ”€> transactions
+  â””â”€> payouts
+
+MESSAGING:
+----------
+conversations (participant_ids array)
+  â””â”€> messages
+
+================================================================================
+5. INDEXES & PERFORMANCE
+================================================================================
+
+PRIMARY INDEXES (Automatically Created):
+-----------------------------------------
+- All primary keys (id columns)
+- All UNIQUE constraints (username, slug, email, etc.)
+
+FOREIGN KEY INDEXES (Automatically Created):
+---------------------------------------------
+- All foreign key columns are indexed
+
+CUSTOM INDEXES CREATED:
+------------------------
+User Profiles:
+  - user_profiles(user_id)
+  - user_profiles(username)
+  - user_profiles(location_coords) USING GIST
+
+Following:
+  - followers(follower_id)
+  - followers(following_id)
+
+Posts:
+  - posts(user_id)
+  - posts(group_id)
+  - posts(created_at DESC)
+
+Products:
+  - products(seller_id)
+  - products(slug)
+  - products(status)
+  - products(marketplace_category_id)
+  - products(created_at DESC)
+
+Services:
+  - services(seller_id)
+  - services(slug)
+  - services(status)
+  - services(marketplace_category_id)
+
+Orders:
+  - product_orders(buyer_id)
+  - product_orders(seller_id)
+  - product_orders(status)
+  - service_orders(buyer_id)
+  - service_orders(seller_id)
+  - service_orders(status)
+
+Messages:
+  - conversations(participant_ids) USING GIN
+  - messages(conversation_id)
+  - messages(sender_id)
+
+Notifications:
+  - notifications(user_id)
+  - notifications(is_read)
+  - notifications(created_at DESC)
+
+RECOMMENDED FULL-TEXT SEARCH INDEXES (Add Later):
+--------------------------------------------------
+- posts(content) USING GIN
+- products(title, description) USING GIN
+- articles(content) USING GIN
+
+================================================================================
+6. TRIGGERS & AUTOMATION
+================================================================================
+
+AUTO-CREATE ON USER SIGNUP:
+----------------------------
+Trigger: on_auth_user_created
+Function: handle_new_user()
+When: AFTER INSERT ON auth.users
+Creates:
+  1. user_profiles record (username from email)
+  2. subscriptions record (tier='basic')
+  3. wallets record (balance=0)
+
+AUTO-UPDATE FOLLOWER COUNTS:
+-----------------------------
+Trigger: update_follower_counts_trigger
+Function: update_follower_counts()
+When: AFTER INSERT OR DELETE ON followers
+Updates:
+  - follower's following_count
+  - following's followers_count
+
+AUTO-UPDATE TIMESTAMPS:
+-----------------------
+Trigger: update_*_updated_at
+Function: update_updated_at_column()
+When: BEFORE UPDATE ON [table]
+Tables:
+  - user_profiles
+  - subscriptions
+  - posts
+  - products
+  - services
+  - product_orders
+  - service_orders
+  - wallets
+  - cart_items (NEW - v2.1)
+  - wishlist_items (NEW - v2.1)
+
+================================================================================
+7. ROW LEVEL SECURITY (RLS) POLICIES
+================================================================================
+
+ALL TABLES HAVE RLS ENABLED
+
+PUBLIC READ (Master Data):
+---------------------------
+âœ“ user_role_categories  - Anyone can view active categories
+âœ“ user_role_skills      - Anyone can view active approved skills
+âœ“ genres                - Anyone can view active genres
+âœ“ marketplace_categories - Anyone can view active categories
+
+USER PROFILES:
+--------------
+âœ“ Public can view public profiles (not banned)
+âœ“ Users can update their own profile
+
+USER SELECTIONS:
+----------------
+âœ“ Anyone can view user categories/skills/genres
+âœ“ Users manage their own selections only
+
+SUBSCRIPTIONS:
+--------------
+âœ“ Users view/update their own subscription only
+
+FOLLOWERS:
+----------
+âœ“ Anyone can view followers
+âœ“ Users can follow/unfollow (manage own actions)
+
+POSTS:
+------
+âœ“ Anyone can view public posts
+âœ“ Users can create posts
+âœ“ Users can update/delete their own posts
+
+PRODUCTS & SERVICES:
+--------------------
+âœ“ Anyone can view active products/services
+âœ“ Sellers manage their own products/services
+
+ORDERS:
+-------
+âœ“ Buyers view their purchases
+âœ“ Sellers view their sales
+âœ“ Sellers can update service orders (delivery)
+
+WALLETS:
+--------
+âœ“ Users view their own wallet/transactions/payouts only
+
+MESSAGES:
+---------
+âœ“ Participants view their own conversations/messages
+âœ“ Users can send messages (as sender)
+
+NOTIFICATIONS:
+--------------
+âœ“ Users view/update their own notifications only
+
+ARTICLES:
+---------
+âœ“ Anyone can view published articles
+âœ“ Authors manage their own articles
+
+
+CART & WISHLIST (NEW - v2.1):
+------------------------------
+âœ" Users can view their own cart items
+âœ" Users can add to their own cart
+âœ" Users can update their own cart items
+âœ" Users can delete their own cart items
+âœ" Users can view their own wishlist
+âœ" Users can add to their own wishlist
+âœ" Users can update their own wishlist (notes)
+âœ" Users can delete their own wishlist
+
+================================================================================
+8. SAMPLE QUERIES
+================================================================================
+
+GET USER'S COMPLETE PROFILE WITH ROLES/SKILLS/GENRES:
+------------------------------------------------------
+SELECT 
+  up.*,
+  array_agg(DISTINCT urc.name) FILTER (WHERE urc.name IS NOT NULL) as role_categories,
+  array_agg(DISTINCT urs.name) FILTER (WHERE urs.name IS NOT NULL) as skills,
+  array_agg(DISTINCT g.name) FILTER (WHERE g.name IS NOT NULL) as genres
+FROM user_profiles up
+LEFT JOIN user_selected_categories usc ON up.user_id = usc.user_id
+LEFT JOIN user_role_categories urc ON usc.role_category_id = urc.id
+LEFT JOIN user_selected_skills uss ON up.user_id = uss.user_id
+LEFT JOIN user_role_skills urs ON uss.skill_id = urs.id
+LEFT JOIN user_selected_genres usg ON up.user_id = usg.user_id
+LEFT JOIN genres g ON usg.genre_id = g.id
+WHERE up.user_id = 'USER_ID_HERE'
+GROUP BY up.id;
+
+CHECK IF TWO USERS ARE MUTUALLY FOLLOWING (CONNECTED):
+-------------------------------------------------------
+SELECT 
+  EXISTS(
+    SELECT 1 FROM followers 
+    WHERE follower_id = 'USER_A_ID' AND following_id = 'USER_B_ID'
+  ) as a_follows_b,
+  EXISTS(
+    SELECT 1 FROM followers 
+    WHERE follower_id = 'USER_B_ID' AND following_id = 'USER_A_ID'
+  ) as b_follows_a;
+-- If both true, show "Connected" badge
+
+GET USER'S COMMISSION RATE:
+---------------------------
+SELECT 
+  CASE s.tier
+    WHEN 'basic' THEN 0.40
+    WHEN 'standard' THEN 0.30
+    WHEN 'premium' THEN 0.20
+    WHEN 'ultimate' THEN 0.10
+  END as commission_rate
+FROM subscriptions s
+WHERE s.user_id = 'USER_ID_HERE';
+
+GET FEED FOR USER (FOLLOWING + OWN POSTS):
+-------------------------------------------
+SELECT p.*, up.username, up.avatar_url
+FROM posts p
+JOIN user_profiles up ON p.user_id = up.user_id
+WHERE p.visibility = 'public'
+  AND (
+    p.user_id = 'CURRENT_USER_ID'
+    OR p.user_id IN (
+      SELECT following_id FROM followers 
+      WHERE follower_id = 'CURRENT_USER_ID'
+    )
+  )
+ORDER BY p.created_at DESC
+LIMIT 20;
+
+SEARCH USERS BY SKILLS/GENRES:
+-------------------------------
+SELECT DISTINCT up.*
+FROM user_profiles up
+JOIN user_selected_skills uss ON up.user_id = uss.user_id
+JOIN user_role_skills urs ON uss.skill_id = urs.id
+WHERE urs.slug = ANY(ARRAY['guitar-electric', 'mixing-engineer'])
+  OR EXISTS (
+    SELECT 1 FROM user_selected_genres usg
+    JOIN genres g ON usg.genre_id = g.id
+    WHERE usg.user_id = up.user_id
+    AND g.slug = ANY(ARRAY['hip-hop', 'r-and-b'])
+  );
+
+GET USER'S WALLET BALANCE:
+--------------------------
+SELECT 
+  balance_available,
+  balance_pending,
+  total_earned,
+  total_withdrawn,
+  (balance_available + balance_pending) as total_balance
+FROM wallets
+WHERE user_id = 'USER_ID_HERE';
+
+GET PRODUCT WITH SELLER INFO:
+------------------------------
+SELECT 
+  p.*,
+  up.username as seller_username,
+  up.avatar_url as seller_avatar,
+  up.followers_count as seller_followers,
+  s.tier as seller_tier
+FROM products p
+JOIN user_profiles up ON p.seller_id = up.user_id
+JOIN subscriptions s ON p.seller_id = s.user_id
+WHERE p.slug = 'PRODUCT_SLUG_HERE'
+  AND p.status = 'active';
+
+GET PRODUCT WITH CART/WISHLIST STATUS (NEW - v2.1):
+----------------------------------------------------
+SELECT 
+  p.*,
+  up.username as seller_username,
+  up.avatar_url as seller_avatar,
+  EXISTS(
+    SELECT 1 FROM cart_items ci
+    WHERE ci.user_id = 'CURRENT_USER_ID'
+      AND ci.product_id = p.id
+  ) as is_in_cart,
+  EXISTS(
+    SELECT 1 FROM wishlist_items wi
+    WHERE wi.user_id = 'CURRENT_USER_ID'
+      AND wi.product_id = p.id
+  ) as is_wishlisted,
+  (p.demo_url IS NOT NULL OR p.preview_urls IS NOT NULL) as has_preview
+FROM products p
+JOIN user_profiles up ON p.seller_id = up.user_id
+WHERE p.id = 'PRODUCT_ID_HERE'
+  AND p.status = 'active';
+
+GET USER'S CART WITH FULL PRODUCT DETAILS (NEW - v2.1):
+--------------------------------------------------------
+SELECT 
+  ci.id as cart_item_id,
+  ci.added_price,
+  ci.created_at as added_at,
+  p.id as product_id,
+  p.title,
+  p.slug,
+  p.price as current_price,
+  p.thumbnail_url,
+  p.file_size_mb,
+  up.username as seller_username,
+  up.avatar_url as seller_avatar
+FROM cart_items ci
+JOIN products p ON ci.product_id = p.id
+JOIN user_profiles up ON p.seller_id = up.user_id
+WHERE ci.user_id = 'CURRENT_USER_ID'
+  AND p.status = 'active'
+ORDER BY ci.created_at DESC;
+
+ADD PRODUCT TO CART (NEW - v2.1):
+----------------------------------
+INSERT INTO cart_items (user_id, product_id, added_price)
+VALUES ('USER_ID', 'PRODUCT_ID', CURRENT_PRICE)
+ON CONFLICT (user_id, product_id) DO NOTHING
+RETURNING id;
+
+TOGGLE WISHLIST (NEW - v2.1):
+------------------------------
+WITH deleted AS (
+  DELETE FROM wishlist_items
+  WHERE user_id = 'USER_ID' AND product_id = 'PRODUCT_ID'
+  RETURNING id
+)
+INSERT INTO wishlist_items (user_id, product_id)
+SELECT 'USER_ID', 'PRODUCT_ID'
+WHERE NOT EXISTS (SELECT 1 FROM deleted)
+RETURNING id, (SELECT COUNT(*) FROM deleted) as was_deleted;
+-- If id IS NOT NULL and was_deleted = 0: Item was added
+-- If id IS NULL and was_deleted = 1: Item was removed
+
+GET CART/WISHLIST COUNTS (NEW - v2.1):
+---------------------------------------
+SELECT 
+  (SELECT COUNT(*) FROM cart_items WHERE user_id = 'USER_ID') as cart_count,
+  (SELECT COUNT(*) FROM wishlist_items WHERE user_id = 'USER_ID') as wishlist_count;
+
+================================================================================
+9. SEED DATA SUMMARY
+================================================================================
+
+USER ROLE CATEGORIES (8):
+--------------------------
+1. Musician
+2. Producer/Engineer
+3. Vocalist
+4. Visual Artist
+5. Educator/Instructor
+6. Content Creator
+7. Industry Professional
+8. Music Tools Creator
+
+USER ROLE SKILLS (100+):
+-------------------------
+Musician (32 skills):
+  Strings: Guitar (4 types), Bass, Violin, Cello, etc.
+  Keys: Piano, Keyboard, Synthesizer, Organ, etc.
+  Percussion: Drums, Electronic Drums, Hand Percussion
+  Brass: Trumpet, Trombone, Saxophone, etc.
+  Woodwinds: Flute, Clarinet, Oboe, etc.
+  Electronic: DJ/Turntables, Launchpad, etc.
+
+Producer/Engineer (23 skills):
+  Production: Music Producer, Beat Maker, Executive Producer, etc.
+  Recording: Recording Engineer, Studio Engineer, etc.
+  Mixing: Mixing Engineer, Stem Mixing, etc.
+  Mastering: Mastering Engineer, Vinyl Mastering, etc.
+  Post: Sound Designer, Foley Artist, ADR Engineer, etc.
+
+Vocalist (10 skills):
+  Lead Vocalist, Background Vocalist, Rapper/MC, etc.
+
+Visual Artist (17 skills):
+  Design: Album Cover, Logo, Brand Designer, etc.
+  Video: Director, Editor, VFX, Animation, etc.
+  Photo: Photographer, Retoucher
+  Web: Web Designer, UI/UX Designer, etc.
+
+Educator (7 skills):
+  Theory Teacher, Instrument Instructor, Vocal Coach, etc.
+
+Content Creator (8 skills):
+  YouTuber, Podcaster, Streamer, Influencer, etc.
+
+Industry Professional (11 skills):
+  A&R, Manager, Booking Agent, Lawyer, etc.
+
+Music Tools Creator (8 skills):
+  Plugin Developer, Sample Pack Creator, etc.
+
+GENRES (50+):
+-------------
+Main Genres (20):
+  Hip-Hop, R&B, Pop, Rock, Electronic, Jazz, Blues, Country,
+  Latin, Reggae, Metal, Punk, Folk, Classical, Gospel, Soul,
+  Funk, Disco, Indie, Alternative
+
+Sub-genres (30+):
+  Hip-Hop: Trap, Drill, Boom Bap, Cloud Rap, Conscious
+  Electronic: House, Techno, Dubstep, Drum & Bass, Trance, EDM, Future Bass, Lo-Fi
+  Rock: Hard Rock, Progressive, Psychedelic
+  Pop: K-Pop, Synth Pop, Electropop
+  Standalone: Afrobeat, Amapiano, Dancehall, Grime, Ambient, etc.
+
+MARKETPLACE CATEGORIES (8):
+----------------------------
+1. Beats & Instrumentals
+2. Sample Packs
+3. Presets & Sounds
+4. Plugins & Software
+5. Templates & Projects
+6. Courses & Tutorials
+7. Services
+8. Other
+
+================================================================================
+STORAGE BUCKETS NEEDED IN SUPABASE
+================================================================================
+
+CREATE THESE MANUALLY IN SUPABASE DASHBOARD:
+
+1. product-images (PUBLIC)
+   - Product thumbnails and preview images
+   
+2. product-files (PRIVATE - authenticated only)
+   - Actual product files for download
+   
+3. product-demos (PUBLIC)
+   - Demo/preview audio files
+   
+4. service-images (PUBLIC)
+   - Service thumbnails
+   
+5. service-portfolios (PUBLIC)
+   - Portfolio work samples
+   
+6. post-media (PUBLIC)
+   - Images/videos in social posts
+   
+7. user-avatars (PUBLIC)
+   - Profile pictures
+   
+8. user-banners (PUBLIC)
+   - Profile banner images
+
+BUCKET POLICIES:
+----------------
+- Public buckets: Anyone can read
+- Private buckets: Only authenticated users can read
+- All buckets: Only file owner can upload/delete
+
+================================================================================
+END OF DATABASE STRUCTURE REFERENCE
+================================================================================
+
+For questions or updates, refer to:
+- producers_avenue_schema.sql (full schema)
+- producers_avenue_seed_data.sql (seed data)
+- DATABASE_STRUCTURE.md (markdown version)
+
+Last Updated: November 12, 2025
+Version: 2.0
+Status: âœ… Production Ready
+================================================================================
+CART & WISHLIST TABLES (NEW - Version 2.1)
+================================================================================
+Added: November 15, 2025
+
+CART_ITEMS:
+-----------
+Purpose: Shopping cart items (temporary storage before purchase)
+Relationships:
+  - user_id → auth.users(id) ON DELETE CASCADE
+  - product_id → products(id) ON DELETE CASCADE
+Features:
+  - UNIQUE(user_id, product_id) - prevents duplicates
+  - added_price snapshot for price change tracking
+  - RLS enabled with 4 policies (view, insert, update, delete own items)
+
+WISHLIST_ITEMS:
+---------------
+Purpose: User's saved/favorited products  
+Relationships:
+  - user_id → auth.users(id) ON DELETE CASCADE
+  - product_id → products(id) ON DELETE CASCADE
+Features:
+  - UNIQUE(user_id, product_id) - prevents duplicates
+  - Optional notes field for user annotations
+  - RLS enabled with 4 policies (view, insert, update, delete own items)
+
+COMMON QUERIES:
+---------------
+1. Check if product in cart: SELECT EXISTS(SELECT 1 FROM cart_items WHERE user_id=$1 AND product_id=$2)
+2. Check if wishlisted: SELECT EXISTS(SELECT 1 FROM wishlist_items WHERE user_id=$1 AND product_id=$2)
+3. Get cart count: SELECT COUNT(*) FROM cart_items WHERE user_id=$1
+4. Get wishlist count: SELECT COUNT(*) FROM wishlist_items WHERE user_id=$1
+5. Toggle wishlist: Use CTE with DELETE and INSERT (see cart_wishlist_setup.sql)
+
+See /outputs/cart_wishlist_setup.sql for complete SQL and all queries.
+
+================================================================================
+END OF DATABASE STRUCTURE REFERENCE
+================================================================================
+
+CHANGELOG - Version 2.1 (November 15, 2025):
+---------------------------------------------
+âœ… Added cart_items table for shopping cart functionality
+âœ… Added wishlist_items table for user favorites
+âœ… Updated table count: 35 → 37 tables
+âœ… Added 8 RLS policies (4 for cart, 4 for wishlist)
+âœ… Added indexes for cart and wishlist tables
+âœ… Added sample queries for cart/wishlist operations
+âœ… Updated relationships diagram
+âœ… Added triggers for auto-timestamp updates
+
+For questions or updates, refer to:
+- producers_avenue_schema.sql (full schema)
+- producers_avenue_seed_data.sql (seed data)
+- cart_wishlist_setup.sql (NEW - cart & wishlist tables)
+- DATABASE_STRUCTURE.md (markdown version)
+
+Last Updated: November 15, 2025
+Version: 2.1
+Status: âœ… Production Ready with Cart & Wishlist

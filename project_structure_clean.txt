@@ -1,0 +1,390 @@
+Folder PATH listing
+Volume serial number is 00000030 4AAC:7DA3
+D:\PRODUCERS-AVENUE-V2\SRC
+|   layout.tsx
+|   middleware.ts
+|   
++---app
+|   |   fonts.ts
+|   |   globals.css
+|   |   layout.tsx
+|   |   page.tsx
+|   |   
+|   +---(auth)
+|   |   +---callback
+|   |   |       route.tsx
+|   |   |       
+|   |   +---forgot-password
+|   |   |       page.tsx
+|   |   |       
+|   |   +---login
+|   |   |       page.tsx
+|   |   |       
+|   |   +---register
+|   |   |       page.tsx
+|   |   |       
+|   |   +---reset-password
+|   |   |       page.tsx
+|   |   |       
+|   |   \---verify-email
+|   |           page.tsx
+|   |           
+|   +---(protected)
+|   |   |   layout.tsx
+|   |   |   
+|   |   +---cart
+|   |   |       page.tsx
+|   |   |       
+|   |   +---checkout
+|   |   |   \---success
+|   |   |           page.tsx
+|   |   |           
+|   |   +---create
+|   |   |   +---product
+|   |   |   |       page.tsx
+|   |   |   |       
+|   |   |   +---service
+|   |   |   |       page.tsx
+|   |   |   |       
+|   |   |   \---webinar
+|   |   |           page.tsx
+|   |   |           
+|   |   +---dashboard
+|   |   |       page.tsx
+|   |   |       
+|   |   +---feed
+|   |   |       page.tsx
+|   |   |       
+|   |   +---member
+|   |   |   \---[username]
+|   |   |           page.tsx
+|   |   |           
+|   |   +---messages
+|   |   |       page.tsx
+|   |   |       
+|   |   +---my-listings
+|   |   |       page.tsx
+|   |   |       
+|   |   +---notifications
+|   |   |       page.tsx
+|   |   |       
+|   |   +---orders
+|   |   |   |   page.tsx
+|   |   |   |   
+|   |   |   \---[id]
+|   |   |           page.tsx
+|   |   |           
+|   |   +---products
+|   |   |   +---new
+|   |   |   |       page.tsx
+|   |   |   |       
+|   |   |   \---[id]
+|   |   |       +---discount-codes
+|   |   |       |       page.tsx
+|   |   |       |       
+|   |   |       \---edit
+|   |   |               page.tsx
+|   |   |               
+|   |   +---profile
+|   |   |   |   page.tsx
+|   |   |   |   
+|   |   |   \---[username]
+|   |   |           page.tsx
+|   |   |           
+|   |   +---services
+|   |   |   +---new
+|   |   |   |       page.tsx
+|   |   |   |       
+|   |   |   \---[id]
+|   |   |       \---edit
+|   |   |               page.tsx
+|   |   |               
+|   |   +---settings
+|   |   |   |   page.tsx
+|   |   |   |   
+|   |   |   \---profile
+|   |   |           page.tsx
+|   |   |           
+|   |   +---store
+|   |   |   +---settings
+|   |   |   |       page.tsx
+|   |   |   |       
+|   |   |   \---[username]
+|   |   |           page.tsx
+|   |   |           
+|   |   +---wallet
+|   |   |   |   page.tsx
+|   |   |   |   
+|   |   |   +---payout
+|   |   |   |       page.tsx
+|   |   |   |       
+|   |   |   \---transactions
+|   |   |           page.tsx
+|   |   |           
+|   |   +---wishlist
+|   |   |       page.tsx
+|   |   |       
+|   |   \---[username]
+|   |       \---edit
+|   |               page.tsx
+|   |               
+|   +---about
+|   |       page.tsx
+|   |       
+|   +---admin
+|   +---api
+|   |   +---admin
+|   |   +---auth
+|   |   +---contact
+|   |   |       route.tsx
+|   |   |       
+|   |   +---messages
+|   |   |       route.tsx
+|   |   |       
+|   |   +---newsletter
+|   |   |       route.ts
+|   |   |       
+|   |   +---notifications
+|   |   |       route.tsx
+|   |   |       
+|   |   +---orders
+|   |   |       route.ts
+|   |   |       
+|   |   +---paypal
+|   |   |   +---capture
+|   |   |   |       route.ts
+|   |   |   |       
+|   |   |   +---checkout
+|   |   |   |       route.ts
+|   |   |   |       
+|   |   |   \---webhook
+|   |   |           route.ts
+|   |   |           
+|   |   +---posts
+|   |   |       route.tsx
+|   |   |       
+|   |   +---products
+|   |   |   \---download
+|   |   |       \---[productId]
+|   |   |               route.ts
+|   |   |               
+|   |   +---scan-file
+|   |   |       route.ts
+|   |   |       
+|   |   +---services
+|   |   |       route.ts
+|   |   |       
+|   |   +---stripe
+|   |   |   +---checkout
+|   |   |   |       route.ts
+|   |   |   |       
+|   |   |   \---webhook
+|   |   |           route.ts
+|   |   |           
+|   |   +---users
+|   |   |       route.ts
+|   |   |       
+|   |   \---wallet
+|   |           route.ts
+|   |           
+|   +---collab-matcher
+|   |   \---matches
+|   +---community
+|   |       page.tsx
+|   |       
+|   +---contact
+|   |       page.tsx
+|   |       
+|   +---groups
+|   |   +---create
+|   |   \---[id]
+|   +---help
+|   |       page.tsx
+|   |       
+|   +---marketplace
+|   |   |   page.tsx
+|   |   |   
+|   |   +---products
+|   |   |   |   page.tsx
+|   |   |   |   
+|   |   |   +---create
+|   |   |   \---[id]
+|   |   |           page.tsx
+|   |   |           ProductPageClient.tsx
+|   |   |           
+|   |   +---services
+|   |   |   |   page.tsx
+|   |   |   |   
+|   |   |   +---create
+|   |   |   \---[id]
+|   |   |           page.tsx
+|   |   |           
+|   |   \---webinars
+|   |           page.tsx
+|   |           
+|   +---orders
+|   |   \---[id]
+|   +---post
+|   |   \---[id]
+|   |           page.tsx
+|   |           
+|   +---pricing
+|   |       page.tsx
+|   |       
+|   +---privacy
+|   |       page.tsx
+|   |       
+|   +---search
+|   |       page.tsx
+|   |       
+|   +---terms
+|   |       page.tsx
+|   |       
+|   +---wallet
+|   |   +---payout
+|   |   \---transactions
+|   \---[username]
+|       \---edit
++---components
+|   +---admin
+|   +---auth
+|   +---common
+|   |       AddNewItemModal.tsx
+|   |       Carousel.tsx
+|   |       DeleteConfirmModal.tsx
+|   |       NotificationBell.tsx
+|   |       ReportModal.tsx
+|   |       ReviewSystem.tsx
+|   |       SearchBar.tsx
+|   |       SearchModal.tsx
+|   |       ThemeToggle.tsx
+|   |       WishlistButton.tsx
+|   |       
+|   +---community
+|   |       MemberCard.tsx
+|   |       
+|   +---feed
+|   |       CreatePostModal.tsx
+|   |       PostCard.tsx
+|   |       
+|   +---groups
+|   +---home
+|   |       AboutSection.tsx
+|   |       FeatureCards.tsx
+|   |       Hero.tsx
+|   |       
+|   +---layout
+|   |       ClientLayout.tsx
+|   |       Footer.tsx
+|   |       Header.tsx
+|   |       
+|   +---marketplace
+|   |   |   FilterSidebar.tsx
+|   |   |   
+|   |   +---filters
+|   |   |       MarketplaceFilters.tsx
+|   |   |       
+|   |   +---products
+|   |   |       AudioPlayerModal.tsx
+|   |   |       ProductCard.tsx
+|   |   |       
+|   |   \---services
+|   |           ServiceCard.tsx
+|   |           
+|   +---messaging
+|   |       ConversationList.tsx
+|   |       MessageThread.tsx
+|   |       
+|   +---notifications
+|   +---orders
+|   +---profile
+|   +---search
+|   +---ui
+|   \---wallet
++---contexts
+|       CartContext.tsx
+|       WishlistContext.tsx
+|       
++---hooks
++---lib
+|   |   bunny.ts
+|   |   constants.ts
+|   |   
+|   +---contexts
+|   |       ThemeContext.tsx
+|   |       
+|   +---hooks
+|   +---mockData
+|   |       mockProducts.ts
+|   |       
+|   +---providers
+|   |       theme-provider.tsx
+|   |       
+|   +---stripe
+|   +---supabase
+|   |       cart.ts
+|   |       client.ts
+|   |       server.ts
+|   |       wishlist.ts
+|   |       
+|   +---utils
+|   |       emailService.ts
+|   |       emailTemplates.ts
+|   |       fileUpload.ts
+|   |       validation.ts
+|   |       
+|   \---validations
++---styles
+\---types
+        database.types.ts
+        
+Folder PATH listing
+Volume serial number is 0000006D 4AAC:7DA3
+D:\PRODUCERS-AVENUE-V2\PUBLIC
++---audio
++---fonts
+|       BebasNeue-Regular.woff2
+|       Migha-Condensed.woff2
+|       Montserrat-Italic-VariableFont.woff2
+|       Montserrat-VariableFont.woff2
+|       Oswald-VariableFont_wght.woff2
+|       SpaceMono-Bold.woff2
+|       SpaceMono-BoldItalic.woff2
+|       SpaceMono-Italic.woff2
+|       SpaceMono-Regular.woff2
+|       
++---icons
++---images
+|       community-card.jpg
+|       marketplace-card.jpg
+|       tools-card.jpg
+|       
+\---videos
+        hero-1-mobile.mp4
+        hero-1.mp4
+        hero-10.mp4
+        hero-11.mp4
+        hero-12.mp4
+        hero-13.mp4
+        hero-14.mp4
+        hero-15.mp4
+        hero-16.mp4
+        hero-17.mp4
+        hero-2-mobile.mp4
+        hero-2.mp4
+        hero-3-mobile.mp4
+        hero-3.mp4
+        hero-4-mobile.mp4
+        hero-4.mp4
+        hero-5-mobile.mp4
+        hero-5.mp4
+        hero-6.mp4
+        hero-7.mp4
+        hero-8.mp4
+        hero-9.mp4
+        
+Folder PATH listing
+Volume serial number is 00000040 4AAC:7DA3
+D:\PRODUCERS-AVENUE-V2\SCRIPTS
+No subfolders exist 
+

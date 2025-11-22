@@ -9,6 +9,8 @@ import { useParams, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { PRODUCT_CATEGORIES } from '@/lib/constants'
 import { validateProductForm } from '@/lib/utils/validation'
+import Link from 'next/link'
+import { Percent } from 'lucide-react'
 
 interface ProductFormData {
   title: string
@@ -50,51 +52,52 @@ export default function EditProductPage() {
     loadProduct()
   }, [productId])
 
-  const loadProduct = async () => {
+  async function loadProduct() {
     try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        router.push('/login')
-        return
-      }
-
       const { data: product, error } = await supabase
         .from('products')
         .select('*')
-        .eq('id', productId)
+        .eq('product_id', productId)
         .single()
 
       if (error) throw error
 
-      // Check if user owns this product
-      if (product.seller_id !== user.id) {
-        router.push('/my-listings')
-        return
-      }
-
-      setFormData({
-        title: product.title,
-        description: product.description,
-        price: product.price,
-        category: product.category,
-        tags: product.tags?.join(', ') || '',
-        image_url: product.image_url,
-        file_url: product.file_url,
-        demo_url: product.demo_url,
-      })
-
-      if (product.image_url) {
-        setImagePreview(product.image_url)
+      if (product) {
+        setFormData({
+          title: product.title || '',
+          description: product.description || '',
+          price: product.price || 0,
+          category: product.category || '',
+          tags: Array.isArray(product.tags) ? product.tags.join(', ') : '',
+          image_url: product.image_url,
+          file_url: product.file_url,
+          demo_url: product.demo_url,
+        })
+        if (product.image_url) {
+          setImagePreview(product.image_url)
+        }
       }
     } catch (error) {
       console.error('Error loading product:', error)
-      router.push('/my-listings')
+      setErrors({ submit: 'Failed to load product' })
     } finally {
       setLoading(false)
     }
   }
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  function handleInputChange(field: keyof ProductFormData, value: any) {
+    setFormData((prev) => ({ ...prev, [field]: value }))
+    // Clear error for this field when user starts typing
+    if (errors[field]) {
+      setErrors((prev) => {
+        const newErrors = { ...prev }
+        delete newErrors[field]
+        return newErrors
+      })
+    }
+  }
+
+  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (file) {
       setImageFile(file)
@@ -106,126 +109,79 @@ export default function EditProductPage() {
     }
   }
 
-  const handleMainFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  function handleMainFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (file) {
       setMainFile(file)
     }
   }
 
-  const handleDemoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  function handleDemoFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (file) {
       setDemoFile(file)
     }
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  async function uploadFile(file: File, bucket: string, path: string): Promise<string> {
+    const { data, error } = await supabase.storage
+      .from(bucket)
+      .upload(path, file, {
+        cacheControl: '3600',
+        upsert: true,
+      })
+
+    if (error) throw error
+
+    const { data: urlData } = supabase.storage
+      .from(bucket)
+      .getPublicUrl(path)
+
+    return urlData.publicUrl
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setSubmitting(true)
     setErrors({})
 
     try {
       // Validate form
-      const validation = validateProductForm({
-        title: formData.title,
-        description: formData.description,
-        price: formData.price.toString(),
-        category: formData.category,
-      })
-
+      const validation = validateProductForm(formData)
       if (!validation.isValid) {
         setErrors(validation.errors)
-        setSubmitting(false)
         return
       }
 
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) throw new Error('Not authenticated')
+      if (!user) {
+        setErrors({ submit: 'You must be logged in to edit products' })
+        return
+      }
 
       let imageUrl = formData.image_url
-      let fileUrl = formData.file_url
+      let mainFileUrl = formData.file_url
       let demoUrl = formData.demo_url
 
-      // Upload new image if provided
+      // Upload new image if selected
       if (imageFile) {
-        const imageExt = imageFile.name.split('.').pop()
-        const imagePath = `${user.id}/${productId}-${Date.now()}.${imageExt}`
-        
-        const { error: uploadError } = await supabase.storage
-          .from('product-images')
-          .upload(imagePath, imageFile)
-
-        if (uploadError) throw uploadError
-
-        const { data: { publicUrl } } = supabase.storage
-          .from('product-images')
-          .getPublicUrl(imagePath)
-
-        imageUrl = publicUrl
-
-        // Delete old image if exists
-        if (formData.image_url) {
-          const oldPath = formData.image_url.split('/product-images/')[1]
-          if (oldPath) {
-            await supabase.storage.from('product-images').remove([oldPath])
-          }
-        }
+        const imagePath = `products/${user.id}/${Date.now()}_${imageFile.name}`
+        imageUrl = await uploadFile(imageFile, 'product-images', imagePath)
       }
 
-      // Upload new main file if provided
+      // Upload new main file if selected
       if (mainFile) {
-        const fileExt = mainFile.name.split('.').pop()
-        const filePath = `${user.id}/${productId}-${Date.now()}.${fileExt}`
-        
-        const { error: uploadError } = await supabase.storage
-          .from('product-files')
-          .upload(filePath, mainFile)
-
-        if (uploadError) throw uploadError
-
-        const { data: { publicUrl } } = supabase.storage
-          .from('product-files')
-          .getPublicUrl(filePath)
-
-        fileUrl = publicUrl
-
-        // Delete old file if exists
-        if (formData.file_url) {
-          const oldPath = formData.file_url.split('/product-files/')[1]
-          if (oldPath) {
-            await supabase.storage.from('product-files').remove([oldPath])
-          }
-        }
+        const mainFilePath = `products/${user.id}/${Date.now()}_${mainFile.name}`
+        mainFileUrl = await uploadFile(mainFile, 'product-files', mainFilePath)
       }
 
-      // Upload new demo file if provided
+      // Upload new demo file if selected
       if (demoFile) {
-        const demoExt = demoFile.name.split('.').pop()
-        const demoPath = `${user.id}/${productId}-demo-${Date.now()}.${demoExt}`
-        
-        const { error: uploadError } = await supabase.storage
-          .from('product-demos')
-          .upload(demoPath, demoFile)
-
-        if (uploadError) throw uploadError
-
-        const { data: { publicUrl } } = supabase.storage
-          .from('product-demos')
-          .getPublicUrl(demoPath)
-
-        demoUrl = publicUrl
-
-        // Delete old demo if exists
-        if (formData.demo_url) {
-          const oldPath = formData.demo_url.split('/product-demos/')[1]
-          if (oldPath) {
-            await supabase.storage.from('product-demos').remove([oldPath])
-          }
-        }
+        const demoPath = `products/${user.id}/${Date.now()}_${demoFile.name}`
+        demoUrl = await uploadFile(demoFile, 'product-demos', demoPath)
       }
 
-      // Update product
+      // Update product in database
       const { error: updateError } = await supabase
         .from('products')
         .update({
@@ -235,18 +191,19 @@ export default function EditProductPage() {
           category: formData.category,
           tags: formData.tags.split(',').map(tag => tag.trim()).filter(Boolean),
           image_url: imageUrl,
-          file_url: fileUrl,
+          file_url: mainFileUrl,
           demo_url: demoUrl,
           updated_at: new Date().toISOString(),
         })
-        .eq('id', productId)
+        .eq('product_id', productId)
 
       if (updateError) throw updateError
 
+      // Redirect back to product page or my listings
       router.push('/my-listings')
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error updating product:', error)
-      setErrors({ submit: 'Failed to update product. Please try again.' })
+      setErrors({ submit: error.message || 'Failed to update product' })
     } finally {
       setSubmitting(false)
     }
@@ -261,132 +218,127 @@ export default function EditProductPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-6">
-          <button
-            onClick={() => router.back()}
-            className="flex items-center text-gray-600 hover:text-gray-900"
-          >
-            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back
-          </button>
-        </div>
-
-        <div className="bg-white rounded-lg shadow-sm p-6 md:p-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-6">Edit Product</h1>
+    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto">
+        <div className="bg-white rounded-lg shadow-md p-6 md:p-8">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Edit Product
+            </h1>
+            <p className="text-gray-600">
+              Update your product details and files
+            </p>
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Title */}
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Product Title *
               </label>
               <input
                 type="text"
-                id="title"
                 value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#FF6B2C] focus:border-transparent ${
-                  errors.title ? 'border-red-500' : 'border-gray-300'
-                }`}
-                placeholder="e.g., Professional Website Template"
+                onChange={(e) => handleInputChange('title', e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FF6B2C] focus:border-transparent"
+                placeholder="e.g., Trap Beat Pack Vol. 1"
               />
-              {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title}</p>}
+              {errors.title && (
+                <p className="mt-1 text-sm text-red-600">{errors.title}</p>
+              )}
             </div>
 
             {/* Description */}
             <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Description *
               </label>
               <textarea
-                id="description"
                 value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                onChange={(e) => handleInputChange('description', e.target.value)}
                 rows={6}
-                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#FF6B2C] focus:border-transparent ${
-                  errors.description ? 'border-red-500' : 'border-gray-300'
-                }`}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FF6B2C] focus:border-transparent resize-none"
                 placeholder="Describe your product in detail..."
               />
-              {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description}</p>}
+              {errors.description && (
+                <p className="mt-1 text-sm text-red-600">{errors.description}</p>
+              )}
             </div>
 
             {/* Price */}
             <div>
-              <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Price (USD) *
               </label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                  $
+                </span>
                 <input
                   type="number"
-                  id="price"
-                  value={formData.price}
-                  onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
                   min="0"
                   step="0.01"
-                  className={`w-full pl-8 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#FF6B2C] focus:border-transparent ${
-                    errors.price ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  value={formData.price}
+                  onChange={(e) => handleInputChange('price', parseFloat(e.target.value))}
+                  className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FF6B2C] focus:border-transparent"
                   placeholder="0.00"
                 />
               </div>
-              {errors.price && <p className="mt-1 text-sm text-red-600">{errors.price}</p>}
+              {errors.price && (
+                <p className="mt-1 text-sm text-red-600">{errors.price}</p>
+              )}
             </div>
 
             {/* Category */}
             <div>
-              <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Category *
               </label>
               <select
-                id="category"
                 value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#FF6B2C] focus:border-transparent ${
-                  errors.category ? 'border-red-500' : 'border-gray-300'
-                }`}
+                onChange={(e) => handleInputChange('category', e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FF6B2C] focus:border-transparent"
               >
                 <option value="">Select a category</option>
-                {PRODUCT_CATEGORIES.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
+                {PRODUCT_CATEGORIES.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
                   </option>
                 ))}
               </select>
-              {errors.category && <p className="mt-1 text-sm text-red-600">{errors.category}</p>}
+              {errors.category && (
+                <p className="mt-1 text-sm text-red-600">{errors.category}</p>
+              )}
             </div>
 
             {/* Tags */}
             <div>
-              <label htmlFor="tags" className="block text-sm font-medium text-gray-700 mb-2">
-                Tags (comma-separated)
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Tags (comma separated)
               </label>
               <input
                 type="text"
-                id="tags"
                 value={formData.tags}
-                onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+                onChange={(e) => handleInputChange('tags', e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FF6B2C] focus:border-transparent"
-                placeholder="e.g., responsive, modern, customizable"
+                placeholder="e.g., trap, hip-hop, dark, hard"
               />
+              <p className="mt-1 text-sm text-gray-500">
+                Separate tags with commas
+              </p>
             </div>
 
             {/* Product Image */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Product Image {imagePreview && '(Current image shown)'}
+                Product Image {formData.image_url && '(Current image will be replaced)'}
               </label>
               {imagePreview && (
-                <div className="mb-3">
+                <div className="mb-4">
                   <img
                     src={imagePreview}
-                    alt="Preview"
-                    className="w-full max-w-md h-48 object-cover rounded-lg"
+                    alt="Product preview"
+                    className="w-full max-w-xs rounded-lg"
                   />
                 </div>
               )}
@@ -396,7 +348,9 @@ export default function EditProductPage() {
                 onChange={handleImageChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FF6B2C] focus:border-transparent"
               />
-              <p className="mt-1 text-sm text-gray-500">Upload a new image to replace the current one</p>
+              <p className="mt-1 text-sm text-gray-500">
+                Upload a new image to replace the current one
+              </p>
             </div>
 
             {/* Main Product File */}
@@ -436,8 +390,8 @@ export default function EditProductPage() {
               </div>
             )}
 
-            {/* Submit Button */}
-            <div className="flex gap-4">
+            {/* Submit Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4">
               <button
                 type="submit"
                 disabled={submitting}
@@ -445,6 +399,15 @@ export default function EditProductPage() {
               >
                 {submitting ? 'Updating...' : 'Update Product'}
               </button>
+              
+              <Link
+                href={`/products/${productId}/discount-codes`}
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-[#009ae9] text-[#009ae9] rounded-lg hover:bg-[#009ae9] hover:text-white transition-colors font-medium"
+              >
+                <Percent size={18} />
+                Manage Discounts
+              </Link>
+              
               <button
                 type="button"
                 onClick={() => router.back()}

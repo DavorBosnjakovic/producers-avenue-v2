@@ -44,11 +44,10 @@ export default function ThemeToggle({ variant = 'icon' }: ThemeToggleProps) {
   return (
     <button
       onClick={toggleTheme}
-      className={`p-2 rounded-lg transition-colors ${
-        theme === 'dark'
-          ? 'hover:bg-[#2a2a2a] text-[#f5f5f5]'
-          : 'hover:bg-[#f5f5f5] text-[#1a1a1a]'
-      }`}
+      className="p-2 rounded-lg transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+      style={{
+        color: theme === 'dark' ? '#b3b3b3' : '#666666'
+      }}
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
     >
       {theme === 'light' ? (

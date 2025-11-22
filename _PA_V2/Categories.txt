@@ -1,0 +1,40 @@
+Products:
+
+-loops
+-one shots
+-kits
+-vocal packs
+-plugins
+-synth/plugin presets
+-ghost production
+-stock music
+-cover artwork
+-visual templates
+-courses
+-e-books
+-DAW templates
+-MIDI packs
+-merch design templates
+-videoFX packs
+-custom (admin approval needed)
+
+
+Services: 
+
+-Hire a Producer
+-Hire a Musician
+-Hire a Vocalist
+-Hire a Mix/Mastering engineer
+-Hire a Visual designer
+-Hire a Video Producer
+-Hire a Songwriter/Lyricist
+-Hire a Sound Designer
+-Hire a DJ
+-Hire a Film Scorer/Composer
+-Hire a Creative Director
+-Hire a Marketing Specialist
+-Hire a Photographer
+-Custom (admin approval needed)
+
+
+Webinars

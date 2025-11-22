@@ -1,0 +1,1033 @@
+# PRODUCERS AVENUE V2 - STYLE GUIDE & COMPONENT REFERENCE
+**Version:** 1.1  
+**Date:** November 18, 2025  
+**Status:** ✅ Active Reference - UPDATED
+
+---
+
+## 📋 TABLE OF CONTENTS
+
+1. [Color System](#color-system)
+2. [Typography](#typography)
+3. [Buttons](#buttons)
+4. [Layout & Spacing](#layout--spacing)
+5. [Forms](#forms)
+6. [Cards](#cards)
+7. [Animations](#animations)
+8. [Component Patterns](#component-patterns)
+9. [Common Mistakes](#common-mistakes)
+10. [Quick Reference](#quick-reference)
+
+---
+
+## 🎨 COLOR SYSTEM
+
+### Primary Brand Color
+```
+Primary Blue: #009ae9
+Hover: #0088d1
+Active: #0076b9
+```
+
+### Usage:
+- **Primary buttons** (CTA and regular actions)
+- **Links** (hover state)
+- **Active states** (tabs, navigation)
+- **Icons** (checkmarks, highlights)
+- **Rotating word** in hero heading
+
+### Semantic Colors
+```
+Success: #10b981
+Warning: #f59e0b
+Error: #ef4444
+Info: #3b82f6
+```
+
+### Theme Colors (Light/Dark Mode) - UPDATED v1.1
+
+**IMPORTANT: Page Backgrounds vs Card Backgrounds are DIFFERENT!**
+
+```css
+/* Light Mode */
+Page Background: #fafafa (very light gray)
+Card Background: rgba(255, 255, 255, 0.6) (60% white with backdrop blur)
+Text Primary: #1a1a1a
+Text Secondary: #666666
+Border: #e0e0e0
+
+/* Dark Mode */
+Page Background: #0a0a0a (very dark - almost black)
+Header/Body Background: #1a1a1a (darker gray - for header, feed cards)
+Card Background: rgba(26, 26, 26, 0.6) (60% dark gray with backdrop blur)
+Text Primary: #f5f5f5
+Text Secondary: #b3b3b3
+Border: #2a2a2a
+```
+
+### When to Use Which Background:
+
+**Page/Main Container:**
+```tsx
+// For main page backgrounds (marketplace, cart, wishlist, etc.)
+style={{ backgroundColor: theme === 'dark' ? '#0a0a0a' : '#fafafa' }}
+```
+
+**Regular Cards (Products, Cart Items, Order Summary):**
+```tsx
+// Semi-transparent with blur for glassy effect
+style={{ 
+  backgroundColor: theme === 'dark' 
+    ? 'rgba(26, 26, 26, 0.6)' 
+    : 'rgba(255, 255, 255, 0.6)',
+  backdropFilter: 'blur(12px)',
+  borderColor: theme === 'dark' ? '#2a2a2a' : '#e0e0e0',
+}}
+```
+
+**Feed Cards (Special - with blue border and glow):**
+```tsx
+// These match header/body color #1a1a1a
+<div className="bg-white dark:bg-[#1a1a1a] rounded-xl shadow-[0_0_8px_0_rgba(0,154,233,0.5)] border border-[#009ae9]">
+```
+
+**Solid Cards (No transparency):**
+```tsx
+// For sidebars, filters, etc.
+style={{ backgroundColor: theme === 'dark' ? '#0a0a0a' : '#ffffff' }}
+```
+
+### How to Use Theme Colors:
+```tsx
+import { useTheme } from '@/lib/contexts/ThemeContext'
+
+const { theme } = useTheme()
+
+// For page backgrounds
+style={{
+  backgroundColor: theme === 'dark' ? '#0a0a0a' : '#fafafa',
+}}
+
+// For regular cards (with glassy effect)
+style={{
+  backgroundColor: theme === 'dark' 
+    ? 'rgba(26, 26, 26, 0.6)' 
+    : 'rgba(255, 255, 255, 0.6)',
+  backdropFilter: 'blur(12px)',
+}}
+
+// For text
+style={{
+  color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a',
+}}
+```
+
+---
+
+## 📝 TYPOGRAPHY
+
+### Font Families
+
+**Heading Font (Bebas Neue):**
+```css
+font-family: var(--font-heading)
+```
+- All headings (h1-h6)
+- "LEARN MORE" button text (uppercase)
+- Section titles
+- Hero animated word
+
+**Body Font (Montserrat):**
+```css
+font-family: var(--font-body)
+```
+- All body text
+- Paragraphs
+- Button text (Get Started, Join Community)
+- Form inputs
+- Navigation items
+
+**Usage:**
+```tsx
+// Heading
+<h1 style={{ fontFamily: 'var(--font-heading)' }}>
+  Where Music Creators
+</h1>
+
+// Body text
+<p style={{ fontFamily: 'var(--font-body)' }}>
+  Join the ultimate platform...
+</p>
+
+// OR use Tailwind classes
+<h1 className="font-heading">Heading</h1>
+<p className="font-sans">Body text</p>
+```
+
+### Font Sizes
+```
+Hero Heading (Desktop): 5rem (80px)
+Hero Animated Word: 6rem (96px)
+Hero Heading (Mobile): 3.75rem (60px)
+
+Section Headings: text-4xl md:text-5xl lg:text-6xl
+Subheadings: text-2xl md:text-3xl
+Body Large: text-lg md:text-xl lg:text-2xl
+Body Regular: text-base (16px)
+Button Text: text-base sm:text-lg
+```
+
+---
+
+## 📘 BUTTONS
+
+### Button Types
+
+#### 1. CTA Button (with shine animation)
+**Use for:** Primary conversion actions (Get Started, Join Community, Sign Up, Checkout)
+
+```tsx
+<Link href="/register" className="btn btn-cta">
+  Get Started
+</Link>
+```
+
+**Features:**
+- Primary blue background (#009ae9)
+- White text
+- Shine animation every 5 seconds
+- Rounded corners (rounded-lg)
+- Padding: px-6 py-3 (default) or custom
+
+**When to use:**
+- ✅ Hero "Get Started"
+- ✅ About section "Join the Community"
+- ✅ Pricing page "Choose Plan"
+- ✅ Cart "Proceed to Checkout"
+- ✅ Any major conversion button
+
+---
+
+#### 2. Primary Button (no animation)
+**Use for:** Regular actions (Submit, Save, Create, Buy Now)
+
+```tsx
+<button className="btn btn-primary">
+  Buy Now
+</button>
+```
+
+**Features:**
+- Primary blue background (#009ae9)
+- White text
+- NO shine animation
+- Rounded corners
+- Same size as CTA button
+
+**When to use:**
+- ✅ Form submissions
+- ✅ "Add to Cart" buttons
+- ✅ "Create Product" actions
+- ✅ Modal confirm buttons
+- ✅ Feed "Post" button
+- ❌ NOT for hero or landing page CTAs (use btn-cta)
+
+---
+
+#### 3. Secondary Button
+**Use for:** Secondary actions (Cancel, Go Back, Learn More)
+
+```tsx
+<button className="btn btn-secondary">
+  Cancel
+</button>
+
+{/* OR custom styled (like Hero "Learn More") */}
+<Link 
+  href="/about" 
+  className="btn"
+  style={{
+    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f5f5f5',
+    color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a'
+  }}
+>
+  Learn More
+</Link>
+```
+
+**Features:**
+- Gray background (light/dark mode)
+- Gray text
+- No animation
+- Less prominent than primary
+
+**When to use:**
+- ✅ "Learn More" (Hero)
+- ✅ "Continue Shopping" (Cart)
+- ✅ "Cancel" actions
+- ✅ "Go Back" navigation
+- ✅ Secondary form actions
+
+---
+
+#### 4. Outline Button
+**Use for:** Tertiary actions, filters, tags
+
+```tsx
+<button className="btn btn-outline">
+  Filter
+</button>
+```
+
+**Features:**
+- Transparent background
+- Primary blue border
+- Primary blue text
+- Hover: fills with blue
+
+---
+
+#### 5. Ghost Button
+**Use for:** Subtle actions, menu items
+
+```tsx
+<button className="btn btn-ghost">
+  Menu Item
+</button>
+```
+
+---
+
+### Button Sizes
+
+```tsx
+{/* Default size */}
+<button className="btn btn-primary">Default</button>
+
+{/* Small */}
+<button className="btn btn-primary btn-sm">Small</button>
+
+{/* Large */}
+<button className="btn btn-primary btn-lg">Large</button>
+
+{/* Custom size */}
+<button className="btn btn-primary px-10 py-4">Custom</button>
+```
+
+---
+
+### Button States
+
+```tsx
+{/* Disabled */}
+<button className="btn btn-primary btn-disabled">
+  Disabled
+</button>
+
+{/* Loading */}
+<button className="btn btn-primary" disabled>
+  <span className="spinner w-4 h-4 mr-2"></span>
+  Loading...
+</button>
+```
+
+---
+
+### Button with Icon
+
+```tsx
+<Link href="/register" className="btn btn-cta inline-flex items-center gap-2">
+  Join the Community
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+  </svg>
+</Link>
+```
+
+---
+
+## 📐 LAYOUT & SPACING
+
+### Container Widths
+```tsx
+{/* Max width container */}
+<div className="max-w-7xl mx-auto px-4">
+  Content
+</div>
+
+{/* Hero container (1280px) */}
+<div style={{ maxWidth: '1280px' }} className="mx-auto">
+  Hero content
+</div>
+```
+
+### Section Spacing
+```tsx
+{/* Standard section */}
+<section className="py-20 md:py-32">
+  Content
+</section>
+
+{/* Compact section */}
+<section className="py-12 md:py-16">
+  Content
+</section>
+```
+
+### Grid Layouts
+```tsx
+{/* Products grid */}
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+  {/* Product cards */}
+</div>
+
+{/* Services grid */}
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  {/* Service cards */}
+</div>
+
+{/* Three column feature grid */}
+<div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+  {/* Feature cards */}
+</div>
+```
+
+---
+
+## 📋 FORMS
+
+### Input Field
+```tsx
+<div>
+  <label className="label">
+    Email Address
+  </label>
+  <input 
+    type="email" 
+    className="input" 
+    placeholder="you@example.com"
+  />
+</div>
+
+{/* With error */}
+<div>
+  <label className="label">Email Address</label>
+  <input type="email" className="input input-error" />
+  <p className="error-message">Please enter a valid email</p>
+</div>
+
+{/* Required field */}
+<label className="label label-required">
+  Password
+</label>
+```
+
+### Standard Input Field Styling
+**Use for:** All text inputs, email, password, etc.
+
+```tsx
+<input 
+  type="text"
+  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+  placeholder="Enter text..."
+/>
+```
+
+**Features:**
+- Background: `bg-white dark:bg-gray-700`
+- Border: `border-gray-300 dark:border-gray-600`
+- Text: `text-gray-900 dark:text-white`
+- Placeholder: `placeholder-gray-500 dark:placeholder-gray-400`
+- Focus: `focus:ring-2 focus:ring-primary`
+
+### Textarea
+```tsx
+<textarea 
+  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+  rows={4}
+  placeholder="Enter your message..."
+/>
+```
+
+**Same styling as input fields for consistency!**
+
+### Checkbox
+```tsx
+<label className="flex items-center gap-2 cursor-pointer">
+  <input type="checkbox" className="checkbox" />
+  <span>Remember me</span>
+</label>
+```
+
+### Radio
+```tsx
+<label className="flex items-center gap-2 cursor-pointer">
+  <input type="radio" name="plan" className="radio" />
+  <span>Basic Plan</span>
+</label>
+```
+
+---
+
+## 🎴 CARDS
+
+### Basic Card (Solid Background)
+```tsx
+<div 
+  className="rounded-lg shadow-sm p-6"
+  style={{ backgroundColor: theme === 'dark' ? '#0a0a0a' : '#ffffff' }}
+>
+  <div className="card-body">
+    <h3 className="card-title">Card Title</h3>
+    <p className="card-text">Card description text goes here.</p>
+  </div>
+</div>
+```
+
+### Product/Service Card (Glassy Effect) - UPDATED v1.1 ⭐
+**Use for:** Product cards, cart items, order summary, marketplace listings
+
+```tsx
+<div 
+  className="rounded-xl border transition-all duration-300 hover:shadow-lg p-6"
+  style={{
+    backgroundColor: theme === 'dark' 
+      ? 'rgba(26, 26, 26, 0.6)' 
+      : 'rgba(255, 255, 255, 0.6)',
+    backdropFilter: 'blur(12px)',
+    borderColor: theme === 'dark' ? '#2a2a2a' : '#e0e0e0',
+  }}
+>
+  {/* Card content */}
+</div>
+```
+
+**Features:**
+- Background: Semi-transparent (60% opacity) with backdrop blur
+- Dark: `rgba(26, 26, 26, 0.6)` 
+- Light: `rgba(255, 255, 255, 0.6)`
+- Backdrop blur: `blur(12px)` for glassy effect
+- Border: `#2a2a2a` (dark) / `#e0e0e0` (light)
+- Rounded: `rounded-xl` - extra rounded corners
+
+**When to use:**
+- ✅ Product cards in marketplace
+- ✅ Service cards
+- ✅ Cart item cards
+- ✅ Order summary card
+- ✅ Wishlist items
+- ✅ Any content cards on pages with `#0a0a0a` background
+
+---
+
+### Feed Card (with border and glow) ⭐
+**Use for:** Feed posts, create post box, registration forms, important content cards
+
+```tsx
+<div className="bg-white dark:bg-[#1a1a1a] rounded-xl shadow-[0_0_8px_0_rgba(0,154,233,0.5)] border border-[#009ae9] p-6">
+  {/* Card content */}
+</div>
+```
+
+**Features:**
+- Background: `bg-white` (light) / `bg-[#1a1a1a]` (dark) - matches header color
+- Border: `border border-[#009ae9]` - primary blue, 1px solid
+- Glow: `shadow-[0_0_8px_0_rgba(0,154,233,0.5)]` - soft blue glow around card
+- Rounded: `rounded-xl` - extra rounded corners  
+- Padding: `p-6` for content cards, `px-8 py-10` for form cards
+
+**When to use:**
+- ✅ Feed posts
+- ✅ Create post textarea card
+- ✅ Registration/login form cards
+- ✅ Profile information cards
+- ✅ Important notifications
+- ✅ Featured content boxes
+- ❌ NOT for regular UI elements (use product/service card style)
+
+**Color Reference:**
+```
+Light Mode: 
+  - Background: #ffffff (white)
+  - Border: #009ae9 (primary blue)
+  
+Dark Mode:
+  - Background: #1a1a1a (dark gray - same as header/body)
+  - Border: #009ae9 (primary blue - stays same)
+  
+Glow Effect (both modes):
+  - Box shadow with 8px blur
+  - rgba(0, 154, 233, 0.5) - 50% opacity primary blue
+```
+
+### Feature Card (About Section Style)
+```tsx
+<div 
+  className="p-8 rounded-xl border transition-all duration-300 hover:shadow-lg backdrop-blur-md"
+  style={{
+    backgroundColor: theme === 'dark' 
+      ? 'rgba(26, 26, 26, 0.6)' 
+      : 'rgba(255, 255, 255, 0.6)',
+    borderColor: theme === 'dark' ? '#2a2a2a' : '#e0e0e0',
+  }}
+  onMouseEnter={(e) => {
+    e.currentTarget.style.borderColor = '#009ae9'
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.borderColor = theme === 'dark' ? '#2a2a2a' : '#e0e0e0'
+  }}
+>
+  <h3 
+    className="text-2xl md:text-3xl mb-6"
+    style={{
+      fontFamily: 'var(--font-heading)',
+      color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a'
+    }}
+  >
+    Feature Title
+  </h3>
+  <ul className="space-y-3">
+    {/* Feature points */}
+  </ul>
+</div>
+```
+
+---
+
+## ✨ ANIMATIONS
+
+### Fade In
+```tsx
+<div className="opacity-0" style={{ animation: 'fadeIn 1s ease-in 0.5s forwards' }}>
+  Content fades in after 0.5s
+</div>
+```
+
+### Slide In (Left/Right/Bottom)
+```tsx
+<div className="animate-slide-in-left">Slides from left</div>
+<div className="animate-slide-in-right">Slides from right</div>
+<div className="animate-slide-in-bottom">Slides from bottom</div>
+```
+
+### CTA Button Shine Animation
+**Automatic on `btn-cta` class** - runs every 5 seconds
+
+Animation timeline:
+- 0-1 second: Ray of light sweeps across
+- 1-5 seconds: Pause
+- Repeat infinitely
+
+### Hero Rotating Word Animation
+```tsx
+<span 
+  key={currentWordIndex}
+  className="inline-block"
+  style={{ 
+    color: '#009ae9',
+    animation: 'flipWord 1.2s ease-in-out',
+    transformStyle: 'preserve-3d',
+  }}
+>
+  {rotatingWords[currentWordIndex]}
+</span>
+
+{/* Add this CSS */}
+<style jsx>{`
+  @keyframes flipWord {
+    0% {
+      transform: rotateX(90deg);
+      opacity: 0;
+    }
+    50% {
+      transform: rotateX(-10deg);
+    }
+    100% {
+      transform: rotateX(0deg);
+      opacity: 1;
+    }
+  }
+`}</style>
+```
+
+### Typewriter Effect
+```tsx
+function TypewriterText({ text, startDelay }: { text: string; startDelay: number }) {
+  const [displayedText, setDisplayedText] = useState('')
+  const [hasStarted, setHasStarted] = useState(false)
+
+  useEffect(() => {
+    const startTimer = setTimeout(() => {
+      setHasStarted(true)
+    }, startDelay)
+    return () => clearTimeout(startTimer)
+  }, [startDelay])
+
+  useEffect(() => {
+    if (!hasStarted) return
+    if (displayedText.length < text.length) {
+      const typingTimer = setTimeout(() => {
+        setDisplayedText(text.slice(0, displayedText.length + 1))
+      }, 24)
+      return () => clearTimeout(typingTimer)
+    }
+  }, [hasStarted, displayedText, text])
+
+  return <span>{displayedText}</span>
+}
+
+// Usage
+<TypewriterText 
+  text="Join the ultimate platform for producers, musicians, and music professionals"
+  startDelay={2000}
+/>
+```
+
+---
+
+## 🎯 COMPONENT PATTERNS
+
+### Hero Section Pattern
+```tsx
+<section className="relative h-screen flex items-start justify-center pt-32 md:pt-40">
+  <div className="relative z-10 w-full mx-auto" style={{ maxWidth: '1280px' }}>
+    
+    {/* Heading */}
+    <h1 
+      className="opacity-0"
+      style={{
+        fontFamily: 'var(--font-heading)',
+        animation: 'fadeIn 3s ease-in 1s forwards',
+        color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a',
+      }}
+    >
+      Heading Text
+    </h1>
+
+    {/* Paragraph */}
+    <p 
+      className="text-lg md:text-xl lg:text-2xl mb-20"
+      style={{
+        fontFamily: 'var(--font-body)',
+        color: theme === 'dark' ? '#b3b3b3' : '#666666',
+      }}
+    >
+      <TypewriterText text="Your text here" startDelay={2000} />
+    </p>
+
+    {/* CTA Buttons */}
+    <div className="flex flex-col sm:flex-row gap-4 justify-center opacity-0"
+         style={{ animation: 'fadeIn 1s ease-in 3.5s forwards' }}>
+      <Link href="/register" className="btn btn-cta">
+        Get Started
+      </Link>
+      <Link href="/about" className="btn btn-secondary">
+        Learn More
+      </Link>
+    </div>
+  </div>
+</section>
+```
+
+### Section with Heading Pattern
+```tsx
+<section className="py-20 md:py-32">
+  <div className="max-w-7xl mx-auto px-4">
+    {/* Heading */}
+    <div className="text-center mb-12 md:mb-16">
+      <h2 
+        className="text-4xl md:text-5xl lg:text-6xl mb-6"
+        style={{
+          fontFamily: 'var(--font-heading)',
+          color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a'
+        }}
+      >
+        Section Title
+      </h2>
+      <p 
+        className="text-lg md:text-xl max-w-4xl mx-auto"
+        style={{
+          fontFamily: 'var(--font-body)',
+          color: theme === 'dark' ? '#b3b3b3' : '#666666'
+        }}
+      >
+        Section description
+      </p>
+    </div>
+
+    {/* Content */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {/* Cards or content */}
+    </div>
+  </div>
+</section>
+```
+
+### Theme-Aware Component Pattern
+```tsx
+'use client'
+
+import { useTheme } from '@/lib/contexts/ThemeContext'
+
+export default function MyComponent() {
+  const { theme } = useTheme()
+
+  return (
+    <div 
+      style={{
+        backgroundColor: theme === 'dark' ? '#0a0a0a' : '#fafafa',
+        color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a',
+      }}
+    >
+      Content
+    </div>
+  )
+}
+```
+
+---
+
+## ⚠️ COMMON MISTAKES
+
+### ❌ DON'T DO THIS:
+
+**1. Wrong button class combination:**
+```tsx
+❌ <button className="btn-primary">Text</button>
+✅ <button className="btn btn-primary">Text</button>
+```
+*Always include base `btn` class!*
+
+---
+
+**2. Using btn-primary for CTA buttons:**
+```tsx
+❌ <Link href="/register" className="btn btn-primary">Get Started</Link>
+✅ <Link href="/register" className="btn btn-cta">Get Started</Link>
+```
+*Use `btn-cta` for conversion buttons with shine animation!*
+
+---
+
+**3. Wrong background colors:**
+```tsx
+❌ // Using solid colors for product cards
+style={{ backgroundColor: theme === 'dark' ? '#2a2a2a' : '#ffffff' }}
+
+✅ // Use glassy effect for product/cart cards
+style={{ 
+  backgroundColor: theme === 'dark' 
+    ? 'rgba(26, 26, 26, 0.6)' 
+    : 'rgba(255, 255, 255, 0.6)',
+  backdropFilter: 'blur(12px)',
+}}
+```
+
+---
+
+**4. Wrong page background:**
+```tsx
+❌ style={{ backgroundColor: theme === 'dark' ? '#111827' : '#ffffff' }}
+✅ style={{ backgroundColor: theme === 'dark' ? '#0a0a0a' : '#fafafa' }}
+```
+
+---
+
+**5. Hardcoding colors instead of using theme:**
+```tsx
+❌ style={{ color: '#1a1a1a' }}
+✅ style={{ color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a' }}
+```
+
+---
+
+**6. Using wrong font for headings:**
+```tsx
+❌ <h1 style={{ fontFamily: 'Montserrat' }}>Title</h1>
+✅ <h1 style={{ fontFamily: 'var(--font-heading)' }}>Title</h1>
+```
+
+---
+
+**7. Forgetting to make component client-side when using hooks:**
+```tsx
+❌ export default function MyComponent() {
+     const { theme } = useTheme() // Error!
+   }
+
+✅ 'use client'
+   export default function MyComponent() {
+     const { theme } = useTheme() // Works!
+   }
+```
+
+---
+
+**8. Not using backdrop blur with semi-transparent backgrounds:**
+```tsx
+❌ <div style={{ backgroundColor: 'rgba(26, 26, 26, 0.6)' }}>
+
+✅ <div style={{ 
+     backgroundColor: 'rgba(26, 26, 26, 0.6)',
+     backdropFilter: 'blur(12px)'
+   }}>
+```
+
+---
+
+## 📌 QUICK REFERENCE
+
+### Button Decision Tree
+```
+Need a button?
+├─ Is it a major CTA (Get Started, Join, Sign Up, Checkout)?
+│  └─ YES → Use: btn btn-cta
+│
+├─ Is it a regular action (Submit, Save, Buy)?
+│  └─ YES → Use: btn btn-primary
+│
+├─ Is it a secondary action (Cancel, Learn More, Continue Shopping)?
+│  └─ YES → Use: btn btn-secondary
+│
+└─ Is it a subtle action?
+   └─ YES → Use: btn btn-outline OR btn btn-ghost
+```
+
+### Background Color Decision Tree - UPDATED v1.1
+```
+Need a background?
+├─ Is it a PAGE/MAIN CONTAINER?
+│  └─ YES → Use: #0a0a0a (dark) / #fafafa (light)
+│
+├─ Is it a PRODUCT/CART/MARKETPLACE CARD?
+│  └─ YES → Use: rgba(26, 26, 26, 0.6) (dark) / rgba(255, 255, 255, 0.6) (light)
+│              + backdropFilter: 'blur(12px)'
+│
+├─ Is it a FEED POST or IMPORTANT CARD?
+│  └─ YES → Use: #1a1a1a (dark) / #ffffff (light)
+│              + border: #009ae9
+│              + shadow glow
+│
+└─ Is it a SIDEBAR or SOLID ELEMENT?
+   └─ YES → Use: #0a0a0a (dark) / #ffffff (light)
+```
+
+### Color Usage Guide - UPDATED v1.1
+```
+#009ae9 (Primary Blue)
+├─ Buttons background
+├─ Links hover
+├─ Active states
+├─ Icons (checkmarks)
+└─ Hero animated word
+
+#0a0a0a / #fafafa (Page Backgrounds)
+├─ Main page container
+├─ Marketplace pages
+├─ Cart pages
+└─ Profile pages
+
+rgba(26, 26, 26, 0.6) / rgba(255, 255, 255, 0.6) (Card Backgrounds)
+├─ Product cards
+├─ Cart item cards
+├─ Order summary
+└─ Marketplace listings
+    + backdropFilter: blur(12px)
+
+#1a1a1a / #ffffff (Special Cards)
+├─ Feed posts (with blue border)
+├─ Header background
+└─ Important content cards
+
+#f5f5f5 / #1a1a1a (Text Primary)
+├─ Headings
+├─ Main body text
+└─ Button text (on secondary buttons)
+
+#b3b3b3 / #666666 (Text Secondary)
+├─ Descriptions
+├─ Helper text
+└─ Placeholder text
+
+#2a2a2a / #e0e0e0 (Borders)
+├─ Card borders
+├─ Input borders
+└─ Dividers
+```
+
+### Font Usage Guide
+```
+var(--font-heading) - Bebas Neue
+├─ All h1, h2, h3, h4, h5, h6
+├─ Section titles
+├─ Hero animated word
+└─ "LEARN MORE" button (uppercase)
+
+var(--font-body) - Montserrat
+├─ All paragraphs
+├─ Button text (Get Started, Join)
+├─ Form inputs
+├─ Navigation
+└─ Body content
+```
+
+### Responsive Breakpoints
+```
+Tailwind Breakpoints:
+sm: 640px   (small tablets)
+md: 768px   (tablets)
+lg: 1024px  (small laptops)
+xl: 1280px  (desktops)
+2xl: 1536px (large screens)
+
+Common Patterns:
+- Mobile first: base → sm → md → lg
+- Text sizes: text-base md:text-lg lg:text-xl
+- Padding: py-12 md:py-16 lg:py-24
+- Grid cols: grid-cols-1 md:grid-cols-2 lg:grid-cols-3
+```
+
+### Animation Timing Guide
+```
+Hero Sequence:
+0s   → Video starts playing
+1s   → Heading fades in (3s duration)
+2s   → Typewriter starts
+3.5s → Buttons fade in
+4s   → Scroll indicator fades in
+
+Button Shine:
+0-1s   → Shine sweeps across
+1-5s   → Pause
+Repeat → Every 5 seconds
+```
+
+---
+
+## 📝 CHANGELOG
+
+### Version 1.1 (November 18, 2025)
+- ✅ **UPDATED**: Background colors to match actual implementation
+  - Page backgrounds: `#0a0a0a` (dark) / `#fafafa` (light)
+  - Card backgrounds: Semi-transparent with blur effect
+- ✅ **ADDED**: Background color decision tree
+- ✅ **ADDED**: Glassy card effect documentation
+- ✅ **CLARIFIED**: When to use which background
+- ✅ **UPDATED**: Common mistakes section with background examples
+- ✅ **UPDATED**: Quick reference with new backgrounds
+
+### Version 1.0 (November 14, 2025)
+- Initial style guide creation
+- Primary colors defined
+- Typography system
+- Button variants
+- Card styles
+- Animation specs
+
+---
+
+**Document Version:** 1.1  
+**Last Updated:** November 18, 2025  
+**Status:** ✅ Active Reference - Use This Version
+
+**This document should be uploaded to Claude's project knowledge to maintain consistency across all pages!**

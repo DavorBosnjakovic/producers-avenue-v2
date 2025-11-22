@@ -1,6 +1,6 @@
 // File: Hero.tsx
 // Path: /src/components/home/Hero.tsx
-// Hero section with video that stays at 20% opacity
+// Hero section with video that fades linearly to 20% opacity
 
 'use client'
 
@@ -40,8 +40,11 @@ export default function Hero() {
   const { theme } = useTheme()
   const [randomVideo, setRandomVideo] = useState('')
   const [isMobile, setIsMobile] = useState(false)
-  const [videoEnded, setVideoEnded] = useState(false)
+  const [videoOpacity, setVideoOpacity] = useState(1)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const [currentWordIndex, setCurrentWordIndex] = useState(0)
+  
+  const rotatingWords = ['Connect', 'Collaborate', 'Create', 'Thrive', 'Grow', 'Succeed', 'Build', 'Excel', 'Shine']
 
   useEffect(() => {
     const checkMobile = () => {
@@ -61,21 +64,34 @@ export default function Hero() {
     setRandomVideo(videoPath)
   }, [isMobile])
 
-  const handleVideoEnd = () => {
-    console.log('Video ended - transitioning to 20% opacity')
-    setVideoEnded(true)
-    // Keep video visible on last frame
+  // Rotate words every 1.5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentWordIndex((prev) => (prev + 1) % rotatingWords.length)
+    }, 1500)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  // Update opacity as video plays - linear fade from 1 to 0.2
+  const handleTimeUpdate = () => {
     if (videoRef.current) {
-      videoRef.current.pause()
-      // Ensure video stays on last frame
-      const duration = videoRef.current.duration
-      videoRef.current.currentTime = duration
+      const video = videoRef.current
+      const progress = video.currentTime / video.duration
+      // Linear interpolation from 1.0 to 0.2
+      const opacity = 1 - (progress * 0.8) // 1.0 -> 0.2
+      setVideoOpacity(opacity)
     }
+  }
+
+  const handleVideoEnd = () => {
+    console.log('Video ended - staying at 20% opacity')
+    setVideoOpacity(0.2)
   }
 
   return (
     <>
-      {/* Fixed Video Background */}
+      {/* Fixed Video Background - stays in place when scrolling */}
       {randomVideo && (
         <div 
           className="fixed inset-0 pointer-events-none"
@@ -86,66 +102,112 @@ export default function Hero() {
             autoPlay
             muted
             playsInline
+            onTimeUpdate={handleTimeUpdate}
             onEnded={handleVideoEnd}
             className="absolute inset-0 w-full h-full object-cover"
             style={{
-              opacity: videoEnded ? 0.2 : 1,
-              transition: 'opacity 1s ease-in-out',
-              display: 'block', // Ensure video always displays
+              opacity: videoOpacity
             }}
           >
             <source src={randomVideo} type="video/mp4" />
           </video>
-          
-          {/* Dark overlay - fades out when video ends */}
+
+          {/* Dark overlay - also fades out linearly */}
           <div 
             className="absolute inset-0 bg-black"
             style={{
-              opacity: videoEnded ? 0 : 0.4,
-              transition: 'opacity 1s ease-in-out',
-              pointerEvents: 'none'
+              opacity: videoOpacity > 0.2 ? 0.4 * ((videoOpacity - 0.2) / 0.8) : 0
             }}
           />
         </div>
       )}
 
-      {/* Hero Section */}
+      {/* Hero Section - NO BACKGROUND, transparent */}
       <section 
-        className={`relative h-screen flex items-center justify-center transition-colors duration-500 ${
-          theme === 'dark' ? 'bg-[#0a0a0a]' : 'bg-white'
-        }`}
-        style={{ zIndex: 10 }}
+        className="relative h-screen flex items-start justify-center pt-32 md:pt-40"
+        style={{ zIndex: 1 }}
       >
         {/* Content */}
-        <div className="relative z-10 container-custom text-center px-4">
+        <div className="relative z-10 w-full mx-auto" style={{ maxWidth: '1280px', paddingLeft: '0', paddingRight: '0' }}>
           
-          {/* Heading */}
+          {/* Heading - fixed left side with animated rotating word */}
           <h1 
-            className={`text-5xl md:text-6xl lg:text-7xl mb-8 opacity-0 tracking-wide uppercase`}
+            className={isMobile ? "text-6xl mb-8 opacity-0 px-4" : "opacity-0"}
             style={{
               fontFamily: 'var(--font-heading)',
               animation: 'fadeIn 3s ease-in 1s forwards',
-              color: videoEnded 
-                ? (theme === 'dark' ? '#f5f5f5' : '#1a1a1a')
-                : '#ffffff',
-              transition: 'color 1s ease-in-out'
+              color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a',
+              display: 'flex',
+              justifyContent: 'flex-start',
+              flexDirection: 'column',
+              alignItems: isMobile ? 'flex-start' : 'center',
+              letterSpacing: '-0.01em',
+              marginBottom: isMobile ? '2rem' : '3rem',
+              width: '100%',
+              paddingLeft: isMobile ? '0' : '0',
+              paddingRight: isMobile ? '0' : '0',
             }}
           >
-            Where Music Creators
-            <br />
-            Connect, Collaborate & Thrive
+            {isMobile ? (
+              <>
+                <span style={{ display: 'block', marginBottom: '0.75rem' }}>
+                  Where Music Creators
+                </span>
+                <span 
+                  key={currentWordIndex}
+                  className="inline-block"
+                  style={{ 
+                    color: '#009ae9',
+                    animation: 'flipWord 1.2s ease-in-out',
+                    transformStyle: 'preserve-3d',
+                    textAlign: 'center',
+                    width: '100%',
+                  }}
+                >
+                  {rotatingWords[currentWordIndex]}
+                </span>
+              </>
+            ) : (
+              <>
+                <span style={{ 
+                  fontSize: '5rem',
+                  lineHeight: '1.1',
+                  marginBottom: '1.5rem',
+                  whiteSpace: 'nowrap',
+                  alignSelf: 'flex-start'
+                }}>
+                  Where Music Creators
+                </span>
+                <span 
+                  key={currentWordIndex}
+                  className="inline-block"
+                  style={{ 
+                    color: '#009ae9',
+                    fontSize: '6rem',
+                    textAlign: 'center',
+                    animation: 'flipWord 1.2s ease-in-out',
+                    transformStyle: 'preserve-3d',
+                  }}
+                >
+                  {rotatingWords[currentWordIndex]}
+                </span>
+              </>
+            )}
           </h1>
 
-          {/* Paragraph */}
+          {/* Paragraph - always in theme color, aligned right */}
           <p 
-            className="text-lg md:text-xl lg:text-2xl mb-12 max-w-3xl mx-auto"
+            className={isMobile ? "text-lg md:text-xl lg:text-2xl mb-20 mt-16 px-4" : "text-lg md:text-xl lg:text-2xl mb-20 mt-16"}
             style={{
               fontFamily: 'var(--font-body)',
               minHeight: '3rem',
-              color: videoEnded
-                ? (theme === 'dark' ? '#b3b3b3' : '#666666')
-                : '#ffffff',
-              transition: 'color 1s ease-in-out'
+              color: theme === 'dark' ? '#b3b3b3' : '#666666',
+              width: '100%',
+              marginLeft: '0',
+              marginRight: '0',
+              textAlign: isMobile ? 'center' : 'right',
+              paddingLeft: '0',
+              paddingRight: '0',
             }}
           >
             <TypewriterText 
@@ -154,25 +216,35 @@ export default function Hero() {
             />
           </p>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons - centered */}
           <div 
-            className="flex flex-col sm:flex-row gap-4 justify-center opacity-0"
+            className="flex flex-col sm:flex-row gap-4 justify-center opacity-0 px-4 sm:px-0"
             style={{
-              animation: 'fadeIn 1s ease-in 3.5s forwards'
+              animation: 'fadeIn 1s ease-in 3.5s forwards',
             }}
           >
-            <Link href="/register" className="btn-primary text-lg px-8 py-4">
+            {/* Get Started Button */}
+            <Link 
+              href="/register" 
+              className="btn btn-cta text-base sm:text-lg px-10 py-4"
+            >
               Get Started
             </Link>
+
+            {/* Learn More Button */}
             <Link 
               href="/about" 
-              className={`text-lg px-8 py-4 rounded-lg font-semibold transition-all ${
-                videoEnded
-                  ? (theme === 'dark'
-                      ? 'bg-[#2a2a2a] text-[#f5f5f5] hover:bg-[#3a3a3a]'
-                      : 'bg-[#f5f5f5] text-[#1a1a1a] hover:bg-[#e5e5e5]')
-                  : 'bg-white/10 border border-white text-white hover:bg-white hover:text-gray-900'
-              }`}
+              className="btn text-base sm:text-lg px-10 py-4"
+              style={{
+                backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f5f5f5',
+                color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e5e5e5'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f5f5f5'
+              }}
             >
               Learn More
             </Link>
@@ -181,7 +253,7 @@ export default function Hero() {
 
         {/* Scroll Indicator */}
         <div 
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 z-10"
           style={{
             animation: 'fadeIn 1s ease-in 4s forwards'
           }}
@@ -190,10 +262,7 @@ export default function Hero() {
             <svg 
               className="w-6 h-6"
               style={{
-                color: videoEnded
-                  ? (theme === 'dark' ? '#f5f5f5' : '#1a1a1a')
-                  : '#ffffff',
-                transition: 'color 1s ease-in-out'
+                color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a'
               }}
               fill="none" 
               stroke="currentColor" 
@@ -203,14 +272,28 @@ export default function Hero() {
             </svg>
           </div>
         </div>
-      </section>
 
-      <style jsx>{`
-        @keyframes fadeIn {
-          0% { opacity: 0; }
-          100% { opacity: 1; }
-        }
-      `}</style>
+        <style jsx>{`
+          @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+          }
+          
+          @keyframes flipWord {
+            0% {
+              transform: rotateX(90deg);
+              opacity: 0;
+            }
+            50% {
+              transform: rotateX(-10deg);
+            }
+            100% {
+              transform: rotateX(0deg);
+              opacity: 1;
+            }
+          }
+        `}</style>
+      </section>
     </>
   )
 }

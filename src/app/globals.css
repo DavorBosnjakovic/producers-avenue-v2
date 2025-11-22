@@ -1,68 +1,20 @@
 /* File: globals.css */
 /* Path: /src/app/globals.css */
+/* Global styles for Producers Avenue */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* Primary Colors */
-  --primary: #009ae9;
-  --primary-hover: #0088d1;
-  --primary-active: #0076b9;
-
-  /* Light Theme */
-  --light-bg: #ffffff;
-  --light-surface: #f5f5f5;
-  --light-border: #e0e0e0;
-  --light-text-primary: #1a1a1a;
-  --light-text-secondary: #666666;
-
-  /* Dark Theme */
-  --dark-bg: #0a0a0a;
-  --dark-surface: #1a1a1a;
-  --dark-border: #2a2a2a;
-  --dark-text-primary: #f5f5f5;
-  --dark-text-secondary: #b3b3b3;
-
-  /* Spacing */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.25rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-10: 2.5rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  --space-20: 5rem;
-
-  /* Border Radius */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
-  --radius-full: 9999px;
-
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
-  --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
-
-  /* Animation */
-  --duration-fast: 150ms;
-  --duration-base: 300ms;
-  --duration-slow: 500ms;
-}
+/* ============================================
+   BASE STYLES & FONT SMOOTHING
+   ============================================ */
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-synthesis: none;
 }
 
 html {
@@ -70,108 +22,703 @@ html {
 }
 
 body {
-  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300;
 }
 
-/* Light theme (default) */
-body {
-  background-color: var(--light-bg);
-  color: var(--light-text-primary);
-}
+/* ============================================
+   CUSTOM SCROLLBAR
+   ============================================ */
 
-/* Dark theme */
-html.dark body {
-  background-color: var(--dark-bg);
-  color: var(--dark-text-primary);
-}
-
-/* Utility classes */
-.container-custom {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-@media (min-width: 640px) {
-  .container-custom {
-    padding: 0 2rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .container-custom {
-    padding: 0 4rem;
-  }
-}
-
-.btn-primary {
-  background-color: var(--primary);
-  color: white;
-  padding: 0.5rem 1.5rem;
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  transition: all 0.2s;
-}
-
-.btn-primary:hover {
-  background-color: var(--primary-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-
-.btn-primary:active {
-  background-color: var(--primary-active);
-  transform: translateY(0);
-}
-
-.dropdown-item {
-  display: block;
-  padding: 0.5rem 1rem;
-  transition: background-color 0.2s;
-}
-
-.dropdown-item:hover {
-  background-color: rgba(0, 154, 233, 0.1);
-  color: var(--primary);
-}
-
-/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--light-surface);
-}
-
-html.dark ::-webkit-scrollbar-track {
-  background: var(--dark-surface);
+  @apply bg-gray-100 dark:bg-gray-800;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
+  @apply bg-gray-300 dark:bg-gray-600 rounded-lg;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  @apply bg-gray-400 dark:bg-gray-500;
 }
 
-/* Focus visible for accessibility */
-*:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(209 213 219) rgb(243 244 246);
 }
 
-/* Prevent flash of unstyled content */
-html:not(.dark) body {
-  background-color: var(--light-bg);
+.dark * {
+  scrollbar-color: rgb(75 85 99) rgb(31 41 55);
 }
 
-html.dark body {
-  background-color: var(--dark-bg);
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-heading tracking-wide;
 }
+
+h1 {
+  @apply text-4xl md:text-5xl lg:text-6xl;
+}
+
+h2 {
+  @apply text-3xl md:text-4xl lg:text-5xl;
+}
+
+h3 {
+  @apply text-2xl md:text-3xl lg:text-4xl;
+}
+
+h4 {
+  @apply text-xl md:text-2xl lg:text-3xl;
+}
+
+h5 {
+  @apply text-lg md:text-xl lg:text-2xl;
+}
+
+h6 {
+  @apply text-base md:text-lg lg:text-xl;
+}
+
+p {
+  @apply text-base leading-relaxed;
+}
+
+a {
+  @apply transition-colors duration-200;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.btn {
+  @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.btn-primary {
+  @apply bg-primary text-white hover:bg-primary-hover active:bg-primary-active focus:ring-primary;
+}
+
+.btn-cta {
+  @apply bg-primary text-white hover:bg-primary-hover active:bg-primary-active focus:ring-primary relative overflow-hidden;
+}
+
+.btn-cta::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -150%;
+  width: 100%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-20deg);
+  animation: shine 5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes shine {
+  0% {
+    left: -150%;
+  }
+  20% {
+    left: 150%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+
+.btn-secondary {
+  @apply bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600 focus:ring-gray-400;
+}
+
+.btn-outline {
+  @apply border-2 border-primary text-primary hover:bg-primary hover:text-white focus:ring-primary;
+}
+
+.btn-ghost {
+  @apply text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:ring-gray-400;
+}
+
+.btn-sm {
+  @apply px-4 py-2 text-sm;
+}
+
+.btn-lg {
+  @apply px-8 py-4 text-lg;
+}
+
+.btn-disabled {
+  @apply opacity-50 cursor-not-allowed pointer-events-none;
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+
+.card {
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 transition-all duration-200;
+}
+
+.card-hover {
+  @apply hover:shadow-xl hover:scale-[1.02] hover:border-primary;
+}
+
+.card-body {
+  @apply p-6;
+}
+
+.card-title {
+  @apply text-xl font-heading mb-2;
+}
+
+.card-text {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+/* ============================================
+   FORMS
+   ============================================ */
+
+.input {
+  @apply w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200;
+}
+
+.input:disabled {
+  @apply bg-gray-100 dark:bg-gray-900 cursor-not-allowed opacity-60;
+}
+
+.input-error {
+  @apply border-error focus:ring-error;
+}
+
+.label {
+  @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2;
+}
+
+.label-required::after {
+  content: " *";
+  @apply text-error;
+}
+
+.error-message {
+  @apply text-sm text-error mt-1;
+}
+
+.checkbox {
+  @apply w-5 h-5 text-primary border-gray-300 dark:border-gray-600 rounded focus:ring-primary focus:ring-2 cursor-pointer;
+}
+
+.radio {
+  @apply w-5 h-5 text-primary border-gray-300 dark:border-gray-600 focus:ring-primary focus:ring-2 cursor-pointer;
+}
+
+select {
+  @apply input cursor-pointer;
+}
+
+textarea {
+  @apply input resize-none;
+}
+
+/* ============================================
+   BADGES
+   ============================================ */
+
+.badge {
+  @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.badge-primary {
+  @apply bg-primary/10 text-primary border border-primary/20;
+}
+
+.badge-success {
+  @apply bg-success/10 text-success border border-success/20;
+}
+
+.badge-warning {
+  @apply bg-warning/10 text-warning border border-warning/20;
+}
+
+.badge-error {
+  @apply bg-error/10 text-error border border-error/20;
+}
+
+.badge-info {
+  @apply bg-info/10 text-info border border-info/20;
+}
+
+.badge-premium {
+  @apply bg-premium/10 text-premium border border-premium/20;
+}
+
+.badge-featured {
+  @apply bg-featured/10 text-featured border border-featured/20;
+}
+
+/* ============================================
+   MODALS
+   ============================================ */
+
+.modal-overlay {
+  @apply fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4;
+}
+
+.modal-content {
+  @apply bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto;
+}
+
+.modal-header {
+  @apply px-6 py-4 border-b border-gray-200 dark:border-gray-700;
+}
+
+.modal-body {
+  @apply px-6 py-4;
+}
+
+.modal-footer {
+  @apply px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex justify-end gap-3;
+}
+
+/* ============================================
+   ALERTS
+   ============================================ */
+
+.alert {
+  @apply px-4 py-3 rounded-lg border flex items-start gap-3;
+}
+
+.alert-success {
+  @apply bg-success/10 border-success/20 text-success;
+}
+
+.alert-warning {
+  @apply bg-warning/10 border-warning/20 text-warning;
+}
+
+.alert-error {
+  @apply bg-error/10 border-error/20 text-error;
+}
+
+.alert-info {
+  @apply bg-info/10 border-info/20 text-info;
+}
+
+/* ============================================
+   LOADING STATES
+   ============================================ */
+
+.spinner {
+  @apply animate-spin rounded-full border-4 border-gray-200 border-t-primary;
+}
+
+.skeleton {
+  @apply animate-pulse bg-gray-200 dark:bg-gray-700 rounded;
+}
+
+/* ============================================
+   TRANSITIONS
+   ============================================ */
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+.fade-out {
+  animation: fadeOut 0.5s ease-out;
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.8s ease-out;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.8s ease-out;
+}
+
+.slide-in-bottom {
+  animation: slideInBottom 0.8s ease-out;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.container-custom {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.section-spacing {
+  @apply py-12 md:py-16 lg:py-24;
+}
+
+.text-gradient {
+  @apply bg-gradient-to-r from-primary to-primary-hover bg-clip-text text-transparent;
+}
+
+.hover-lift {
+  @apply transition-transform duration-200 hover:-translate-y-1;
+}
+
+.focus-visible-ring {
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
+}
+
+/* ============================================
+   GRID LAYOUTS
+   ============================================ */
+
+.grid-products {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+}
+
+.grid-services {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-6;
+}
+
+.grid-community {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+/* ============================================
+   HERO VIDEO BACKGROUND
+   ============================================ */
+
+.hero-video-container {
+  @apply absolute inset-0 w-full h-full overflow-hidden;
+}
+
+.hero-video {
+  @apply absolute inset-0 w-full h-full object-cover;
+}
+
+.hero-overlay {
+  @apply absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70;
+}
+
+/* ============================================
+   AVATAR
+   ============================================ */
+
+.avatar {
+  @apply rounded-full object-cover;
+}
+
+.avatar-sm {
+  @apply w-8 h-8;
+}
+
+.avatar-md {
+  @apply w-12 h-12;
+}
+
+.avatar-lg {
+  @apply w-16 h-16;
+}
+
+.avatar-xl {
+  @apply w-24 h-24;
+}
+
+/* ============================================
+   TABS
+   ============================================ */
+
+.tabs {
+  @apply flex border-b border-gray-200 dark:border-gray-700;
+}
+
+.tab {
+  @apply px-6 py-3 text-gray-600 dark:text-gray-400 border-b-2 border-transparent hover:text-gray-900 dark:hover:text-gray-100 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-200 cursor-pointer;
+}
+
+.tab-active {
+  @apply text-primary border-primary hover:text-primary hover:border-primary;
+}
+
+/* ============================================
+   TOOLTIPS
+   ============================================ */
+
+.tooltip {
+  @apply relative inline-block;
+}
+
+.tooltip-text {
+  @apply invisible absolute z-50 px-3 py-2 text-sm text-white bg-gray-900 dark:bg-gray-700 rounded-lg opacity-0 transition-opacity duration-300;
+}
+
+.tooltip:hover .tooltip-text {
+  @apply visible opacity-100;
+}
+
+/* ============================================
+   DROPDOWNS
+   ============================================ */
+
+.dropdown {
+  @apply relative inline-block;
+}
+
+.dropdown-content {
+  @apply absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50;
+}
+
+.dropdown-item {
+  @apply block w-full px-4 py-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-150;
+}
+
+/* ============================================
+   DIVIDER
+   ============================================ */
+
+.divider {
+  @apply border-t border-gray-200 dark:border-gray-700 my-6;
+}
+
+/* ============================================
+   PROGRESS BARS
+   ============================================ */
+
+.progress {
+  @apply w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden;
+}
+
+.progress-bar {
+  @apply h-full bg-primary transition-all duration-300;
+}
+
+/* ============================================
+   RATING STARS
+   ============================================ */
+
+.rating {
+  @apply flex items-center gap-1;
+}
+
+.star {
+  @apply w-5 h-5 text-gray-300 dark:text-gray-600;
+}
+
+.star-filled {
+  @apply text-featured;
+}
+
+/* ============================================
+   PRICE TAG
+   ============================================ */
+
+.price {
+  @apply text-2xl font-bold text-gray-900 dark:text-gray-100;
+}
+
+.price-old {
+  @apply text-lg text-gray-500 dark:text-gray-400 line-through;
+}
+
+/* ============================================
+   DARK MODE SPECIFIC ADJUSTMENTS
+   ============================================ */
+
+.dark img {
+  @apply brightness-90;
+}
+
+.dark .card {
+  @apply shadow-gray-900/50;
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+.sr-only {
+  @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+}
+
+/* Skip to main content link */
+.skip-link {
+  @apply absolute left-0 top-0 bg-primary text-white px-4 py-2 z-50 -translate-y-full focus:translate-y-0 transition-transform;
+}
+
+/* Focus visible for keyboard navigation */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  @apply outline-none ring-2 ring-primary ring-offset-2;
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    @apply text-black bg-white;
+  }
+  
+  a {
+    text-decoration: underline;
+  }
+  
+  .card {
+    @apply shadow-none border border-gray-300;
+  }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInBottom {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ============================================
+   RESPONSIVE UTILITIES
+   ============================================ */
+
+/* Hide on mobile */
+@media (max-width: 640px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+/* Hide on tablet */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .hide-tablet {
+    display: none !important;
+  }
+}
+
+/* Hide on desktop */
+@media (min-width: 1025px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}
+
+/* ============================================
+   CUSTOM SELECTION
+   ============================================ */
+
+::selection {
+  @apply bg-primary text-white;
+}
+
+::-moz-selection {
+  @apply bg-primary text-white;
+}
+
+/* ============================================
+   CUSTOM PROPERTIES
+   ============================================ */
+
+:root {
+  --header-height: 4rem;
+  --footer-height: 20rem;
+  --sidebar-width: 16rem;
+  --max-content-width: 1280px;
+}
+
+/* ============================================
+   Z-INDEX SCALE
+   ============================================ */
+
+/* 
+  Z-index scale for consistent layering:
+  - 0: Base content
+  - 10: Dropdown content
+  - 20: Sticky headers
+  - 30: Modals overlay
+  - 40: Tooltips
+  - 50: Notifications/Toasts
+  - 9999: Critical overlays
+*/

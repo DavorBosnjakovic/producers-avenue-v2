@@ -5,8 +5,11 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { ThemeProvider } from '@/lib/providers/theme-provider'
+import { CartProvider } from '@/contexts/CartContext' // ✅ FIXED: Correct import path
+import { WishlistProvider } from '@/contexts/WishlistContext' // ✅ Add wishlist provider
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+import { bebasNeue, montserrat } from './fonts'
 
 export const metadata: Metadata = {
   title: 'Producers Avenue - Where Music Creators Connect, Collaborate & Thrive',
@@ -35,13 +38,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="font-sans">
+      <body className={`${montserrat.variable} ${bebasNeue.variable} font-sans antialiased`}>
         <ThemeProvider>
-          <Header />
-          <main className="min-h-screen">
-            {children}
-          </main>
-          <Footer />
+          <CartProvider>
+            <WishlistProvider>
+              <Header />
+              <main className="min-h-screen">
+                {children}
+              </main>
+              <Footer />
+            </WishlistProvider>
+          </CartProvider>
         </ThemeProvider>
       </body>
     </html>

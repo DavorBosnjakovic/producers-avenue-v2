@@ -1,98 +1,28 @@
 // File: page.tsx
 // Path: /src/app/(protected)/wishlist/page.tsx
-// Wishlist page
+// Wishlist page - UPDATED with cart-style design and Add to Cart functionality
 
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { useTheme } from '@/lib/contexts/ThemeContext'
+import { useWishlist } from '@/contexts/WishlistContext'
+import { useCart } from '@/contexts/CartContext'
 import Link from 'next/link'
-
-interface WishlistItem {
-  id: string
-  item_id: string
-  item_type: 'product' | 'service'
-  title: string
-  description: string
-  price: number
-  image_url: string | null
-  seller_id: string
-  seller_name: string
-  category: string
-  created_at: string
-}
 
 export default function WishlistPage() {
   const router = useRouter()
-  const supabase = createClient()
-
-  const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([])
-  const [loading, setLoading] = useState(true)
+  const { theme } = useTheme()
+  const { items: wishlistItems, removeFromWishlist, clearWishlist, loading } = useWishlist()
+  const { addToCart, isInCart } = useCart()
   const [removing, setRemoving] = useState<string | null>(null)
-  const [filter, setFilter] = useState<'all' | 'product' | 'service'>('all')
+  const [movingToCart, setMovingToCart] = useState<string | null>(null)
 
-  useEffect(() => {
-    loadWishlist()
-  }, [])
-
-  const loadWishlist = async () => {
+  const handleRemoveItem = async (itemId: string) => {
+    setRemoving(itemId)
     try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        router.push('/login')
-        return
-      }
-
-      const { data: wishlist } = await supabase
-        .from('wishlist')
-        .select(`
-          *,
-          product:products(title, description, price, image_url, seller_id, category),
-          service:services(title, description, price_from, image_url, seller_id, category),
-          seller:user_profiles!wishlist_seller_id_fkey(username, display_name)
-        `)
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-
-      const formattedItems: WishlistItem[] = (wishlist || []).map((item) => {
-        const isProduct = item.item_type === 'product'
-        const itemData = isProduct ? item.product : item.service
-        
-        return {
-          id: item.id,
-          item_id: item.item_id,
-          item_type: item.item_type,
-          title: itemData?.title || 'Unknown Item',
-          description: itemData?.description || '',
-          price: isProduct ? itemData?.price : itemData?.price_from || 0,
-          image_url: itemData?.image_url || null,
-          seller_id: item.seller_id,
-          seller_name: item.seller?.display_name || item.seller?.username || 'Unknown Seller',
-          category: itemData?.category || 'Uncategorized',
-          created_at: item.created_at,
-        }
-      })
-
-      setWishlistItems(formattedItems)
-    } catch (error) {
-      console.error('Error loading wishlist:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const removeFromWishlist = async (wishlistItemId: string) => {
-    setRemoving(wishlistItemId)
-    try {
-      const { error } = await supabase
-        .from('wishlist')
-        .delete()
-        .eq('id', wishlistItemId)
-
-      if (error) throw error
-
-      setWishlistItems((prev) => prev.filter((item) => item.id !== wishlistItemId))
+      await removeFromWishlist(itemId)
     } catch (error) {
       console.error('Error removing from wishlist:', error)
       alert('Failed to remove item from wishlist')
@@ -101,97 +31,92 @@ export default function WishlistPage() {
     }
   }
 
-  const addToCart = async (item: WishlistItem) => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        router.push('/login')
-        return
-      }
-
-      // Check if item already in cart
-      const { data: existingItem } = await supabase
-        .from('cart')
-        .select('id')
-        .eq('user_id', user.id)
-        .eq('item_id', item.item_id)
-        .eq('item_type', item.item_type)
-        .single()
-
-      if (existingItem) {
-        alert('This item is already in your cart')
-        return
-      }
-
-      // Add to cart
-      const { error } = await supabase
-        .from('cart')
-        .insert({
-          user_id: user.id,
-          item_id: item.item_id,
-          item_type: item.item_type,
-          seller_id: item.seller_id,
-        })
-
-      if (error) throw error
-
-      alert('Added to cart!')
-    } catch (error) {
-      console.error('Error adding to cart:', error)
-      alert('Failed to add to cart')
-    }
-  }
-
-  const clearWishlist = async () => {
+  const handleClearWishlist = async () => {
     if (!confirm('Are you sure you want to clear your wishlist?')) return
 
     try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
-
-      const { error } = await supabase
-        .from('wishlist')
-        .delete()
-        .eq('user_id', user.id)
-
-      if (error) throw error
-
-      setWishlistItems([])
+      await clearWishlist()
     } catch (error) {
       console.error('Error clearing wishlist:', error)
       alert('Failed to clear wishlist')
     }
   }
 
-  const filteredItems = wishlistItems.filter((item) => {
-    if (filter === 'all') return true
-    return item.item_type === filter
-  })
+  const handleAddToCart = async (item: typeof wishlistItems[0]) => {
+    setMovingToCart(item.itemId)
+    try {
+      // Add to cart
+      addToCart({
+        id: `${item.type}-${item.itemId}`,
+        type: item.type,
+        itemId: item.itemId,
+        title: item.title,
+        price: item.price,
+        image_url: item.image_url,
+        seller_id: item.seller_id,
+        seller_name: item.seller_name,
+      })
+
+      // Remove from wishlist
+      await removeFromWishlist(item.itemId)
+      
+      console.log(`✅ Moved ${item.title} from wishlist to cart`)
+    } catch (error) {
+      console.error('Error moving to cart:', error)
+      alert('Failed to move item to cart')
+    } finally {
+      setMovingToCart(null)
+    }
+  }
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#FF6B2C]"></div>
+      <div 
+        className="min-h-screen flex items-center justify-center"
+        style={{ backgroundColor: theme === 'dark' ? '#0a0a0a' : '#fafafa' }}
+      >
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#009ae9]"></div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div 
+      className="min-h-screen"
+      style={{ backgroundColor: theme === 'dark' ? '#0a0a0a' : '#fafafa' }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">My Wishlist</h1>
-          <p className="text-gray-600">
+          <h1 
+            className="text-3xl font-bold mb-2"
+            style={{ 
+              fontFamily: 'var(--font-heading)',
+              color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a'
+            }}
+          >
+            MY WISHLIST
+          </h1>
+          <p style={{ color: theme === 'dark' ? '#b3b3b3' : '#666666' }}>
             {wishlistItems.length} {wishlistItems.length === 1 ? 'item' : 'items'} saved
           </p>
         </div>
 
         {wishlistItems.length === 0 ? (
           // Empty Wishlist
-          <div className="bg-white rounded-lg shadow-sm p-12 text-center">
+          <div 
+            className="rounded-xl shadow-sm p-12 text-center border"
+            style={{ 
+              backgroundColor: theme === 'dark' 
+                ? 'rgba(26, 26, 26, 0.6)' 
+                : 'rgba(255, 255, 255, 0.6)',
+              backdropFilter: 'blur(12px)',
+              borderColor: theme === 'dark' ? '#2a2a2a' : '#e0e0e0',
+            }}
+          >
             <svg
-              className="w-24 h-24 text-gray-300 mx-auto mb-4"
+              className="w-24 h-24 mx-auto mb-4"
+              style={{ color: theme === 'dark' ? '#4a4a4a' : '#d1d5db' }}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -203,73 +128,83 @@ export default function WishlistPage() {
                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
               />
             </svg>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Your wishlist is empty</h2>
-            <p className="text-gray-600 mb-6">
-              Save your favorite products and services for later
-            </p>
-            <Link
-              href="/marketplace/products"
-              className="inline-block px-6 py-3 bg-[#FF6B2C] text-white rounded-lg hover:bg-[#ff5516] transition-colors"
+            <h2 
+              className="text-2xl font-bold mb-2"
+              style={{ 
+                fontFamily: 'var(--font-heading)',
+                color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a'
+              }}
             >
-              Browse Marketplace
+              YOUR WISHLIST IS EMPTY
+            </h2>
+            <p className="mb-6" style={{ color: theme === 'dark' ? '#b3b3b3' : '#666666' }}>
+              Save your favorite products for later
+            </p>
+            <Link href="/marketplace/products" className="btn btn-cta inline-block">
+              Browse Products
             </Link>
           </div>
         ) : (
-          <>
-            {/* Filters and Actions */}
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-              {/* Filter Tabs */}
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setFilter('all')}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    filter === 'all'
-                      ? 'bg-[#FF6B2C] text-white'
-                      : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-                  }`}
-                >
-                  All ({wishlistItems.length})
-                </button>
-                <button
-                  onClick={() => setFilter('product')}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    filter === 'product'
-                      ? 'bg-[#FF6B2C] text-white'
-                      : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-                  }`}
-                >
-                  Products ({wishlistItems.filter(i => i.item_type === 'product').length})
-                </button>
-                <button
-                  onClick={() => setFilter('service')}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    filter === 'service'
-                      ? 'bg-[#FF6B2C] text-white'
-                      : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-                  }`}
-                >
-                  Services ({wishlistItems.filter(i => i.item_type === 'service').length})
-                </button>
-              </div>
-
-              {/* Clear Wishlist */}
+          // Wishlist with Items
+          <div>
+            {/* Clear Wishlist Button */}
+            <div className="flex justify-end mb-4">
               <button
-                onClick={clearWishlist}
+                onClick={handleClearWishlist}
                 className="text-sm text-red-600 hover:text-red-700 hover:underline"
               >
                 Clear Wishlist
               </button>
             </div>
 
-            {/* Wishlist Items Grid */}
+            {/* Items Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredItems.map((item) => (
+              {wishlistItems.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow"
+                  className="rounded-xl shadow-sm overflow-hidden relative border transition-all duration-300 hover:shadow-lg"
+                  style={{ 
+                    backgroundColor: theme === 'dark' 
+                      ? 'rgba(26, 26, 26, 0.6)' 
+                      : 'rgba(255, 255, 255, 0.6)',
+                    backdropFilter: 'blur(12px)',
+                    borderColor: theme === 'dark' ? '#2a2a2a' : '#e0e0e0',
+                  }}
                 >
+                  {/* Remove X Button - Top Right */}
+                  <button
+                    onClick={() => handleRemoveItem(item.itemId)}
+                    disabled={removing === item.itemId}
+                    className="absolute top-3 right-3 z-10 p-1 rounded-full transition-colors disabled:opacity-50"
+                    style={{
+                      backgroundColor: theme === 'dark' ? 'rgba(42, 42, 42, 0.9)' : 'rgba(255, 255, 255, 0.9)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#f3f4f6'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(42, 42, 42, 0.9)' : 'rgba(255, 255, 255, 0.9)'
+                    }}
+                    aria-label="Remove from wishlist"
+                  >
+                    <svg
+                      className="w-5 h-5"
+                      style={{ color: theme === 'dark' ? '#9ca3af' : '#6b7280' }}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+
                   {/* Image */}
-                  <Link href={`/marketplace/${item.item_type}s/${item.item_id}`}>
+                  <Link href={`/marketplace/products/${item.itemId}`}>
                     {item.image_url ? (
                       <img
                         src={item.image_url}
@@ -277,9 +212,13 @@ export default function WishlistPage() {
                         className="w-full h-48 object-cover"
                       />
                     ) : (
-                      <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
+                      <div 
+                        className="w-full h-48 flex items-center justify-center"
+                        style={{ backgroundColor: theme === 'dark' ? '#3a3a3a' : '#e5e7eb' }}
+                      >
                         <svg
-                          className="w-12 h-12 text-gray-400"
+                          className="w-12 h-12"
+                          style={{ color: theme === 'dark' ? '#6b7280' : '#9ca3af' }}
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -297,87 +236,86 @@ export default function WishlistPage() {
 
                   {/* Content */}
                   <div className="p-4">
-                    {/* Category Badge */}
-                    <span className="inline-block px-2 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded mb-2">
-                      {item.category}
-                    </span>
-
                     {/* Title */}
-                    <Link href={`/marketplace/${item.item_type}s/${item.item_id}`}>
-                      <h3 className="text-lg font-semibold text-gray-900 hover:text-[#FF6B2C] mb-2 line-clamp-2">
+                    <Link href={`/marketplace/products/${item.itemId}`}>
+                      <h3 
+                        className="text-lg font-semibold hover:text-[#009ae9] mb-2 line-clamp-2"
+                        style={{ 
+                          fontFamily: 'var(--font-body)',
+                          color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a' 
+                        }}
+                      >
                         {item.title}
                       </h3>
                     </Link>
 
-                    {/* Description */}
-                    <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                      {item.description}
-                    </p>
-
                     {/* Seller */}
-                    <p className="text-sm text-gray-600 mb-3">
+                    <p 
+                      className="text-sm mb-3"
+                      style={{ 
+                        fontFamily: 'var(--font-body)',
+                        color: theme === 'dark' ? '#b3b3b3' : '#666666' 
+                      }}
+                    >
                       by{' '}
                       <Link
                         href={`/profile/${item.seller_name}`}
-                        className="text-[#FF6B2C] hover:underline"
+                        className="text-[#009ae9] hover:underline"
                       >
                         {item.seller_name}
                       </Link>
                     </p>
 
                     {/* Price */}
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-xl font-bold text-gray-900">
-                        ${item.price.toFixed(2)}
-                      </span>
-                      <span className="text-xs text-gray-500">
-                        {item.item_type === 'service' ? 'Starting at' : ''}
-                      </span>
-                    </div>
+                    <p 
+                      className="text-xl font-bold mb-4"
+                      style={{ 
+                        fontFamily: 'var(--font-heading)',
+                        color: theme === 'dark' ? '#f5f5f5' : '#1a1a1a' 
+                      }}
+                    >
+                      ${item.price.toFixed(2)}
+                    </p>
 
-                    {/* Actions */}
-                    <div className="flex gap-2">
+                    {/* Add to Cart Button */}
+                    {isInCart(item.itemId) ? (
                       <button
-                        onClick={() => addToCart(item)}
-                        className="flex-1 px-4 py-2 bg-[#FF6B2C] text-white rounded-lg hover:bg-[#ff5516] transition-colors text-sm font-medium"
+                        disabled
+                        className="btn btn-secondary w-full opacity-50 cursor-not-allowed"
                       >
-                        Add to Cart
+                        Already in Cart
                       </button>
+                    ) : (
                       <button
-                        onClick={() => removeFromWishlist(item.id)}
-                        disabled={removing === item.id}
-                        className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
-                        title="Remove from wishlist"
+                        onClick={() => handleAddToCart(item)}
+                        disabled={movingToCart === item.itemId}
+                        className="btn btn-primary w-full"
                       >
-                        <svg
-                          className="w-5 h-5"
-                          fill="currentColor"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M6 18L18 6M6 6l12 12"
-                          />
-                        </svg>
+                        {movingToCart === item.itemId ? (
+                          <span className="flex items-center justify-center gap-2">
+                            <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
+                            Moving...
+                          </span>
+                        ) : (
+                          'Add to Cart'
+                        )}
                       </button>
-                    </div>
+                    )}
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* No items after filter */}
-            {filteredItems.length === 0 && (
-              <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-                <p className="text-gray-500">
-                  No {filter === 'product' ? 'products' : 'services'} in your wishlist
-                </p>
-              </div>
-            )}
-          </>
+            {/* Continue Shopping */}
+            <div className="mt-8 text-center">
+              <Link
+                href="/marketplace/products"
+                className="btn btn-secondary inline-block"
+              >
+                Continue Shopping
+              </Link>
+            </div>
+          </div>
         )}
       </div>
     </div>
